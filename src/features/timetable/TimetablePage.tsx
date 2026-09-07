@@ -61,10 +61,20 @@ export function TimetablePage() {
   const fetcher = useCallback(
     (params: RequestParams<ClassSession>, signal: AbortSignal) =>
       fetchClassesHttp(
-        { page: params.page, pageSize: params.pageSize, sortField: params.sorter[0]?.columnKey === undefined ? undefined : String(params.sorter[0].columnKey), sortOrder: params.sorter[0]?.order ?? undefined, scenario, rows: rowCount, nonce },
+        {
+          page: params.page,
+          pageSize: params.pageSize,
+          sortField: params.sorter[0]?.columnKey === undefined ? undefined : String(params.sorter[0].columnKey),
+          sortOrder: params.sorter[0]?.order ?? undefined,
+          scenario,
+          rows: rowCount,
+          nonce,
+          // inline mode ဆိုရင် children ကို parent payload ထဲမှာပါအောင် တောင်းတယ် (`?include=attendees`)
+          includeAttendees: childrenMode === "inline",
+        },
         signal,
       ),
-    [scenario, rowCount, nonce],
+    [scenario, rowCount, nonce, childrenMode],
   );
   const server = useTableRequest<ClassSession>(fetcher, { defaultPageSize: 10, enabled: dataMode === "server" });
 
@@ -96,7 +106,6 @@ export function TimetablePage() {
             columns={attendeeColumns}
             dataSource={attendees}
             rowKey="id"
-            size="small"
             pagination={false}
             aria-label={`Attendees for ${record.name}`}
             locale={{ emptyText: "No attendees have booked this class yet." }}

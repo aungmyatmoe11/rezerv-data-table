@@ -1,6 +1,6 @@
 import { defaultCompare } from "@/lib/table/core";
 import { isScenario, MockApiError, applyScenario, type Scenario } from "@/mocks/scenarios";
-import { attendeesOf, classesFor } from "./data";
+import { attendeesOf, classesFor, withInlineAttendees } from "./data";
 import type { Attendee, ClassSession, RowCount } from "./types";
 
 export interface ListClassesParams {
@@ -10,6 +10,8 @@ export interface ListClassesParams {
   sortOrder?: "ascend" | "descend" | undefined;
   scenario: Scenario;
   rows: RowCount;
+  /** Embed each class's attendees in the row (the `?include=attendees` pattern). */
+  includeAttendees?: boolean;
   /** Changes the `fail-once` latch scope so the scenario can be replayed. */
   nonce: string;
 }
@@ -38,7 +40,8 @@ export async function listClassesMock(params: ListClassesParams, signal?: AbortS
   }
   const pageSize = Math.min(Math.max(1, params.pageSize), 10_000);
   const start = (Math.max(1, params.page) - 1) * pageSize;
-  return { data: rows.slice(start, start + pageSize), total: rows.length };
+  const page = rows.slice(start, start + pageSize);
+  return { data: params.includeAttendees === true ? withInlineAttendees(page) : page, total: rows.length };
 }
 
 export async function listAttendeesMock(session: ClassSession, scenario: Scenario, nonce: string, signal?: AbortSignal): Promise<Attendee[]> {
@@ -73,7 +76,16 @@ const isListResult = (body: unknown): body is ListClassesResult =>
 const isAttendeeList = (body: unknown): body is Attendee[] => Array.isArray(body);
 
 export async function fetchClassesHttp(params: ListClassesParams, signal?: AbortSignal): Promise<ListClassesResult> {
-  const query = toQuery({ page: params.page, pageSize: params.pageSize, sortField: params.sortField, sortOrder: params.sortOrder, scenario: params.scenario, rows: params.rows, nonce: params.nonce });
+  const query = toQuery({
+    page: params.page,
+    pageSize: params.pageSize,
+    sortField: params.sortField,
+    sortOrder: params.sortOrder,
+    scenario: params.scenario,
+    rows: params.rows,
+    nonce: params.nonce,
+    ...(params.includeAttendees === true ? { include: "attendees" } : {}),
+  });
   const response = await fetch(`/api/classes?${query}`, { signal: signal ?? null });
   return parseResponse(response, isListResult);
 }
@@ -96,6 +108,7 @@ export function parseListParams(searchParams: URLSearchParams): ListClassesParam
     sortOrder: sortOrderRaw === "ascend" || sortOrderRaw === "descend" ? sortOrderRaw : undefined,
     scenario: isScenario(scenarioRaw) ? scenarioRaw : "normal",
     rows: rowsRaw === 10_000 ? 10_000 : 64,
+    includeAttendees: searchParams.get("include") === "attendees",
     nonce: searchParams.get("nonce") ?? "0",
   };
 }

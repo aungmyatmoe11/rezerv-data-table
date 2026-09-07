@@ -62,8 +62,16 @@ test.describe("timetable — client mode", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     const region = page.getByRole("region").first();
     await expect(region).toBeVisible();
-    await expect(region.getByRole("table", { name: /^Attendees for/ })).toBeVisible();
-    await expect(region.getByRole("columnheader", { name: /Customer/ })).toBeVisible();
+    const nested = region.getByRole("table", { name: /^Attendees for/ });
+    await expect(nested).toBeVisible();
+    await expect(nested.getByRole("columnheader", { name: /Customer/ })).toBeVisible();
+    // the nested table is the same component with real children, not an empty shell
+    const nestedRows = nested.locator("tbody tr.dt__tr:not(.dt__state-row)");
+    expect(await nestedRows.count()).toBeGreaterThan(0);
+    // and it renders at the parent's density — root-level rules must not leak across tables
+    const parentCell = table(page).locator("> tbody > tr.dt__tr > td.dt__td").nth(2);
+    const nestedCell = nested.locator("tbody tr.dt__tr td.dt__td").first();
+    expect(await nestedCell.evaluate((el) => getComputedStyle(el).padding)).toBe(await parentCell.evaluate((el) => getComputedStyle(el).padding));
     await toggle.click();
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(page.getByRole("region")).toHaveCount(0);

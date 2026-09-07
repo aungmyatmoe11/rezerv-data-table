@@ -69,11 +69,14 @@
   background: var(--dt-row-bg);
   scrollbar-width: thin;
 }
-.dt[data-has-title="true"] .dt__scroller {
+/* --- root-scoped rules --------------------------------------------------
+   A nested table renders inside an expanded row, so these use explicit child chains:
+   a descendant selector would reach into the nested table and restyle its cells. */
+.dt[data-has-title="true"] > .dt__scroller {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.dt[data-has-footer="true"] .dt__scroller {
+.dt[data-has-footer="true"] > .dt__scroller {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -86,7 +89,7 @@
   min-width: var(--dt-scroll-x, auto);
   table-layout: auto;
 }
-.dt[data-layout="fixed"] .dt__table {
+.dt[data-layout="fixed"] > .dt__scroller > .dt__table {
   table-layout: fixed;
 }
 
@@ -118,7 +121,7 @@
   font-weight: 600;
   white-space: nowrap;
 }
-.dt[data-sticky-header="true"] .dt__th {
+.dt[data-sticky-header="true"] > .dt__scroller > .dt__table > .dt__thead > tr > .dt__th {
   position: sticky;
   top: var(--dt-header-top);
   z-index: 3;
@@ -131,16 +134,16 @@
 }
 
 /* bordered = per-cell borders (border-collapse: collapse would break sticky) */
-.dt[data-bordered="true"] .dt__th,
-.dt[data-bordered="true"] .dt__td {
+.dt[data-bordered="true"] > .dt__scroller > .dt__table > .dt__thead > tr > .dt__th,
+.dt[data-bordered="true"] > .dt__scroller > .dt__table > .dt__tbody > .dt__tr > .dt__td {
   border-inline-end: 1px solid var(--dt-border);
 }
-.dt[data-bordered="true"] .dt__th:last-child,
-.dt[data-bordered="true"] .dt__td:last-child {
+.dt[data-bordered="true"] > .dt__scroller > .dt__table > .dt__thead > tr > .dt__th:last-child,
+.dt[data-bordered="true"] > .dt__scroller > .dt__table > .dt__tbody > .dt__tr > .dt__td:last-child {
   border-inline-end: 0;
 }
-.dt[data-bordered="true"] .dt__title,
-.dt[data-bordered="true"] .dt__footer {
+.dt[data-bordered="true"] > .dt__title,
+.dt[data-bordered="true"] > .dt__footer {
   border-color: var(--dt-border);
 }
 .dt__thead tr:not(:last-child) .dt__th {
@@ -167,7 +170,7 @@
   position: sticky;
   z-index: 2;
 }
-.dt[data-sticky-header="true"] .dt__th[data-fixed] {
+.dt[data-sticky-header="true"] > .dt__scroller > .dt__table > .dt__thead > tr > .dt__th[data-fixed] {
   z-index: 4;
 }
 .dt__th[data-fixed="left"],
@@ -379,7 +382,7 @@
   flex: 0 0 auto;
 }
 
-.dt__expanded-row .dt__td {
+.dt__expanded-row > .dt__td {
   padding: 0;
   --dt-cell-bg: var(--dt-header-bg);
 }
@@ -405,7 +408,7 @@
     opacity: 1;
   }
 }
-.dt[data-virtual="true"] .dt__expanded {
+.dt[data-virtual="true"] > .dt__scroller > .dt__table > .dt__tbody .dt__expanded {
   animation: none;
 }
 .dt__expanded-error {
@@ -498,7 +501,7 @@
   border-top: 1px solid var(--dt-border);
   border-bottom: 0;
 }
-.dt[data-sticky-header="true"] .dt__summary .dt__td {
+.dt[data-sticky-header="true"] > .dt__scroller > .dt__table > .dt__summary .dt__td {
   position: sticky;
   bottom: 0;
   z-index: 3;
@@ -588,10 +591,10 @@
   padding: 0;
   border: 0;
 }
-.dt[data-virtual="true"] .dt__tr {
+.dt[data-virtual="true"] > .dt__scroller > .dt__table > .dt__tbody > .dt__tr {
   height: var(--dt-row-height);
 }
-.dt[data-virtual="true"] .dt__tr .dt__td {
+.dt[data-virtual="true"] > .dt__scroller > .dt__table > .dt__tbody > .dt__tr > .dt__td {
   padding-top: 0;
   padding-bottom: 0;
   height: var(--dt-row-height);

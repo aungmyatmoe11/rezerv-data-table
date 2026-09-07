@@ -124,6 +124,21 @@ Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `st
 | `components`, `getPopupContainer`, `rowSelection.onCell`, `expandable.expandedRowOffset`, `pagination.itemRender` | not implemented | not needed for the brief; would be additive |
 | sort tooltip / icons via antd internals | `sortIcon`, `showSorterTooltip` (our `Tooltip`) | parity |
 
+## Nested tables
+
+`expandedRowRender` may return another `<DataTable>` — that is how `/timetable` shows a class's
+attendees, and it is the same component, not a cut-down variant. Two rules make it work:
+
+- **Every root-level style is scoped to its own table.** `bordered`, `size` / `rowHeight`,
+  `sticky`, `virtual`, `tableLayout` and the expanded-cell reset all use explicit child chains
+  (`.dt[data-…] > .dt__scroller > .dt__table > …`) so a parent never restyles a child's cells. A
+  nested table therefore renders at *its own* density; give it `size="small"` if you want it
+  denser than the parent, and leave it alone to match.
+- **Children come from wherever the consumer has them.** Inline mode reads them off the record
+  (`record.attendees`); on-demand mode receives them as `expandedRowRender`'s fifth argument.
+  `/timetable` runs both against the same mock API — the list endpoint embeds children only when
+  asked (`?include=attendees`), the way a real `include` parameter behaves.
+
 ## Feature-conflict matrix
 
 | Pair | Verdict | Rule |

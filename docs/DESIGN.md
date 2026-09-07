@@ -75,3 +75,6 @@ both themes — axe checks this on `/` and `/timetable` in CI.
 - Do not use `border-collapse: collapse` — it breaks sticky columns in Chromium/WebKit.
 - Do not animate `height: auto`; use the grid-rows trick.
 - Do not introduce a raw colour: add a `--ui-*` token (light **and** dark) and use that.
+- Do not write a root-level rule as a descendant selector (`.dt[data-bordered="true"] .dt__td`):
+  a nested table lives inside an expanded row, so it would inherit the parent's borders, density
+  and sticky behaviour. Use the explicit child chain through `.dt__scroller`.

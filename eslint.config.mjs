@@ -28,7 +28,7 @@ const NO_LIBRARY = "Built from scratch: no table, grid, component or interaction
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "docs/contracts/**", "test-results/**", "playwright-report/**"]),
+  globalIgnores([".next/**", ".vercel/**", "out/**", "build/**", "next-env.d.ts", "docs/contracts/**", "test-results/**", "playwright-report/**"]),
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "error",

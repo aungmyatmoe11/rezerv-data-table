@@ -41,9 +41,15 @@ export function classesFor(count: RowCount): ClassSession[] {
   });
 }
 
-/** Children delivered together with the parent (inline expansion mode). Scaled clones reuse their seed's attendees. */
+/**
+ * Children delivered together with the parent (inline expansion mode).
+ *
+ * `scaleRows` gives a clone its seed id plus one more `-<n>` group (`cls-013` → `cls-013-42`),
+ * so only ids carrying **two** trailing groups may be trimmed — stripping unconditionally would
+ * turn a seed id into `cls` and silently return no attendees.
+ */
 export function attendeesOf(session: ClassSession): readonly Attendee[] {
-  const seedId = session.id.replace(/-\d+$/, "");
+  const seedId = /-\d+-\d+$/.test(session.id) ? session.id.replace(/-\d+$/, "") : session.id;
   return attendeesByClass.get(seedId) ?? [];
 }
 
