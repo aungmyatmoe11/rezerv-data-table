@@ -1,0 +1,122 @@
+.pg-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+.pg-presets {
+  margin-top: 4px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.pg-grid {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr) 360px;
+  gap: 16px;
+  align-items: start;
+}
+.pg-controls {
+  position: sticky;
+  top: 72px;
+  max-height: calc(100dvh - 88px);
+  overflow: auto;
+  padding-right: 4px;
+}
+.pg-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+.pg-field-label {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-field-label code {
+  font-size: 12px;
+}
+.pg-stage {
+  min-width: 0;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.pg-stage-head,
+.pg-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.pg-stage-tags {
+  display: inline-flex;
+  gap: 4px;
+}
+.pg-side {
+  position: sticky;
+  top: 72px;
+  display: grid;
+  gap: 16px;
+  max-height: calc(100dvh - 88px);
+  overflow: auto;
+}
+.pg-code-panel,
+.pg-events {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.pg-code {
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(15, 110, 86, 0.06);
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 46vh;
+  overflow: auto;
+}
+html[data-theme="dark"] .pg-code {
+  background: rgba(255, 255, 255, 0.05);
+}
+.pg-code--small {
+  max-height: 200px;
+  font-size: 11px;
+}
+.pg-event-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pg-event-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.pg-event-time {
+  font-size: 11px;
+  color: var(--app-muted);
+}
+
+@media (max-width: 1279px) {
+  .pg-grid {
+    grid-template-columns: 1fr;
+  }
+  .pg-controls,
+  .pg-side {
+    position: static;
+    max-height: none;
+  }
+}

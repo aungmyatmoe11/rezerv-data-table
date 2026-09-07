@@ -69,8 +69,6 @@ function BodyRowInner<T>({ ctx, entry, selected, ariaRowIndex }: BodyRowProps<T>
       className={className}
       onClick={onClick}
       aria-rowindex={ariaRowIndex}
-      aria-selected={hasSelection ? selected : undefined}
-      aria-expanded={ctx.expansionMode !== "none" && expandable ? expanded : undefined}
       data-row-key={String(key)}
       data-depth={isTree ? depth : undefined}
       data-selected={selected ? "true" : undefined}

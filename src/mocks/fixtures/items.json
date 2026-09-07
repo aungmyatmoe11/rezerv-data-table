@@ -1,0 +1,1488 @@
+[
+  {
+    "id": "item-001",
+    "sku": "SKU-1000",
+    "name": "Zip Hoodie",
+    "category": "Apparel",
+    "warehouse": "Main",
+    "quantity": "395.250",
+    "unitPrice": {
+      "amount": 7,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-23",
+    "children": [
+      {
+        "id": "item-001-v1",
+        "sku": "SKU-1000-S",
+        "name": "Zip Hoodie — S",
+        "category": "Apparel",
+        "warehouse": "Main",
+        "quantity": "18.000",
+        "unitPrice": {
+          "amount": 7,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-08-23"
+      }
+    ]
+  },
+  {
+    "id": "item-002",
+    "sku": "SKU-1006",
+    "name": "Foam Roller",
+    "category": "Equipment",
+    "warehouse": "WH-North",
+    "quantity": "109.000",
+    "unitPrice": {
+      "amount": 82,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-12"
+  },
+  {
+    "id": "item-003",
+    "sku": "SKU-1009",
+    "name": "Whey Isolate",
+    "category": "Supplements",
+    "warehouse": "WH-South",
+    "quantity": "290.500",
+    "unitPrice": {
+      "amount": 106.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-003-v1",
+        "sku": "SKU-1009-S",
+        "name": "Whey Isolate — S",
+        "category": "Supplements",
+        "warehouse": "WH-South",
+        "quantity": "74.000",
+        "unitPrice": {
+          "amount": 106.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-004",
+    "sku": "SKU-1015",
+    "name": "Water Bottle 750ml",
+    "category": "Accessories",
+    "warehouse": "WH-South",
+    "quantity": "338.750",
+    "unitPrice": {
+      "amount": 175,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-08-04",
+    "children": [
+      {
+        "id": "item-004-v1",
+        "sku": "SKU-1015-S",
+        "name": "Water Bottle 750ml — S",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "13.000",
+        "unitPrice": {
+          "amount": 175,
+          "currency": "SGD"
+        },
+        "active": false,
+        "lastCountedOn": "2026-08-04"
+      },
+      {
+        "id": "item-004-v2",
+        "sku": "SKU-1015-M",
+        "name": "Water Bottle 750ml — M",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "91.000",
+        "unitPrice": {
+          "amount": 175,
+          "currency": "SGD"
+        },
+        "active": false,
+        "lastCountedOn": "2026-08-04"
+      },
+      {
+        "id": "item-004-v3",
+        "sku": "SKU-1015-L",
+        "name": "Water Bottle 750ml — L",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "60.000",
+        "unitPrice": {
+          "amount": 175,
+          "currency": "SGD"
+        },
+        "active": false,
+        "lastCountedOn": "2026-08-04"
+      }
+    ]
+  },
+  {
+    "id": "item-005",
+    "sku": "SKU-1020",
+    "name": "Compression Sleeve",
+    "category": "Recovery",
+    "warehouse": "Main",
+    "quantity": "470.500",
+    "unitPrice": {
+      "amount": 44,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-28",
+    "children": [
+      {
+        "id": "item-005-v1",
+        "sku": "SKU-1020-S",
+        "name": "Compression Sleeve — S",
+        "category": "Recovery",
+        "warehouse": "Main",
+        "quantity": "77.000",
+        "unitPrice": {
+          "amount": 44,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-28"
+      },
+      {
+        "id": "item-005-v2",
+        "sku": "SKU-1020-M",
+        "name": "Compression Sleeve — M",
+        "category": "Recovery",
+        "warehouse": "Main",
+        "quantity": "81.000",
+        "unitPrice": {
+          "amount": 44,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-28"
+      },
+      {
+        "id": "item-005-v3",
+        "sku": "SKU-1020-L",
+        "name": "Compression Sleeve — L",
+        "category": "Recovery",
+        "warehouse": "Main",
+        "quantity": "43.000",
+        "unitPrice": {
+          "amount": 44,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-28"
+      }
+    ]
+  },
+  {
+    "id": "item-006",
+    "sku": "SKU-1026",
+    "name": "Studio Tee",
+    "category": "Apparel",
+    "warehouse": "Main",
+    "quantity": "253.500",
+    "unitPrice": {
+      "amount": 170,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-19"
+  },
+  {
+    "id": "item-007",
+    "sku": "SKU-1031",
+    "name": "Foam Roller",
+    "category": "Equipment",
+    "warehouse": "WH-North",
+    "quantity": "112.750",
+    "unitPrice": {
+      "amount": 56.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-007-v1",
+        "sku": "SKU-1031-S",
+        "name": "Foam Roller — S",
+        "category": "Equipment",
+        "warehouse": "WH-North",
+        "quantity": "39.000",
+        "unitPrice": {
+          "amount": 56.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-008",
+    "sku": "SKU-1032",
+    "name": "Whey Isolate",
+    "category": "Supplements",
+    "warehouse": "WH-North",
+    "quantity": "9.500",
+    "unitPrice": {
+      "amount": 48,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-08"
+  },
+  {
+    "id": "item-009",
+    "sku": "SKU-1036",
+    "name": "Gym Towel",
+    "category": "Accessories",
+    "warehouse": "WH-East",
+    "quantity": "406.000",
+    "unitPrice": {
+      "amount": 102.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-19",
+    "children": [
+      {
+        "id": "item-009-v1",
+        "sku": "SKU-1036-S",
+        "name": "Gym Towel — S",
+        "category": "Accessories",
+        "warehouse": "WH-East",
+        "quantity": "43.000",
+        "unitPrice": {
+          "amount": 102.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-06-19"
+      },
+      {
+        "id": "item-009-v2",
+        "sku": "SKU-1036-M",
+        "name": "Gym Towel — M",
+        "category": "Accessories",
+        "warehouse": "WH-East",
+        "quantity": "46.000",
+        "unitPrice": {
+          "amount": 102.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-06-19"
+      }
+    ]
+  },
+  {
+    "id": "item-010",
+    "sku": "SKU-1039",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "Main",
+    "quantity": "117.250",
+    "unitPrice": {
+      "amount": 156.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-011",
+    "sku": "SKU-1045",
+    "name": "Flex Leggings",
+    "category": "Apparel",
+    "warehouse": "WH-North",
+    "quantity": "384.000",
+    "unitPrice": {
+      "amount": 91.5,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-011-v1",
+        "sku": "SKU-1045-S",
+        "name": "Flex Leggings — S",
+        "category": "Apparel",
+        "warehouse": "WH-North",
+        "quantity": "92.000",
+        "unitPrice": {
+          "amount": 91.5,
+          "currency": "SGD"
+        },
+        "active": false,
+        "lastCountedOn": null
+      },
+      {
+        "id": "item-011-v2",
+        "sku": "SKU-1045-M",
+        "name": "Flex Leggings — M",
+        "category": "Apparel",
+        "warehouse": "WH-North",
+        "quantity": "63.000",
+        "unitPrice": {
+          "amount": 91.5,
+          "currency": "SGD"
+        },
+        "active": false,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-012",
+    "sku": "SKU-1049",
+    "name": "Foam Roller",
+    "category": "Equipment",
+    "warehouse": "Main",
+    "quantity": "57.750",
+    "unitPrice": {
+      "amount": 93.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-17"
+  },
+  {
+    "id": "item-013",
+    "sku": "SKU-1055",
+    "name": "Protein Bar Box",
+    "category": "Supplements",
+    "warehouse": "WH-East",
+    "quantity": "242.500",
+    "unitPrice": {
+      "amount": 137.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-014",
+    "sku": "SKU-1061",
+    "name": "Lifting Straps",
+    "category": "Accessories",
+    "warehouse": "WH-South",
+    "quantity": "31.000",
+    "unitPrice": {
+      "amount": 51.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-13"
+  },
+  {
+    "id": "item-015",
+    "sku": "SKU-1062",
+    "name": "Ice Pack",
+    "category": "Recovery",
+    "warehouse": "WH-North",
+    "quantity": "383.000",
+    "unitPrice": {
+      "amount": 67.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-16"
+  },
+  {
+    "id": "item-016",
+    "sku": "SKU-1065",
+    "name": "Performance Shorts",
+    "category": "Apparel",
+    "warehouse": "WH-North",
+    "quantity": "443.500",
+    "unitPrice": {
+      "amount": 177.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-07"
+  },
+  {
+    "id": "item-017",
+    "sku": "SKU-1068",
+    "name": "Foam Roller",
+    "category": "Equipment",
+    "warehouse": "Main",
+    "quantity": "498.250",
+    "unitPrice": {
+      "amount": 16.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-20"
+  },
+  {
+    "id": "item-018",
+    "sku": "SKU-1074",
+    "name": "Creatine",
+    "category": "Supplements",
+    "warehouse": "WH-North",
+    "quantity": "354.500",
+    "unitPrice": {
+      "amount": 42.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-018-v1",
+        "sku": "SKU-1074-S",
+        "name": "Creatine — S",
+        "category": "Supplements",
+        "warehouse": "WH-North",
+        "quantity": "92.000",
+        "unitPrice": {
+          "amount": 42.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-019",
+    "sku": "SKU-1076",
+    "name": "Water Bottle 750ml",
+    "category": "Accessories",
+    "warehouse": "WH-North",
+    "quantity": "171.000",
+    "unitPrice": {
+      "amount": 81.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-02",
+    "children": [
+      {
+        "id": "item-019-v1",
+        "sku": "SKU-1076-S",
+        "name": "Water Bottle 750ml — S",
+        "category": "Accessories",
+        "warehouse": "WH-North",
+        "quantity": "29.000",
+        "unitPrice": {
+          "amount": 81.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-06-02"
+      },
+      {
+        "id": "item-019-v2",
+        "sku": "SKU-1076-M",
+        "name": "Water Bottle 750ml — M",
+        "category": "Accessories",
+        "warehouse": "WH-North",
+        "quantity": "67.000",
+        "unitPrice": {
+          "amount": 81.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-06-02"
+      }
+    ]
+  },
+  {
+    "id": "item-020",
+    "sku": "SKU-1077",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-South",
+    "quantity": "198.250",
+    "unitPrice": {
+      "amount": 148.99,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-07-22"
+  },
+  {
+    "id": "item-021",
+    "sku": "SKU-1078",
+    "name": "Zip Hoodie",
+    "category": "Apparel",
+    "warehouse": "WH-South",
+    "quantity": "368.250",
+    "unitPrice": {
+      "amount": 153.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-022",
+    "sku": "SKU-1082",
+    "name": "Resistance Band Set",
+    "category": "Equipment",
+    "warehouse": "WH-East",
+    "quantity": "130.750",
+    "unitPrice": {
+      "amount": 128.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-21",
+    "children": [
+      {
+        "id": "item-022-v1",
+        "sku": "SKU-1082-S",
+        "name": "Resistance Band Set — S",
+        "category": "Equipment",
+        "warehouse": "WH-East",
+        "quantity": "22.000",
+        "unitPrice": {
+          "amount": 128.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-08-21"
+      }
+    ]
+  },
+  {
+    "id": "item-023",
+    "sku": "SKU-1086",
+    "name": "Whey Isolate",
+    "category": "Supplements",
+    "warehouse": "WH-East",
+    "quantity": "434.250",
+    "unitPrice": {
+      "amount": 78.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-17"
+  },
+  {
+    "id": "item-024",
+    "sku": "SKU-1087",
+    "name": "Lifting Straps",
+    "category": "Accessories",
+    "warehouse": "Main",
+    "quantity": "365.250",
+    "unitPrice": {
+      "amount": 15,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-21",
+    "children": [
+      {
+        "id": "item-024-v1",
+        "sku": "SKU-1087-S",
+        "name": "Lifting Straps — S",
+        "category": "Accessories",
+        "warehouse": "Main",
+        "quantity": "7.000",
+        "unitPrice": {
+          "amount": 15,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-21"
+      },
+      {
+        "id": "item-024-v2",
+        "sku": "SKU-1087-M",
+        "name": "Lifting Straps — M",
+        "category": "Accessories",
+        "warehouse": "Main",
+        "quantity": "105.000",
+        "unitPrice": {
+          "amount": 15,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-21"
+      }
+    ]
+  },
+  {
+    "id": "item-025",
+    "sku": "SKU-1090",
+    "name": "Compression Sleeve",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "66.750",
+    "unitPrice": {
+      "amount": 33.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-19",
+    "children": [
+      {
+        "id": "item-025-v1",
+        "sku": "SKU-1090-S",
+        "name": "Compression Sleeve — S",
+        "category": "Recovery",
+        "warehouse": "WH-East",
+        "quantity": "20.000",
+        "unitPrice": {
+          "amount": 33.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-19"
+      }
+    ]
+  },
+  {
+    "id": "item-026",
+    "sku": "SKU-1093",
+    "name": "Zip Hoodie",
+    "category": "Apparel",
+    "warehouse": "WH-South",
+    "quantity": "369.250",
+    "unitPrice": {
+      "amount": 99.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-31"
+  },
+  {
+    "id": "item-027",
+    "sku": "SKU-1094",
+    "name": "Yoga Mat Pro",
+    "category": "Equipment",
+    "warehouse": "Main",
+    "quantity": "12.750",
+    "unitPrice": {
+      "amount": 144.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-17",
+    "children": [
+      {
+        "id": "item-027-v1",
+        "sku": "SKU-1094-S",
+        "name": "Yoga Mat Pro — S",
+        "category": "Equipment",
+        "warehouse": "Main",
+        "quantity": "40.000",
+        "unitPrice": {
+          "amount": 144.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-17"
+      }
+    ]
+  },
+  {
+    "id": "item-028",
+    "sku": "SKU-1099",
+    "name": "Creatine",
+    "category": "Supplements",
+    "warehouse": "WH-South",
+    "quantity": "86.750",
+    "unitPrice": {
+      "amount": 126.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-17"
+  },
+  {
+    "id": "item-029",
+    "sku": "SKU-1106",
+    "name": "Lifting Straps",
+    "category": "Accessories",
+    "warehouse": "WH-North",
+    "quantity": "87.500",
+    "unitPrice": {
+      "amount": 14.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-09-02",
+    "children": [
+      {
+        "id": "item-029-v1",
+        "sku": "SKU-1106-S",
+        "name": "Lifting Straps — S",
+        "category": "Accessories",
+        "warehouse": "WH-North",
+        "quantity": "43.000",
+        "unitPrice": {
+          "amount": 14.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-09-02"
+      }
+    ]
+  },
+  {
+    "id": "item-030",
+    "sku": "SKU-1110",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "379.500",
+    "unitPrice": {
+      "amount": 33.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-26"
+  },
+  {
+    "id": "item-031",
+    "sku": "SKU-1112",
+    "name": "Zip Hoodie",
+    "category": "Apparel",
+    "warehouse": "WH-East",
+    "quantity": "290.250",
+    "unitPrice": {
+      "amount": 21,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-031-v1",
+        "sku": "SKU-1112-S",
+        "name": "Zip Hoodie — S",
+        "category": "Apparel",
+        "warehouse": "WH-East",
+        "quantity": "91.000",
+        "unitPrice": {
+          "amount": 21,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      },
+      {
+        "id": "item-031-v2",
+        "sku": "SKU-1112-M",
+        "name": "Zip Hoodie — M",
+        "category": "Apparel",
+        "warehouse": "WH-East",
+        "quantity": "117.000",
+        "unitPrice": {
+          "amount": 21,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      },
+      {
+        "id": "item-031-v3",
+        "sku": "SKU-1112-L",
+        "name": "Zip Hoodie — L",
+        "category": "Apparel",
+        "warehouse": "WH-East",
+        "quantity": "52.000",
+        "unitPrice": {
+          "amount": 21,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-032",
+    "sku": "SKU-1113",
+    "name": "Resistance Band Set",
+    "category": "Equipment",
+    "warehouse": "WH-South",
+    "quantity": "91.750",
+    "unitPrice": {
+      "amount": 112,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-27",
+    "children": [
+      {
+        "id": "item-032-v1",
+        "sku": "SKU-1113-S",
+        "name": "Resistance Band Set — S",
+        "category": "Equipment",
+        "warehouse": "WH-South",
+        "quantity": "26.000",
+        "unitPrice": {
+          "amount": 112,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-27"
+      },
+      {
+        "id": "item-032-v2",
+        "sku": "SKU-1113-M",
+        "name": "Resistance Band Set — M",
+        "category": "Equipment",
+        "warehouse": "WH-South",
+        "quantity": "65.000",
+        "unitPrice": {
+          "amount": 112,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-27"
+      }
+    ]
+  },
+  {
+    "id": "item-033",
+    "sku": "SKU-1119",
+    "name": "Protein Bar Box",
+    "category": "Supplements",
+    "warehouse": "WH-North",
+    "quantity": "284.750",
+    "unitPrice": {
+      "amount": 130.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-20"
+  },
+  {
+    "id": "item-034",
+    "sku": "SKU-1126",
+    "name": "Water Bottle 750ml",
+    "category": "Accessories",
+    "warehouse": "WH-South",
+    "quantity": "485.250",
+    "unitPrice": {
+      "amount": 94,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-18",
+    "children": [
+      {
+        "id": "item-034-v1",
+        "sku": "SKU-1126-S",
+        "name": "Water Bottle 750ml — S",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "111.000",
+        "unitPrice": {
+          "amount": 94,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-18"
+      },
+      {
+        "id": "item-034-v2",
+        "sku": "SKU-1126-M",
+        "name": "Water Bottle 750ml — M",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "110.000",
+        "unitPrice": {
+          "amount": 94,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-18"
+      },
+      {
+        "id": "item-034-v3",
+        "sku": "SKU-1126-L",
+        "name": "Water Bottle 750ml — L",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "40.000",
+        "unitPrice": {
+          "amount": 94,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-07-18"
+      }
+    ]
+  },
+  {
+    "id": "item-035",
+    "sku": "SKU-1132",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "446.250",
+    "unitPrice": {
+      "amount": 176,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-15",
+    "children": [
+      {
+        "id": "item-035-v1",
+        "sku": "SKU-1132-S",
+        "name": "Massage Ball — S",
+        "category": "Recovery",
+        "warehouse": "WH-East",
+        "quantity": "111.000",
+        "unitPrice": {
+          "amount": 176,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-08-15"
+      },
+      {
+        "id": "item-035-v2",
+        "sku": "SKU-1132-M",
+        "name": "Massage Ball — M",
+        "category": "Recovery",
+        "warehouse": "WH-East",
+        "quantity": "90.000",
+        "unitPrice": {
+          "amount": 176,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-08-15"
+      }
+    ]
+  },
+  {
+    "id": "item-036",
+    "sku": "SKU-1133",
+    "name": "Performance Shorts",
+    "category": "Apparel",
+    "warehouse": "WH-East",
+    "quantity": "357.000",
+    "unitPrice": {
+      "amount": 54.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-14"
+  },
+  {
+    "id": "item-037",
+    "sku": "SKU-1140",
+    "name": "Kettlebell",
+    "category": "Equipment",
+    "warehouse": "WH-North",
+    "quantity": "432.750",
+    "unitPrice": {
+      "amount": 113,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-24"
+  },
+  {
+    "id": "item-038",
+    "sku": "SKU-1142",
+    "name": "Electrolyte Mix",
+    "category": "Supplements",
+    "warehouse": "WH-South",
+    "quantity": "343.250",
+    "unitPrice": {
+      "amount": 137.5,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-08-31"
+  },
+  {
+    "id": "item-039",
+    "sku": "SKU-1149",
+    "name": "Gym Towel",
+    "category": "Accessories",
+    "warehouse": "Main",
+    "quantity": "218.250",
+    "unitPrice": {
+      "amount": 119.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-21"
+  },
+  {
+    "id": "item-040",
+    "sku": "SKU-1151",
+    "name": "Ice Pack",
+    "category": "Recovery",
+    "warehouse": "Main",
+    "quantity": "169.500",
+    "unitPrice": {
+      "amount": 167.99,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-08-15"
+  },
+  {
+    "id": "item-041",
+    "sku": "SKU-1152",
+    "name": "Flex Leggings",
+    "category": "Apparel",
+    "warehouse": "WH-South",
+    "quantity": "59.250",
+    "unitPrice": {
+      "amount": 20,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-17"
+  },
+  {
+    "id": "item-042",
+    "sku": "SKU-1157",
+    "name": "Jump Rope",
+    "category": "Equipment",
+    "warehouse": "WH-North",
+    "quantity": "116.500",
+    "unitPrice": {
+      "amount": 99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-25"
+  },
+  {
+    "id": "item-043",
+    "sku": "SKU-1161",
+    "name": "Protein Bar Box",
+    "category": "Supplements",
+    "warehouse": "WH-North",
+    "quantity": "154.250",
+    "unitPrice": {
+      "amount": 64,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-044",
+    "sku": "SKU-1168",
+    "name": "Water Bottle 750ml",
+    "category": "Accessories",
+    "warehouse": "WH-South",
+    "quantity": "61.250",
+    "unitPrice": {
+      "amount": 18.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null,
+    "children": [
+      {
+        "id": "item-044-v1",
+        "sku": "SKU-1168-S",
+        "name": "Water Bottle 750ml — S",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "0.000",
+        "unitPrice": {
+          "amount": 18.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      },
+      {
+        "id": "item-044-v2",
+        "sku": "SKU-1168-M",
+        "name": "Water Bottle 750ml — M",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "88.000",
+        "unitPrice": {
+          "amount": 18.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      },
+      {
+        "id": "item-044-v3",
+        "sku": "SKU-1168-L",
+        "name": "Water Bottle 750ml — L",
+        "category": "Accessories",
+        "warehouse": "WH-South",
+        "quantity": "51.000",
+        "unitPrice": {
+          "amount": 18.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": null
+      }
+    ]
+  },
+  {
+    "id": "item-045",
+    "sku": "SKU-1175",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "456.750",
+    "unitPrice": {
+      "amount": 58.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-20"
+  },
+  {
+    "id": "item-046",
+    "sku": "SKU-1181",
+    "name": "Flex Leggings",
+    "category": "Apparel",
+    "warehouse": "WH-North",
+    "quantity": "440.000",
+    "unitPrice": {
+      "amount": 23.5,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-08-31"
+  },
+  {
+    "id": "item-047",
+    "sku": "SKU-1184",
+    "name": "Yoga Mat Pro",
+    "category": "Equipment",
+    "warehouse": "WH-South",
+    "quantity": "33.750",
+    "unitPrice": {
+      "amount": 84.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-08"
+  },
+  {
+    "id": "item-048",
+    "sku": "SKU-1189",
+    "name": "Protein Bar Box",
+    "category": "Supplements",
+    "warehouse": "WH-East",
+    "quantity": "279.750",
+    "unitPrice": {
+      "amount": 100.5,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-08-01"
+  },
+  {
+    "id": "item-049",
+    "sku": "SKU-1194",
+    "name": "Lifting Straps",
+    "category": "Accessories",
+    "warehouse": "WH-East",
+    "quantity": "57.250",
+    "unitPrice": {
+      "amount": 102.5,
+      "currency": "SGD"
+    },
+    "active": false,
+    "lastCountedOn": "2026-07-01"
+  },
+  {
+    "id": "item-050",
+    "sku": "SKU-1198",
+    "name": "Compression Sleeve",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "344.250",
+    "unitPrice": {
+      "amount": 52.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-18"
+  },
+  {
+    "id": "item-051",
+    "sku": "SKU-1201",
+    "name": "Zip Hoodie",
+    "category": "Apparel",
+    "warehouse": "WH-South",
+    "quantity": "323.250",
+    "unitPrice": {
+      "amount": 132.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-22",
+    "children": [
+      {
+        "id": "item-051-v1",
+        "sku": "SKU-1201-S",
+        "name": "Zip Hoodie — S",
+        "category": "Apparel",
+        "warehouse": "WH-South",
+        "quantity": "44.000",
+        "unitPrice": {
+          "amount": 132.5,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-08-22"
+      }
+    ]
+  },
+  {
+    "id": "item-052",
+    "sku": "SKU-1204",
+    "name": "Yoga Mat Pro",
+    "category": "Equipment",
+    "warehouse": "Main",
+    "quantity": "206.000",
+    "unitPrice": {
+      "amount": 150.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-08"
+  },
+  {
+    "id": "item-053",
+    "sku": "SKU-1211",
+    "name": "Electrolyte Mix",
+    "category": "Supplements",
+    "warehouse": "WH-East",
+    "quantity": "485.500",
+    "unitPrice": {
+      "amount": 122.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-054",
+    "sku": "SKU-1217",
+    "name": "Gym Towel",
+    "category": "Accessories",
+    "warehouse": "WH-East",
+    "quantity": "407.000",
+    "unitPrice": {
+      "amount": 98.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-11"
+  },
+  {
+    "id": "item-055",
+    "sku": "SKU-1219",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-North",
+    "quantity": "215.000",
+    "unitPrice": {
+      "amount": 79,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": null
+  },
+  {
+    "id": "item-056",
+    "sku": "SKU-1223",
+    "name": "Performance Shorts",
+    "category": "Apparel",
+    "warehouse": "WH-East",
+    "quantity": "187.500",
+    "unitPrice": {
+      "amount": 51.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-09"
+  },
+  {
+    "id": "item-057",
+    "sku": "SKU-1225",
+    "name": "Yoga Mat Pro",
+    "category": "Equipment",
+    "warehouse": "WH-East",
+    "quantity": "121.000",
+    "unitPrice": {
+      "amount": 134.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-05-14",
+    "children": [
+      {
+        "id": "item-057-v1",
+        "sku": "SKU-1225-S",
+        "name": "Yoga Mat Pro — S",
+        "category": "Equipment",
+        "warehouse": "WH-East",
+        "quantity": "87.000",
+        "unitPrice": {
+          "amount": 134.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-14"
+      },
+      {
+        "id": "item-057-v2",
+        "sku": "SKU-1225-M",
+        "name": "Yoga Mat Pro — M",
+        "category": "Equipment",
+        "warehouse": "WH-East",
+        "quantity": "31.000",
+        "unitPrice": {
+          "amount": 134.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-05-14"
+      }
+    ]
+  },
+  {
+    "id": "item-058",
+    "sku": "SKU-1232",
+    "name": "Whey Isolate",
+    "category": "Supplements",
+    "warehouse": "Main",
+    "quantity": "411.500",
+    "unitPrice": {
+      "amount": 109.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-23"
+  },
+  {
+    "id": "item-059",
+    "sku": "SKU-1237",
+    "name": "Water Bottle 750ml",
+    "category": "Accessories",
+    "warehouse": "WH-North",
+    "quantity": "290.000",
+    "unitPrice": {
+      "amount": 28.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-09-04"
+  },
+  {
+    "id": "item-060",
+    "sku": "SKU-1241",
+    "name": "Massage Ball",
+    "category": "Recovery",
+    "warehouse": "WH-East",
+    "quantity": "260.750",
+    "unitPrice": {
+      "amount": 142.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-03"
+  },
+  {
+    "id": "item-061",
+    "sku": "SKU-1243",
+    "name": "Performance Shorts",
+    "category": "Apparel",
+    "warehouse": "WH-East",
+    "quantity": "86.000",
+    "unitPrice": {
+      "amount": 62.5,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-28"
+  },
+  {
+    "id": "item-062",
+    "sku": "SKU-1246",
+    "name": "Yoga Mat Pro",
+    "category": "Equipment",
+    "warehouse": "Main",
+    "quantity": "101.500",
+    "unitPrice": {
+      "amount": 66.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-06-05",
+    "children": [
+      {
+        "id": "item-062-v1",
+        "sku": "SKU-1246-S",
+        "name": "Yoga Mat Pro — S",
+        "category": "Equipment",
+        "warehouse": "Main",
+        "quantity": "18.000",
+        "unitPrice": {
+          "amount": 66.99,
+          "currency": "SGD"
+        },
+        "active": true,
+        "lastCountedOn": "2026-06-05"
+      }
+    ]
+  },
+  {
+    "id": "item-063",
+    "sku": "SKU-1251",
+    "name": "Whey Isolate",
+    "category": "Supplements",
+    "warehouse": "WH-East",
+    "quantity": "45.750",
+    "unitPrice": {
+      "amount": 97.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-08-18"
+  },
+  {
+    "id": "item-064",
+    "sku": "SKU-1257",
+    "name": "Headband",
+    "category": "Accessories",
+    "warehouse": "Main",
+    "quantity": "433.750",
+    "unitPrice": {
+      "amount": 164.99,
+      "currency": "SGD"
+    },
+    "active": true,
+    "lastCountedOn": "2026-07-19"
+  }
+]

@@ -1,7 +1,5 @@
-export default function Home() {
-  return (
-    <main>
-      <div>Hello world!</div>
-    </main>
-  );
+import { HomePage } from "@/features/home/HomePage";
+
+export default function Page() {
+  return <HomePage />;
 }

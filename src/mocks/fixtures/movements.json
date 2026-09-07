@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "mov-0001",
+    "itemId": "item-001",
+    "occurredAt": "2026-07-12T19:40:12.000Z",
+    "delta": "53.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0002",
+    "itemId": "item-001",
+    "occurredAt": "2026-07-16T08:28:54.000Z",
+    "delta": "54.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0003",
+    "itemId": "item-001",
+    "occurredAt": "2026-08-12T01:36:07.000Z",
+    "delta": "54.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0004",
+    "itemId": "item-001",
+    "occurredAt": "2026-08-06T23:36:11.000Z",
+    "delta": "-36.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0005",
+    "itemId": "item-002",
+    "occurredAt": "2026-09-05T15:35:19.000Z",
+    "delta": "-35.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0006",
+    "itemId": "item-002",
+    "occurredAt": "2026-08-15T14:49:50.000Z",
+    "delta": "46.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0007",
+    "itemId": "item-003",
+    "occurredAt": "2026-08-07T03:36:17.000Z",
+    "delta": "47.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0008",
+    "itemId": "item-003",
+    "occurredAt": "2026-07-19T02:14:08.000Z",
+    "delta": "-13.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0009",
+    "itemId": "item-004",
+    "occurredAt": "2026-08-06T21:46:00.000Z",
+    "delta": "0.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0010",
+    "itemId": "item-004",
+    "occurredAt": "2026-07-12T04:11:15.000Z",
+    "delta": "7.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0011",
+    "itemId": "item-004",
+    "occurredAt": "2026-07-19T05:53:15.000Z",
+    "delta": "-26.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0012",
+    "itemId": "item-004",
+    "occurredAt": "2026-08-23T21:48:05.000Z",
+    "delta": "38.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0013",
+    "itemId": "item-004",
+    "occurredAt": "2026-08-02T06:43:17.000Z",
+    "delta": "19.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0014",
+    "itemId": "item-005",
+    "occurredAt": "2026-08-06T10:52:51.000Z",
+    "delta": "2.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0015",
+    "itemId": "item-005",
+    "occurredAt": "2026-08-17T20:58:58.000Z",
+    "delta": "31.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0016",
+    "itemId": "item-005",
+    "occurredAt": "2026-07-28T03:07:33.000Z",
+    "delta": "21.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0017",
+    "itemId": "item-005",
+    "occurredAt": "2026-08-29T10:39:51.000Z",
+    "delta": "59.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0018",
+    "itemId": "item-005",
+    "occurredAt": "2026-09-04T08:40:57.000Z",
+    "delta": "24.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0019",
+    "itemId": "item-006",
+    "occurredAt": "2026-07-20T12:40:19.000Z",
+    "delta": "50.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0020",
+    "itemId": "item-006",
+    "occurredAt": "2026-07-12T02:44:57.000Z",
+    "delta": "-3.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0021",
+    "itemId": "item-007",
+    "occurredAt": "2026-07-21T18:13:08.000Z",
+    "delta": "-27.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0022",
+    "itemId": "item-007",
+    "occurredAt": "2026-08-26T19:06:41.000Z",
+    "delta": "2.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0023",
+    "itemId": "item-007",
+    "occurredAt": "2026-09-04T10:02:14.000Z",
+    "delta": "-12.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0024",
+    "itemId": "item-008",
+    "occurredAt": "2026-07-18T09:29:58.000Z",
+    "delta": "-13.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0025",
+    "itemId": "item-009",
+    "occurredAt": "2026-08-03T13:45:50.000Z",
+    "delta": "19.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0026",
+    "itemId": "item-009",
+    "occurredAt": "2026-07-29T11:33:23.000Z",
+    "delta": "34.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0027",
+    "itemId": "item-009",
+    "occurredAt": "2026-07-29T14:31:23.000Z",
+    "delta": "40.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0028",
+    "itemId": "item-009",
+    "occurredAt": "2026-07-13T07:55:56.000Z",
+    "delta": "53.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0029",
+    "itemId": "item-009",
+    "occurredAt": "2026-07-29T19:06:28.000Z",
+    "delta": "-30.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0030",
+    "itemId": "item-010",
+    "occurredAt": "2026-08-30T14:57:59.000Z",
+    "delta": "-32.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0031",
+    "itemId": "item-010",
+    "occurredAt": "2026-07-20T16:53:30.000Z",
+    "delta": "6.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0032",
+    "itemId": "item-010",
+    "occurredAt": "2026-09-01T07:41:01.000Z",
+    "delta": "9.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0033",
+    "itemId": "item-010",
+    "occurredAt": "2026-07-10T12:35:56.000Z",
+    "delta": "-17.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0034",
+    "itemId": "item-011",
+    "occurredAt": "2026-08-13T14:00:01.000Z",
+    "delta": "3.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0035",
+    "itemId": "item-011",
+    "occurredAt": "2026-08-21T19:21:30.000Z",
+    "delta": "26.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0036",
+    "itemId": "item-011",
+    "occurredAt": "2026-08-22T09:57:42.000Z",
+    "delta": "-16.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0037",
+    "itemId": "item-012",
+    "occurredAt": "2026-08-06T12:05:02.000Z",
+    "delta": "-8.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0038",
+    "itemId": "item-012",
+    "occurredAt": "2026-08-07T09:39:42.000Z",
+    "delta": "-8.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0039",
+    "itemId": "item-012",
+    "occurredAt": "2026-08-28T22:49:20.000Z",
+    "delta": "-13.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0040",
+    "itemId": "item-013",
+    "occurredAt": "2026-08-27T23:46:10.000Z",
+    "delta": "5.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0041",
+    "itemId": "item-013",
+    "occurredAt": "2026-09-04T02:26:25.000Z",
+    "delta": "53.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0042",
+    "itemId": "item-013",
+    "occurredAt": "2026-08-12T15:21:32.000Z",
+    "delta": "10.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0043",
+    "itemId": "item-014",
+    "occurredAt": "2026-07-17T16:54:17.000Z",
+    "delta": "25.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0044",
+    "itemId": "item-014",
+    "occurredAt": "2026-08-17T16:34:50.000Z",
+    "delta": "25.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0045",
+    "itemId": "item-014",
+    "occurredAt": "2026-08-28T22:48:29.000Z",
+    "delta": "-32.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0046",
+    "itemId": "item-014",
+    "occurredAt": "2026-08-03T07:30:51.000Z",
+    "delta": "11.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0047",
+    "itemId": "item-015",
+    "occurredAt": "2026-07-21T16:19:43.000Z",
+    "delta": "12.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0048",
+    "itemId": "item-015",
+    "occurredAt": "2026-08-07T02:15:26.000Z",
+    "delta": "51.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0049",
+    "itemId": "item-015",
+    "occurredAt": "2026-08-18T09:08:35.000Z",
+    "delta": "39.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0050",
+    "itemId": "item-015",
+    "occurredAt": "2026-08-22T18:20:38.000Z",
+    "delta": "45.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0051",
+    "itemId": "item-016",
+    "occurredAt": "2026-08-29T06:26:29.000Z",
+    "delta": "42.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0052",
+    "itemId": "item-016",
+    "occurredAt": "2026-07-23T02:38:18.000Z",
+    "delta": "-15.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0053",
+    "itemId": "item-016",
+    "occurredAt": "2026-08-30T10:51:13.000Z",
+    "delta": "0.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0054",
+    "itemId": "item-016",
+    "occurredAt": "2026-07-12T10:59:18.000Z",
+    "delta": "-2.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0055",
+    "itemId": "item-016",
+    "occurredAt": "2026-07-21T23:00:48.000Z",
+    "delta": "50.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0056",
+    "itemId": "item-017",
+    "occurredAt": "2026-07-28T09:50:30.000Z",
+    "delta": "46.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0057",
+    "itemId": "item-017",
+    "occurredAt": "2026-08-29T00:23:39.000Z",
+    "delta": "33.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0058",
+    "itemId": "item-017",
+    "occurredAt": "2026-08-09T16:02:06.000Z",
+    "delta": "3.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0059",
+    "itemId": "item-017",
+    "occurredAt": "2026-07-26T10:14:50.000Z",
+    "delta": "47.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0060",
+    "itemId": "item-018",
+    "occurredAt": "2026-08-05T19:48:27.000Z",
+    "delta": "41.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0061",
+    "itemId": "item-018",
+    "occurredAt": "2026-07-21T19:01:58.000Z",
+    "delta": "5.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0062",
+    "itemId": "item-019",
+    "occurredAt": "2026-09-06T02:36:02.000Z",
+    "delta": "-22.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0063",
+    "itemId": "item-019",
+    "occurredAt": "2026-07-12T18:51:39.000Z",
+    "delta": "19.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0064",
+    "itemId": "item-019",
+    "occurredAt": "2026-08-10T21:44:27.000Z",
+    "delta": "-40.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0065",
+    "itemId": "item-020",
+    "occurredAt": "2026-07-21T23:27:28.000Z",
+    "delta": "39.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0066",
+    "itemId": "item-020",
+    "occurredAt": "2026-08-02T08:37:49.000Z",
+    "delta": "44.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0067",
+    "itemId": "item-021",
+    "occurredAt": "2026-09-04T13:32:26.000Z",
+    "delta": "-15.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0068",
+    "itemId": "item-021",
+    "occurredAt": "2026-09-03T07:33:01.000Z",
+    "delta": "39.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0069",
+    "itemId": "item-021",
+    "occurredAt": "2026-07-31T20:13:16.000Z",
+    "delta": "7.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0070",
+    "itemId": "item-021",
+    "occurredAt": "2026-07-30T14:16:28.000Z",
+    "delta": "12.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0071",
+    "itemId": "item-021",
+    "occurredAt": "2026-08-16T10:36:52.000Z",
+    "delta": "53.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0072",
+    "itemId": "item-022",
+    "occurredAt": "2026-08-20T06:11:21.000Z",
+    "delta": "44.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0073",
+    "itemId": "item-023",
+    "occurredAt": "2026-07-23T04:15:34.000Z",
+    "delta": "33.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0074",
+    "itemId": "item-023",
+    "occurredAt": "2026-07-20T23:27:07.000Z",
+    "delta": "16.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0075",
+    "itemId": "item-023",
+    "occurredAt": "2026-07-13T02:36:50.000Z",
+    "delta": "-33.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0076",
+    "itemId": "item-024",
+    "occurredAt": "2026-07-08T04:06:59.000Z",
+    "delta": "-36.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0077",
+    "itemId": "item-025",
+    "occurredAt": "2026-08-16T12:07:43.000Z",
+    "delta": "23.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0078",
+    "itemId": "item-025",
+    "occurredAt": "2026-07-30T22:28:16.000Z",
+    "delta": "25.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0079",
+    "itemId": "item-025",
+    "occurredAt": "2026-08-13T12:08:44.000Z",
+    "delta": "-11.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0080",
+    "itemId": "item-026",
+    "occurredAt": "2026-07-15T04:49:49.000Z",
+    "delta": "18.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0081",
+    "itemId": "item-026",
+    "occurredAt": "2026-08-18T11:12:39.000Z",
+    "delta": "14.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0082",
+    "itemId": "item-026",
+    "occurredAt": "2026-07-31T21:43:28.000Z",
+    "delta": "40.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0083",
+    "itemId": "item-027",
+    "occurredAt": "2026-08-28T10:45:35.000Z",
+    "delta": "-26.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0084",
+    "itemId": "item-028",
+    "occurredAt": "2026-08-11T19:27:14.000Z",
+    "delta": "37.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0085",
+    "itemId": "item-028",
+    "occurredAt": "2026-07-13T15:14:11.000Z",
+    "delta": "17.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0086",
+    "itemId": "item-029",
+    "occurredAt": "2026-07-20T20:54:28.000Z",
+    "delta": "53.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0087",
+    "itemId": "item-030",
+    "occurredAt": "2026-07-23T23:53:26.000Z",
+    "delta": "-33.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0088",
+    "itemId": "item-030",
+    "occurredAt": "2026-08-06T08:50:58.000Z",
+    "delta": "-7.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0089",
+    "itemId": "item-030",
+    "occurredAt": "2026-07-20T09:13:29.000Z",
+    "delta": "-15.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0090",
+    "itemId": "item-030",
+    "occurredAt": "2026-08-19T17:47:58.000Z",
+    "delta": "12.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0091",
+    "itemId": "item-031",
+    "occurredAt": "2026-08-12T04:38:47.000Z",
+    "delta": "26.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0092",
+    "itemId": "item-031",
+    "occurredAt": "2026-08-09T12:25:41.000Z",
+    "delta": "16.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0093",
+    "itemId": "item-032",
+    "occurredAt": "2026-08-06T12:14:45.000Z",
+    "delta": "-6.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0094",
+    "itemId": "item-033",
+    "occurredAt": "2026-09-06T01:01:34.000Z",
+    "delta": "-17.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0095",
+    "itemId": "item-033",
+    "occurredAt": "2026-07-16T07:26:14.000Z",
+    "delta": "18.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0096",
+    "itemId": "item-033",
+    "occurredAt": "2026-08-04T00:08:18.000Z",
+    "delta": "13.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0097",
+    "itemId": "item-034",
+    "occurredAt": "2026-09-02T16:21:31.000Z",
+    "delta": "-21.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0098",
+    "itemId": "item-034",
+    "occurredAt": "2026-08-21T04:20:59.000Z",
+    "delta": "41.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0099",
+    "itemId": "item-034",
+    "occurredAt": "2026-07-20T05:59:18.000Z",
+    "delta": "35.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0100",
+    "itemId": "item-034",
+    "occurredAt": "2026-08-27T10:34:23.000Z",
+    "delta": "6.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0101",
+    "itemId": "item-035",
+    "occurredAt": "2026-08-06T13:51:39.000Z",
+    "delta": "-4.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0102",
+    "itemId": "item-035",
+    "occurredAt": "2026-09-04T00:12:05.000Z",
+    "delta": "12.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0103",
+    "itemId": "item-036",
+    "occurredAt": "2026-08-10T07:24:41.000Z",
+    "delta": "45.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0104",
+    "itemId": "item-036",
+    "occurredAt": "2026-08-18T15:08:31.000Z",
+    "delta": "-36.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0105",
+    "itemId": "item-037",
+    "occurredAt": "2026-08-17T18:54:50.000Z",
+    "delta": "42.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0106",
+    "itemId": "item-038",
+    "occurredAt": "2026-08-11T11:24:40.000Z",
+    "delta": "8.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0107",
+    "itemId": "item-039",
+    "occurredAt": "2026-07-08T12:20:28.000Z",
+    "delta": "-39.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0108",
+    "itemId": "item-039",
+    "occurredAt": "2026-07-26T16:54:12.000Z",
+    "delta": "18.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0109",
+    "itemId": "item-039",
+    "occurredAt": "2026-07-14T14:48:08.000Z",
+    "delta": "-35.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0110",
+    "itemId": "item-039",
+    "occurredAt": "2026-07-14T06:59:02.000Z",
+    "delta": "-25.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0111",
+    "itemId": "item-040",
+    "occurredAt": "2026-07-16T12:03:39.000Z",
+    "delta": "46.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0112",
+    "itemId": "item-041",
+    "occurredAt": "2026-07-19T11:08:22.000Z",
+    "delta": "6.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0113",
+    "itemId": "item-041",
+    "occurredAt": "2026-07-25T04:56:48.000Z",
+    "delta": "9.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0114",
+    "itemId": "item-041",
+    "occurredAt": "2026-08-10T16:05:26.000Z",
+    "delta": "58.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0115",
+    "itemId": "item-041",
+    "occurredAt": "2026-07-27T16:37:20.000Z",
+    "delta": "28.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0116",
+    "itemId": "item-041",
+    "occurredAt": "2026-09-03T21:43:16.000Z",
+    "delta": "50.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0117",
+    "itemId": "item-042",
+    "occurredAt": "2026-08-06T22:09:58.000Z",
+    "delta": "-14.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0118",
+    "itemId": "item-042",
+    "occurredAt": "2026-07-12T03:10:39.000Z",
+    "delta": "58.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0119",
+    "itemId": "item-042",
+    "occurredAt": "2026-08-08T02:51:14.000Z",
+    "delta": "59.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0120",
+    "itemId": "item-042",
+    "occurredAt": "2026-08-31T14:00:33.000Z",
+    "delta": "51.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0121",
+    "itemId": "item-042",
+    "occurredAt": "2026-09-04T01:41:55.000Z",
+    "delta": "55.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0122",
+    "itemId": "item-043",
+    "occurredAt": "2026-07-31T13:15:46.000Z",
+    "delta": "0.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0123",
+    "itemId": "item-043",
+    "occurredAt": "2026-08-06T15:02:03.000Z",
+    "delta": "-38.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0124",
+    "itemId": "item-044",
+    "occurredAt": "2026-08-04T19:36:11.000Z",
+    "delta": "45.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0125",
+    "itemId": "item-044",
+    "occurredAt": "2026-07-09T16:11:47.000Z",
+    "delta": "31.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0126",
+    "itemId": "item-044",
+    "occurredAt": "2026-08-29T07:53:23.000Z",
+    "delta": "-26.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0127",
+    "itemId": "item-045",
+    "occurredAt": "2026-08-30T15:10:05.000Z",
+    "delta": "13.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0128",
+    "itemId": "item-045",
+    "occurredAt": "2026-08-24T15:03:33.000Z",
+    "delta": "-16.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0129",
+    "itemId": "item-045",
+    "occurredAt": "2026-08-03T08:50:25.000Z",
+    "delta": "-23.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0130",
+    "itemId": "item-045",
+    "occurredAt": "2026-08-16T11:42:56.000Z",
+    "delta": "-8.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0131",
+    "itemId": "item-045",
+    "occurredAt": "2026-07-21T23:19:55.000Z",
+    "delta": "36.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0132",
+    "itemId": "item-046",
+    "occurredAt": "2026-08-24T05:09:02.000Z",
+    "delta": "-10.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0133",
+    "itemId": "item-046",
+    "occurredAt": "2026-08-28T05:52:46.000Z",
+    "delta": "-18.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0134",
+    "itemId": "item-046",
+    "occurredAt": "2026-07-20T14:58:41.000Z",
+    "delta": "44.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0135",
+    "itemId": "item-046",
+    "occurredAt": "2026-09-01T18:48:05.000Z",
+    "delta": "8.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0136",
+    "itemId": "item-047",
+    "occurredAt": "2026-07-19T11:03:34.000Z",
+    "delta": "-13.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0137",
+    "itemId": "item-048",
+    "occurredAt": "2026-08-20T17:37:34.000Z",
+    "delta": "50.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0138",
+    "itemId": "item-048",
+    "occurredAt": "2026-08-19T01:18:58.000Z",
+    "delta": "8.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0139",
+    "itemId": "item-049",
+    "occurredAt": "2026-07-31T15:19:54.000Z",
+    "delta": "28.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0140",
+    "itemId": "item-049",
+    "occurredAt": "2026-07-10T13:01:46.000Z",
+    "delta": "33.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0141",
+    "itemId": "item-049",
+    "occurredAt": "2026-08-08T01:39:48.000Z",
+    "delta": "18.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0142",
+    "itemId": "item-049",
+    "occurredAt": "2026-08-03T15:41:59.000Z",
+    "delta": "-9.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0143",
+    "itemId": "item-050",
+    "occurredAt": "2026-07-07T20:30:21.000Z",
+    "delta": "7.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0144",
+    "itemId": "item-050",
+    "occurredAt": "2026-07-18T06:12:28.000Z",
+    "delta": "7.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0145",
+    "itemId": "item-050",
+    "occurredAt": "2026-07-17T16:04:04.000Z",
+    "delta": "-11.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0146",
+    "itemId": "item-051",
+    "occurredAt": "2026-07-30T15:03:08.000Z",
+    "delta": "57.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0147",
+    "itemId": "item-051",
+    "occurredAt": "2026-08-21T06:01:11.000Z",
+    "delta": "-9.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0148",
+    "itemId": "item-051",
+    "occurredAt": "2026-07-25T07:39:05.000Z",
+    "delta": "-40.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0149",
+    "itemId": "item-051",
+    "occurredAt": "2026-08-11T13:12:45.000Z",
+    "delta": "7.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0150",
+    "itemId": "item-051",
+    "occurredAt": "2026-07-21T16:40:12.000Z",
+    "delta": "4.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0151",
+    "itemId": "item-052",
+    "occurredAt": "2026-08-21T15:37:30.000Z",
+    "delta": "-16.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0152",
+    "itemId": "item-052",
+    "occurredAt": "2026-08-12T13:44:57.000Z",
+    "delta": "60.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0153",
+    "itemId": "item-052",
+    "occurredAt": "2026-08-02T04:53:36.000Z",
+    "delta": "-1.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0154",
+    "itemId": "item-052",
+    "occurredAt": "2026-08-21T04:24:03.000Z",
+    "delta": "35.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0155",
+    "itemId": "item-053",
+    "occurredAt": "2026-09-02T20:01:01.000Z",
+    "delta": "23.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0156",
+    "itemId": "item-054",
+    "occurredAt": "2026-07-19T04:22:32.000Z",
+    "delta": "42.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0157",
+    "itemId": "item-054",
+    "occurredAt": "2026-08-25T04:54:16.000Z",
+    "delta": "-35.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0158",
+    "itemId": "item-054",
+    "occurredAt": "2026-07-11T02:35:03.000Z",
+    "delta": "-37.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0159",
+    "itemId": "item-055",
+    "occurredAt": "2026-08-07T05:44:14.000Z",
+    "delta": "-36.000",
+    "reason": "Transfer out"
+  },
+  {
+    "id": "mov-0160",
+    "itemId": "item-055",
+    "occurredAt": "2026-08-18T04:28:10.000Z",
+    "delta": "-22.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0161",
+    "itemId": "item-056",
+    "occurredAt": "2026-07-16T06:24:51.000Z",
+    "delta": "39.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0162",
+    "itemId": "item-056",
+    "occurredAt": "2026-09-03T23:58:51.000Z",
+    "delta": "57.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0163",
+    "itemId": "item-057",
+    "occurredAt": "2026-08-30T11:40:14.000Z",
+    "delta": "49.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0164",
+    "itemId": "item-057",
+    "occurredAt": "2026-08-28T03:59:49.000Z",
+    "delta": "7.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0165",
+    "itemId": "item-057",
+    "occurredAt": "2026-09-02T05:08:03.000Z",
+    "delta": "29.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0166",
+    "itemId": "item-058",
+    "occurredAt": "2026-08-03T23:20:59.000Z",
+    "delta": "24.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0167",
+    "itemId": "item-058",
+    "occurredAt": "2026-07-11T03:30:00.000Z",
+    "delta": "13.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0168",
+    "itemId": "item-059",
+    "occurredAt": "2026-08-26T01:02:17.000Z",
+    "delta": "57.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0169",
+    "itemId": "item-060",
+    "occurredAt": "2026-07-13T10:30:30.000Z",
+    "delta": "36.000",
+    "reason": "Purchase order"
+  },
+  {
+    "id": "mov-0170",
+    "itemId": "item-061",
+    "occurredAt": "2026-07-23T04:20:06.000Z",
+    "delta": "-3.000",
+    "reason": "Sample"
+  },
+  {
+    "id": "mov-0171",
+    "itemId": "item-061",
+    "occurredAt": "2026-09-01T17:29:13.000Z",
+    "delta": "21.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0172",
+    "itemId": "item-061",
+    "occurredAt": "2026-07-11T17:16:34.000Z",
+    "delta": "41.000",
+    "reason": "Return"
+  },
+  {
+    "id": "mov-0173",
+    "itemId": "item-061",
+    "occurredAt": "2026-08-01T23:44:44.000Z",
+    "delta": "-15.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0174",
+    "itemId": "item-061",
+    "occurredAt": "2026-07-22T11:38:04.000Z",
+    "delta": "15.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0175",
+    "itemId": "item-062",
+    "occurredAt": "2026-07-10T23:21:29.000Z",
+    "delta": "25.000",
+    "reason": "Transfer in"
+  },
+  {
+    "id": "mov-0176",
+    "itemId": "item-063",
+    "occurredAt": "2026-07-14T17:51:06.000Z",
+    "delta": "-31.000",
+    "reason": "Damage"
+  },
+  {
+    "id": "mov-0177",
+    "itemId": "item-063",
+    "occurredAt": "2026-08-04T00:50:29.000Z",
+    "delta": "-2.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0178",
+    "itemId": "item-063",
+    "occurredAt": "2026-07-29T14:17:17.000Z",
+    "delta": "-10.000",
+    "reason": "Sale"
+  },
+  {
+    "id": "mov-0179",
+    "itemId": "item-063",
+    "occurredAt": "2026-08-25T04:44:03.000Z",
+    "delta": "0.000",
+    "reason": "Stock count adjustment"
+  },
+  {
+    "id": "mov-0180",
+    "itemId": "item-064",
+    "occurredAt": "2026-08-27T13:39:30.000Z",
+    "delta": "39.000",
+    "reason": "Transfer in"
+  }
+]
