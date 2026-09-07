@@ -17,7 +17,7 @@ function build(compareSpy: (a: Row, b: Row) => number) {
     { dataIndex: "name", title: "Name", sorter: true },
     { dataIndex: "age", title: "Age", sorter: compareSpy },
   ];
-  const layout = resolveColumns(columns, { breakpoints: null, order: null, tableSortDirections: ["ascend", "descend"] });
+  const layout = resolveColumns(columns, { breakpoints: null, tableSortDirections: ["ascend", "descend"] });
   const input: RowModelInput<Row> = {
     dataSource: rows,
     getKey: (r) => r.key,

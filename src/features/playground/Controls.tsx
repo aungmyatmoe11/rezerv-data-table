@@ -1,6 +1,6 @@
 "use client";
 
-import { Collapse, ColorPicker, InputNumber, Segmented, Select, Switch, Typography } from "antd";
+import { Button, Collapse, ColorInput, NumberInput, Segmented, Select, Switch, Text } from "@/lib/ui";
 import type { ReactNode } from "react";
 import type { PaginationPosition, TableSize } from "@/lib/table";
 import type { ExpansionMode, LoadingMode, PlaygroundConfig, RowsPreset, ScrollY, SelectionMode } from "./config";
@@ -15,7 +15,7 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
     <label className="pg-field">
       <span className="pg-field-label">
         {label}
-        {hint !== undefined ? <Typography.Text type="secondary"> {hint}</Typography.Text> : null}
+        {hint !== undefined ? <Text tone="secondary"> {hint}</Text> : null}
       </span>
       {children}
     </label>
@@ -36,8 +36,7 @@ export function Controls({ config, onChange }: ControlsProps) {
   const set = onChange;
   return (
     <Collapse
-      size="small"
-      defaultActiveKey={["data", "chrome", "pagination", "selection", "expansion", "layout", "sorting"]}
+      defaultOpenKeys={["data", "chrome", "pagination", "selection", "expansion", "layout", "sorting"]}
       items={[
         {
           key: "data",
@@ -68,10 +67,10 @@ export function Controls({ config, onChange }: ControlsProps) {
                 <Switch checked={config.bordered} onChange={(v) => set("bordered", v)} />
               </Field>
               <Field label="size">
-                <Segmented<TableSize> value={config.size} onChange={(v) => set("size", v)} options={["small", "middle", "large"]} />
+                <Segmented<TableSize> value={config.size} onChange={(v) => set("size", v)} options={[{ label: "small", value: "small" }, { label: "middle", value: "middle" }, { label: "large", value: "large" }]} />
               </Field>
               <Field label="rowHeight" hint="px, overrides size">
-                <InputNumber min={28} max={96} step={2} value={config.rowHeight} placeholder="auto" onChange={(v) => set("rowHeight", v === null ? null : Number(v))} style={{ width: 110 }} />
+                <NumberInput size="small" aria-label="rowHeight" min={28} max={96} step={2} value={config.rowHeight} placeholder="auto" onChange={(v) => set("rowHeight", v)} style={{ width: 110 }} />
               </Field>
               <Field label="title">
                 <Switch checked={config.title} onChange={(v) => set("title", v)} />
@@ -100,10 +99,10 @@ export function Controls({ config, onChange }: ControlsProps) {
                 <Switch checked={config.pagination} onChange={(v) => set("pagination", v)} />
               </Field>
               <Field label="pageSize">
-                <InputNumber min={1} max={100} value={config.pageSize} onChange={(v) => set("pageSize", Number(v ?? 5))} style={{ width: 90 }} disabled={!config.pagination} />
+                <NumberInput size="small" aria-label="pageSize" min={1} max={100} value={config.pageSize} onChange={(v) => set("pageSize", v ?? 5)} style={{ width: 90 }} disabled={!config.pagination} />
               </Field>
               <Field label="position">
-                <Select value={config.paginationPosition} onChange={(v) => set("paginationPosition", v)} options={POSITIONS} style={{ width: 160 }} disabled={!config.pagination} />
+                <Select size="small" aria-label="pagination position" value={config.paginationPosition} onChange={(v) => set("paginationPosition", v)} options={POSITIONS} style={{ width: 160 }} disabled={!config.pagination} />
               </Field>
               <Field label="showSizeChanger">
                 <Switch checked={config.showSizeChanger} onChange={(v) => set("showSizeChanger", v)} disabled={!config.pagination} />
@@ -175,16 +174,13 @@ export function Controls({ config, onChange }: ControlsProps) {
                 <Switch checked={config.stickyHeader} onChange={(v) => set("stickyHeader", v)} />
               </Field>
               <Field label="hidden column">
-                <Select value={config.hideColumn} onChange={(v) => set("hideColumn", v)} options={[{ value: "none", label: "none" }, { value: "instructor", label: "Instructor" }, { value: "location", label: "Location" }]} style={{ width: 130 }} />
+                <Select size="small" aria-label="hidden column" value={config.hideColumn} onChange={(v) => set("hideColumn", v)} options={[{ value: "none", label: "none" }, { value: "instructor", label: "Instructor" }, { value: "location", label: "Location" }]} style={{ width: 130 }} />
               </Field>
               <Field label="ellipsis">
                 <Switch checked={config.ellipsis} onChange={(v) => set("ellipsis", v)} />
               </Field>
               <Field label="responsive" hint="hide on small screens">
                 <Switch checked={config.responsive} onChange={(v) => set("responsive", v)} />
-              </Field>
-              <Field label="columnReorder" hint="drag headers">
-                <Switch checked={config.columnReorder} onChange={(v) => set("columnReorder", v)} />
               </Field>
               <Field label="colSpan / rowSpan" hint="merge instructors">
                 <Switch checked={config.spans} onChange={(v) => set("spans", v)} />
@@ -207,7 +203,14 @@ export function Controls({ config, onChange }: ControlsProps) {
                 <Switch checked={config.sortedHighlight} onChange={(v) => set("sortedHighlight", v)} />
               </Field>
               <Field label="sorted colour" hint="theme.sortedColumnBg">
-                <ColorPicker size="small" value={config.sortedColor === "" ? "#e6f4ff" : config.sortedColor} onChangeComplete={(color) => set("sortedColor", color.toHexString())} allowClear onClear={() => set("sortedColor", "")} disabled={!config.sortedHighlight} />
+                <span style={{ display: "inline-flex", gap: 6, alignItems: "center" }}>
+                  <ColorInput aria-label="sorted column colour" value={config.sortedColor === "" ? "#e6f4ff" : config.sortedColor} onChange={(color) => set("sortedColor", color)} />
+                  {config.sortedColor === "" ? null : (
+                    <Button size="small" variant="link" onClick={() => set("sortedColor", "")}>
+                      reset
+                    </Button>
+                  )}
+                </span>
               </Field>
               <Field label="column filters" hint="Status">
                 <Switch checked={config.filters} onChange={(v) => set("filters", v)} />

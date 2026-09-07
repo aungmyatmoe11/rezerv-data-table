@@ -20,7 +20,8 @@ export default defineConfig({
     timeout: 240_000,
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] } },
+    // responsive.spec.ts asserts mobile-only behaviour, so the desktop project skips it
+    { name: "desktop", use: { ...devices["Desktop Chrome"] }, testIgnore: /responsive\.spec\.ts/ },
     { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /responsive\.spec\.ts/ },
   ],
 });

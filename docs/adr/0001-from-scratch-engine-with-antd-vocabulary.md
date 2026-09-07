@@ -12,9 +12,9 @@ wants a table whose configuration reads like antd's (`pagination`, `rowSelection
 Build the engine in `src/lib/table/{core,react,ui}` from scratch. Adopt antd's prop **names and
 semantics** (verified against `@rc-component/table` source) as the public API, adding only what the
 brief needs and antd lacks (`error` / `onRetry`, `loading.mode`, `expandable.loadChildren`,
-`scroll.y: 'auto'`, `rowHeight`, `columnReorder`, `theme`). Use antd only for Button, Checkbox,
-Radio, Dropdown, Tooltip, Empty, Spin and icons. Enforce with ESLint (`Table` / `Pagination` from
-`antd` and `@tanstack/*` banned).
+`scroll.y: 'auto'`, `rowHeight`, `theme`). Ant Design is a **vocabulary reference only** — it is
+not a dependency; see [ADR 0006](0006-no-component-library.md). ESLint bans every table, grid and
+component library.
 
 ## Alternatives
 
@@ -27,8 +27,8 @@ Radio, Dropdown, Tooltip, Empty, Spin and icons. Enforce with ESLint (`Table` / 
 ## Consequences
 
 Familiar API and copy-pasteable playground output; a large prop surface that must stay inert by
-default (`resolveConfig`); antd differences must be documented (`docs/API.md`). Minor antd props
-(`components`, `itemRender`, `expandedRowOffset`) are not implemented.
+default (`resolveConfig`); differences from antd must be documented (`docs/API.md`). Minor antd
+props (`components`, `itemRender`, `expandedRowOffset`) are not implemented.
 
 ## Revisit when
 

@@ -5,8 +5,6 @@ import { warnOnce } from "./warnings";
 export interface ColumnOptions {
   /** Active breakpoints (null = no responsive filtering, e.g. SSR). */
   breakpoints: ReadonlySet<Breakpoint> | null;
-  /** Leaf key order from `columnReorder`; unlisted keys keep source order after listed ones. */
-  order: readonly Key[] | null;
   tableSortDirections: readonly SortDirection[];
 }
 
@@ -95,7 +93,6 @@ function buildLeaf<T>(column: AnyLeafColumnDef<T>, key: Key, fixed: FixedSide | 
     onFilter: typeof column.onFilter === "function" ? column.onFilter : null,
     onCell: typeof column.onCell === "function" ? column.onCell : null,
     render: render ?? null,
-    draggable: column.draggable !== false && fixed === null,
     index: -1,
   };
 }
@@ -115,17 +112,7 @@ function buildTree<T>(columns: readonly ColumnDef<T>[], parentPath: string, inhe
     }
     nodes.push({ column, key, fixed, children: null, leaf: buildLeaf(column as AnyLeafColumnDef<T>, key, fixed) });
   });
-  return applyOrder(nodes, options.order);
-}
-
-function applyOrder<T>(nodes: Node<T>[], order: readonly Key[] | null): Node<T>[] {
-  if (order === null || order.length === 0) return nodes;
-  const rank = new Map<Key, number>();
-  order.forEach((key, index) => rank.set(key, index));
-  const listed = nodes.filter((node) => rank.has(node.key)).sort((a, b) => (rank.get(a.key) ?? 0) - (rank.get(b.key) ?? 0));
-  const unlisted = nodes.filter((node) => !rank.has(node.key));
-  // fixed boundary ကို မကျော်စေဖို့: left → middle → right partition ကို resolveColumns မှာ ထပ်လုပ်တယ်
-  return [...listed, ...unlisted];
+  return nodes;
 }
 
 function collectLeaves<T>(nodes: readonly Node<T>[], out: LeafColumn<T>[]): void {

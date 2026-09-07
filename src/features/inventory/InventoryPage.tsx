@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Drawer, Select, Space, Switch, Typography } from "antd";
+import { Alert, Button, Drawer, Select, Space, Switch, Text } from "@/lib/ui";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DataTable, useTableRequest, type Key, type RequestParams } from "@/lib/table";
 import { SCENARIOS, resetScenarioLatches, type Scenario } from "@/mocks/scenarios";
@@ -18,10 +18,15 @@ const SCENARIO_LABEL: Record<Scenario, string> = {
 };
 
 function MovementsDrawer({ item, scenario, nonce, onClose }: { item: InventoryItem | null; scenario: Scenario; nonce: string; onClose: () => void }) {
+  if (item === null) return null;
+  return <MovementsPanel item={item} scenario={scenario} nonce={nonce} onClose={onClose} />;
+}
+
+/** Mounted only while the drawer is open, so each opening starts from a clean loading state. */
+function MovementsPanel({ item, scenario, nonce, onClose }: { item: InventoryItem; scenario: Scenario; nonce: string; onClose: () => void }) {
   const [state, setState] = useState<{ status: "loading" | "ready" | "error"; rows: StockMovement[]; error?: unknown; tick: number }>({ status: "loading", rows: [], tick: 0 });
-  const itemId = item?.id ?? null;
+  const itemId = item.id;
   useEffect(() => {
-    if (itemId === null) return;
     const controller = new AbortController();
     fetchMovementsHttp(itemId, scenario, nonce, controller.signal).then(
       (rows) => {
@@ -36,16 +41,7 @@ function MovementsDrawer({ item, scenario, nonce, onClose }: { item: InventoryIt
   const retry = useCallback(() => setState((prev) => ({ ...prev, status: "loading", tick: prev.tick + 1 })), []);
 
   return (
-    <Drawer
-      open={item !== null}
-      onClose={onClose}
-      size={560}
-      title={item === null ? "" : `Stock movements — ${item.name}`}
-      destroyOnHidden
-      afterOpenChange={(open) => {
-        if (open) setState({ status: "loading", rows: [], tick: 0 });
-      }}
-    >
+    <Drawer open onClose={onClose} width={560} title={`Stock movements — ${item.name}`}>
       <DataTable<StockMovement>
         aria-label="Stock movements"
         columns={movementColumns}
@@ -123,13 +119,22 @@ export function InventoryPage() {
             <Switch checked={linkedSelection} onChange={setLinkedSelection} />
           </label>
         </div>
-        <Typography.Text type="secondary">
+        <Text tone="secondary">
           Every column sorter is <code>{"{ multiple: n }"}</code> without a comparator, so clicking headers builds a multi-sort that the table only <em>emits</em>; the server orders the page. Products with variants expand into tree rows.
-        </Typography.Text>
+        </Text>
       </div>
 
       {selectedKeys.length > 0 ? (
-        <Alert type="info" showIcon style={{ marginBottom: 12 }} message={<Space wrap><span><strong>{selectedKeys.length}</strong> selected</span><a onClick={() => setSelectedKeys([])}>Clear</a></Space>} />
+        <Alert tone="info" style={{ marginBottom: 12 }}>
+          <Space wrap>
+            <span>
+              <strong>{selectedKeys.length}</strong> selected
+            </span>
+            <Button size="small" variant="link" onClick={() => setSelectedKeys([])}>
+              Clear
+            </Button>
+          </Space>
+        </Alert>
       ) : null}
 
       <DataTable<InventoryItem>

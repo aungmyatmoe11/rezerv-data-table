@@ -34,6 +34,9 @@ Status: **verified** (automated test passes), **manual** (checked by hand in the
 
 ## Beyond the brief (user-requested antd parity)
 
+Every control listed below is rendered by this repo's own primitives (`src/lib/ui`); no component
+library is installed.
+
 | Feature | Where | Evidence |
 | --- | --- | --- |
 | Row selection incl. operations menu, disabled rows, bulk action bar | `rowSelection`, `ui/SelectionCell.tsx` | e2e "row selection drives a bulk action bar"; unit selection scopes |
@@ -41,7 +44,7 @@ Status: **verified** (automated test passes), **manual** (checked by hand in the
 | Custom loading (skeleton / overlay / indicator / delay), size in px, border / title / footer / summary | `loading`, `rowHeight`, `bordered`, `title`, `footer`, `summary` | `playground.spec.ts` JSX ↔ DOM |
 | Fixed header, auto height, fixed right / gapped columns, hidden columns, ellipsis, responsive | `scroll.y`, `scroll.y: 'auto'`, `fixed: 'right'`, `theme.fixedColumnGap`, `hidden`, `ellipsis`, `responsive` | `playground.spec.ts` auto height; manual for the rest |
 | Nested table, tree data, colSpan / rowSpan | `expandedRowRender`, `childrenColumnName`, `onCell` | `inventory.spec.ts` tree; `spans-filtering-selection.test.ts` |
-| Column drag reorder (pointer + keyboard) | `columnReorder`, `ui/ColumnReorder.tsx` | `playground.spec.ts` reorder tests |
+| ~~Column drag reorder~~ | removed with its interaction library on 2026-09-08 (not in the brief) | — |
 | Virtual windowing for big data | `virtual`, `react/use-virtual-rows.ts` | `playground.spec.ts` virtual; `tests/perf` |
 | Pagination positions ×6, size changer, jumper, total, simple | `pagination.*` | `playground.spec.ts` JSX ↔ DOM |
 | `onChange` + per-feature callbacks for API calls | `emit` | `react/use-table.test.tsx`; playground event log |

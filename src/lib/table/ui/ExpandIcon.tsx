@@ -1,6 +1,6 @@
 "use client";
 
-import { RightOutlined } from "@ant-design/icons";
+import { ChevronRightIcon } from "@/lib/ui";
 import type { MouseEvent, ReactNode } from "react";
 import type { ExpandIconContext } from "../core/types";
 
@@ -40,7 +40,7 @@ export function ExpandIcon<T>({ expanded, expandable, record, controlsId, labelE
         onToggle();
       }}
     >
-      <RightOutlined />
+      <ChevronRightIcon />
     </button>
   );
 }

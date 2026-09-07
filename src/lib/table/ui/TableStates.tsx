@@ -1,7 +1,6 @@
 "use client";
 
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Button, Empty, Spin } from "antd";
+import { AlertIcon, Button, Empty, Spinner } from "@/lib/ui";
 import { isValidElement, type ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 import type { LeafColumn } from "../core/types";
@@ -46,7 +45,7 @@ export function TableEmpty({ colSpan, emptyText }: EmptyProps) {
   return (
     <tr className="dt__tr dt__state-row" data-hoverable="false" data-state="empty">
       <td className="dt__td dt__state-cell" colSpan={colSpan}>
-        {custom ? emptyText : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={emptyText} />}
+        {custom ? emptyText : <Empty description={emptyText} />}
       </td>
     </tr>
   );
@@ -65,10 +64,10 @@ export function TableError({ colSpan, error, onRetry, locale }: ErrorProps) {
     <tr className="dt__tr dt__state-row" data-hoverable="false" data-state="error">
       <td className="dt__td dt__state-cell" colSpan={colSpan}>
         <div className="dt__error" role="alert">
-          <ExclamationCircleOutlined className="dt__error-icon" aria-hidden="true" />
+          <AlertIcon className="dt__error-icon" />
           <span>{message}</span>
           {onRetry !== undefined ? (
-            <Button type="primary" onClick={onRetry}>
+            <Button variant="primary" onClick={onRetry}>
               {locale.retryText}
             </Button>
           ) : null}
@@ -81,7 +80,7 @@ export function TableError({ colSpan, error, onRetry, locale }: ErrorProps) {
 export function LoadingOverlay({ indicator }: { indicator: ReactNode | undefined }) {
   return (
     <div className="dt__overlay" aria-hidden="true">
-      {indicator ?? <Spin />}
+      {indicator ?? <Spinner />}
     </div>
   );
 }

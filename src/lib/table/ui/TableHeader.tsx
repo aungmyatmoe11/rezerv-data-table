@@ -2,7 +2,6 @@
 
 import type { CSSProperties } from "react";
 import type { TableInstance } from "../react/use-table";
-import { SortableHeaderCell } from "./ColumnReorder";
 import type { RowContext } from "./context";
 import { HeaderCell } from "./HeaderCell";
 import { SelectionHeader } from "./SelectionCell";
@@ -13,7 +12,7 @@ interface TableHeaderProps<T extends object> {
 }
 
 export function TableHeader<T extends object>({ table, ctx }: TableHeaderProps<T>) {
-  const { layout, config, sorting, filtering, selection, reorder, props } = table;
+  const { layout, config, sorting, filtering, selection, props } = table;
   const depth = layout.headerRows.length;
   const hasExpandColumn = ctx.expansionMode === "row" && ctx.showExpandColumn;
   const extrasEdge = ctx.stickyExtras && ctx.edgeLeftKey === null;
@@ -76,22 +75,19 @@ export function TableHeader<T extends object>({ table, ctx }: TableHeaderProps<T
               const left = layout.leftOffsets.get(cell.key);
               const right = layout.rightOffsets.get(cell.key);
               const edge: "left" | "right" | null = cell.key === ctx.edgeLeftKey ? "left" : cell.key === ctx.edgeRightKey ? "right" : null;
-              const shared = {
-                cell,
-                sorting,
-                filtering,
-                tableSortDirections: config.sortDirections,
-                showSorterTooltip: config.showSorterTooltip,
-                locale: config.locale,
-                left: left === undefined ? undefined : left + leftShift,
-                right,
-                edge,
-              };
-              const sortable = reorder !== null && cell.leaf !== null && reorder.draggableKeys.includes(cell.key);
-              return sortable ? (
-                <SortableHeaderCell key={String(cell.key)} {...shared} />
-              ) : (
-                <HeaderCell key={String(cell.key)} {...shared} dragHandle={null} dragRef={undefined} dragStyle={undefined} dragging={false} />
+              return (
+                <HeaderCell
+                  key={String(cell.key)}
+                  cell={cell}
+                  sorting={sorting}
+                  filtering={filtering}
+                  tableSortDirections={config.sortDirections}
+                  showSorterTooltip={config.showSorterTooltip}
+                  locale={config.locale}
+                  left={left === undefined ? undefined : left + leftShift}
+                  right={right}
+                  edge={edge}
+                />
               );
             })}
           </tr>

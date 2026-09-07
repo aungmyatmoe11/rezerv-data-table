@@ -1,7 +1,6 @@
 "use client";
 
-import { CopyOutlined, LoadingOutlined } from "@ant-design/icons";
-import { App as AntdApp, Button, Segmented, Spin, Tag, Tooltip, Typography } from "antd";
+import { Button, CopyIcon, Segmented, Spinner, Tag, Text, Tooltip, useToast } from "@/lib/ui";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { DataTable, type ColumnDef, type DataTableProps, type Key } from "@/lib/table";
 import { listAttendeesMock } from "@/features/timetable/api";
@@ -60,7 +59,7 @@ function instructorSpans(rows: readonly ClassSession[]): ReadonlyMap<string, num
 }
 
 export function PlaygroundPage() {
-  const { message } = AntdApp.useApp();
+  const toast = useToast();
   const [config, dispatch] = useReducer(configReducer, DEFAULT_CONFIG);
   const [events, setEvents] = useState<LogEntry[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
@@ -120,13 +119,13 @@ export function PlaygroundPage() {
       align: "center",
       ...(config.fixedRight ? { fixed: "right" as const } : {}),
       render: (record) => (
-        <Button size="small" type="link" onClick={() => message.info(`Open ${record.name}`)}>
+        <Button size="small" variant="link" onClick={() => toast.success(`Open ${record.name}`)}>
           Manage
         </Button>
       ),
     };
     return [...base.slice(0, 2), location, ...base.slice(2), actions];
-  }, [config.fixedLeft, config.fixedRight, config.ellipsis, config.hideColumn, config.responsive, config.multiSort, config.filters, spans, message]);
+  }, [config.fixedLeft, config.fixedRight, config.ellipsis, config.hideColumn, config.responsive, config.multiSort, config.filters, spans, toast]);
 
   // --- props derived from the config (the same thing the code panel prints) -------
   const tableProps = useMemo<DataTableProps<ClassSession>>(() => {
@@ -157,7 +156,7 @@ export function PlaygroundPage() {
       );
     if (config.loading === "skeleton") props.loading = { mode: "skeleton", skeletonRows: 6 };
     if (config.loading === "overlay") props.loading = { mode: "overlay" };
-    if (config.loading === "custom") props.loading = { mode: "overlay", indicator: <Spin indicator={<LoadingOutlined spin />} tip="Syncing…" /> };
+    if (config.loading === "custom") props.loading = { mode: "overlay", indicator: <span className="pg-loading"><Spinner label="Syncing" /> Syncing…</span> };
     if (config.error) {
       props.error = new Error(`Failed to load classes (attempt ${retryTick + 1})`);
       props.onRetry = () => setRetryTick((t) => t + 1);
@@ -211,7 +210,6 @@ export function PlaygroundPage() {
     if (Object.keys(scroll).length > 0) props.scroll = scroll;
     if (config.stickyHeader) props.sticky = { offsetHeader: 56 };
     if (config.virtual) props.virtual = true;
-    if (config.columnReorder) props.columnReorder = { onReorder: (order) => log("columnReorder.onReorder", { order }) };
     const theme: NonNullable<DataTableProps<ClassSession>["theme"]> = {};
     if (!config.sortedHighlight) {
       theme.sortedColumnBg = "transparent";
@@ -226,9 +224,9 @@ export function PlaygroundPage() {
   const copy = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(code);
-      message.success("Copied");
+      toast.success("Copied");
     } catch {
-      message.error("Clipboard unavailable");
+      toast.success("Clipboard unavailable");
     }
   };
 
@@ -243,6 +241,7 @@ export function PlaygroundPage() {
         </div>
         <div className="pg-presets">
           <Segmented<string>
+            aria-label="Presets"
             options={[{ label: "Defaults", value: "defaults" }, ...PRESETS.map((preset) => ({ label: preset.label, value: preset.key }))]}
             value={PRESETS.find((preset) => Object.entries(preset.config).every(([key, value]) => config[key as keyof PlaygroundConfig] === value) && Object.keys(preset.config).length > 0)?.key ?? "defaults"}
             onChange={(key) => (key === "defaults" ? dispatch({ type: "reset" }) : dispatch({ type: "merge", config: PRESETS.find((preset) => preset.key === key)?.config ?? {} }))}
@@ -257,11 +256,11 @@ export function PlaygroundPage() {
 
         <section className="pg-stage" aria-label="Live table">
           <div className="pg-stage-head">
-            <Typography.Text strong>Live</Typography.Text>
+            <Text strong>Live</Text>
             <span className="pg-stage-tags">
-              {config.virtual ? <Tag color="green">virtual</Tag> : null}
+              {config.virtual ? <Tag tone="success">virtual</Tag> : null}
               {config.rows === 10_000 ? <Tag>10,000 rows</Tag> : null}
-              {selectedKeys.length > 0 ? <Tag color="purple">{selectedKeys.length} selected</Tag> : null}
+              {selectedKeys.length > 0 ? <Tag tone="accent">{selectedKeys.length} selected</Tag> : null}
             </span>
           </div>
           <div style={tableStyle}>
@@ -272,9 +271,9 @@ export function PlaygroundPage() {
         <aside className="pg-side">
           <div className="pg-code-panel">
             <div className="pg-panel-head">
-              <Typography.Text strong>Generated usage</Typography.Text>
+              <Text strong>Generated usage</Text>
               <Tooltip title="Copy JSX">
-                <Button size="small" icon={<CopyOutlined />} onClick={copy} aria-label="Copy generated JSX" />
+                <Button size="small" icon={<CopyIcon />} onClick={copy} aria-label="Copy generated JSX" />
               </Tooltip>
             </div>
             <pre className="pg-code" aria-label="Generated JSX">

@@ -118,11 +118,6 @@ export function emit<T extends object>(prev: TableState, next: TableState, actio
     case "expand/set":
       props.expandable?.onExpandedRowsChange?.([...next.expandedKeys]);
       return;
-    case "columns/reorder": {
-      const reorder = props.columnReorder;
-      if (typeof reorder === "object") reorder.onReorder?.([...(next.columnOrder ?? [])]);
-      return;
-    }
     default:
       return;
   }

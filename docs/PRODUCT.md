@@ -23,7 +23,8 @@ empty / error states, large datasets) solved once, in the component, rather than
 | 2026-09-06 | Scope is the full antd demo list, delivered in tiers: required first, then config, layout, expensive. |
 | 2026-09-06 | Table is a leaf; server state lives in `useTableRequest` outside it. |
 | 2026-09-06 | Reviewer documentation is an in-app `/playground` modelled on antd's dynamic-settings demo. |
-| 2026-09-07 | Virtual windowing, auto height and column reorder hand-built / dnd-kit; no `@tanstack/*`. |
+| 2026-09-07 | Virtual windowing and auto height hand-built; no `@tanstack/*`. |
+| 2026-09-08 | No component library either: every primitive and icon is written in `src/lib/ui`; `antd` and `@dnd-kit` removed, and column drag-reorder dropped with them. |
 
 ## Anti-references
 

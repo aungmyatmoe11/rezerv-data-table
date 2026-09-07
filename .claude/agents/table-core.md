@@ -18,4 +18,4 @@ model: inherit
 `src/lib/table/core/**` except `types.ts` and `resolve-config.ts` (architect).
 
 ## Exit
-`npx vitest run src/lib/table/core` output pasted; identity/memo tests still pass; no new imports from `react`, `next`, `antd`, `@/features`, `@/app`, `@/mocks`.
+`npx vitest run src/lib/table/core` output pasted; identity/memo tests still pass; no new imports from `react`, `next`, `@/lib/ui`, `@/features`, `@/app`, `@/mocks`.

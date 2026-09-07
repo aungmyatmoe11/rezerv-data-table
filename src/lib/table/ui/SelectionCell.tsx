@@ -1,8 +1,7 @@
 "use client";
 
-import { DownOutlined } from "@ant-design/icons";
-import { Checkbox, Dropdown, Radio } from "antd";
 import type { ReactNode } from "react";
+import { Checkbox, ChevronDownIcon, MenuButton, Radio, type MenuItem } from "@/lib/ui";
 import type { BuiltinSelection, Key, SelectionItem } from "../core/types";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 
@@ -19,26 +18,18 @@ interface SelectionCellProps<T> {
 }
 
 export function SelectionCell<T>({ type, checked, disabled, name, record, index, label, onChange, renderCell }: SelectionCellProps<T>) {
-  const nameProp = name === undefined ? {} : { name };
+  const shared = {
+    checked,
+    disabled,
+    "aria-label": label,
+    ...(name === undefined ? {} : { name }),
+    onClick: (event: React.MouseEvent<HTMLInputElement>) => event.stopPropagation(),
+  };
   const origin =
     type === "radio" ? (
-      <Radio
-        {...nameProp}
-        checked={checked}
-        disabled={disabled}
-        aria-label={label}
-        onClick={(event) => event.stopPropagation()}
-        onChange={(event) => onChange(true, event.nativeEvent)}
-      />
+      <Radio {...shared} onChange={(event) => onChange(true, event.nativeEvent)} />
     ) : (
-      <Checkbox
-        {...nameProp}
-        checked={checked}
-        disabled={disabled}
-        aria-label={label}
-        onClick={(event) => event.stopPropagation()}
-        onChange={(event) => onChange(event.target.checked, event.nativeEvent)}
-      />
+      <Checkbox {...shared} onChange={(next, event) => onChange(next, event.nativeEvent)} />
     );
   return <>{renderCell === null ? origin : renderCell(checked, record, index, origin)}</>;
 }
@@ -62,35 +53,27 @@ export function SelectionHeader({ allChecked, indeterminate, disabled, hideSelec
   if (title !== undefined) return <>{title}</>;
   if (hideSelectAll) return null;
 
-  const items =
+  const items: MenuItem[] =
     selections?.map((item) => {
-      if (item === "SELECT_ALL") return { key: "all", label: locale.selectionAll, onClick: onSelectAll };
-      if (item === "SELECT_INVERT") return { key: "invert", label: locale.selectInvert, onClick: onInvert };
-      if (item === "SELECT_NONE") return { key: "none", label: locale.selectNone, onClick: onNone };
-      return { key: String(item.key), label: item.text, onClick: () => item.onSelect(changeableKeys) };
-    }) ?? null;
+      if (item === "SELECT_ALL") return { key: "all", label: locale.selectionAll, onSelect: onSelectAll };
+      if (item === "SELECT_INVERT") return { key: "invert", label: locale.selectInvert, onSelect: onInvert };
+      if (item === "SELECT_NONE") return { key: "none", label: locale.selectNone, onSelect: onNone };
+      return { key: String(item.key), label: item.text, onSelect: () => item.onSelect(changeableKeys) };
+    }) ?? [];
 
   return (
     <span className="dt__selection-header">
-      <Checkbox
-        checked={allChecked}
-        indeterminate={indeterminate}
-        disabled={disabled}
-        aria-label={locale.selectAll}
-        onChange={(event) => onTogglePage(event.target.checked)}
-      />
-      {items !== null && items.length > 0 ? (
-        <Dropdown
-          trigger={["click"]}
-          menu={{
-            items: items.map(({ key, label }) => ({ key, label })),
-            onClick: ({ key }) => items.find((item) => item.key === key)?.onClick(),
-          }}
-        >
-          <button type="button" className="dt__selection-menu" aria-label={locale.selectAll} aria-haspopup="menu">
-            <DownOutlined />
-          </button>
-        </Dropdown>
+      <Checkbox checked={allChecked} indeterminate={indeterminate} disabled={disabled} aria-label={locale.selectAll} onChange={(next) => onTogglePage(next)} />
+      {items.length > 0 ? (
+        <MenuButton
+          items={items}
+          label={locale.selectionAll}
+          renderTrigger={(props) => (
+            <button {...props} type="button" className="dt__selection-menu" aria-label={locale.selectionAll}>
+              <ChevronDownIcon />
+            </button>
+          )}
+        />
       ) : null}
     </span>
   );

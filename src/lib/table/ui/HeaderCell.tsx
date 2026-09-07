@@ -1,7 +1,6 @@
 "use client";
 
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import { CaretDownIcon, CaretUpIcon, Tooltip } from "@/lib/ui";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 import { cycleOrder } from "../core/sorting";
@@ -19,10 +18,6 @@ export interface HeaderCellProps<T> {
   left: number | undefined;
   right: number | undefined;
   edge: "left" | "right" | null;
-  dragHandle: ReactNode;
-  dragRef: ((node: HTMLTableCellElement | null) => void) | undefined;
-  dragStyle: CSSProperties | undefined;
-  dragging: boolean;
 }
 
 function ariaSort(order: SortOrder): "ascending" | "descending" | "none" {
@@ -39,7 +34,7 @@ interface HeaderColumnView<T> {
   onHeaderCell?: (column: ColumnDef<T>) => HTMLAttributes<HTMLTableCellElement>;
 }
 
-export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, showSorterTooltip, locale, left, right, edge, dragHandle, dragRef, dragStyle, dragging }: HeaderCellProps<T>) {
+export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, showSorterTooltip, locale, left, right, edge }: HeaderCellProps<T>) {
   const { leaf } = cell;
   const key: Key = cell.key;
   const order = leaf?.sortable ? sorting.orderOf(key) : null;
@@ -49,7 +44,6 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
   const headerAttrs: HTMLAttributes<HTMLTableCellElement> = columnDef.onHeaderCell?.(cell.column) ?? {};
 
   const style: CSSProperties & Record<string, string | number | undefined> = {
-    ...dragStyle,
     "--dt-left": left === undefined ? undefined : `${left}px`,
     "--dt-right": right === undefined ? undefined : `${right}px`,
   };
@@ -63,10 +57,10 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
       (
         <span className="dt__sort-icons" aria-hidden="true">
           <span data-active={order === "ascend" ? "true" : undefined}>
-            <CaretUpOutlined />
+            <CaretUpIcon />
           </span>
           <span data-active={order === "descend" ? "true" : undefined}>
-            <CaretDownOutlined />
+            <CaretDownIcon />
           </span>
         </span>
       );
@@ -83,7 +77,7 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
     );
     const wantTooltip = columnDef.showSorterTooltip ?? showSorterTooltip;
     content = wantTooltip ? (
-      <Tooltip title={tooltip} mouseEnterDelay={0.3}>
+      <Tooltip title={tooltip} delay={0.3}>
         {button}
       </Tooltip>
     ) : (
@@ -99,7 +93,6 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
   return (
     <th
       {...headerAttrs}
-      ref={dragRef}
       scope={cell.leaf !== null ? "col" : "colgroup"}
       className={["dt__th", cell.className, headerAttrs.className].filter(Boolean).join(" ")}
       style={style}
@@ -112,10 +105,7 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
       data-fixed={cell.fixed ?? undefined}
       data-fixed-edge={edge ?? undefined}
       data-ellipsis={leaf?.ellipsis ? "true" : undefined}
-      data-draggable={dragHandle !== null ? "true" : undefined}
-      data-dragging={dragging ? "true" : undefined}
     >
-      {dragHandle}
       {content}
       {filter}
     </th>

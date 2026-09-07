@@ -20,13 +20,14 @@ Never write PASS without pasting the command output.
 
 ## Hard rules
 
-- **No table/grid library.** Never import `Table` or `Pagination` from `antd`; never add
-  `@tanstack/*`, `ag-grid`, `react-data-grid`, `react-window`, `react-virtual`. ESLint enforces the
-  first two; treat the rest the same.
+- **No library, table or component.** Runtime dependencies are `react`, `react-dom`, `next` and
+  `dayjs` — keep it that way. Never add `antd`, `@ant-design/*`, `@dnd-kit/*`, `@tanstack/*`,
+  Radix, Headless UI, MUI, `ag-grid`, `react-data-grid`, `react-window`. Controls come from
+  `@/lib/ui`; if one is missing, write it there. ESLint fails the build on all of these.
 - **Layer firewall** (ESLint-enforced): `src/lib/table/core` imports nothing from React, Next,
-  antd, `@/features`, `@/app`, `@/mocks` or `../react` / `../ui`. `react` imports `core` + React.
-  `ui` imports `core`, `react`, antd non-table primitives. `src/lib/table` never imports from
-  `src/features` or `src/app`.
+  `@/lib/ui`, `@/features`, `@/app`, `@/mocks` or `../react` / `../ui`. `react` imports `core` +
+  React. `ui` imports `core`, `react`, `@/lib/ui`. `src/lib/ui` imports React only.
+  `src/lib/table` never imports from `src/features` or `src/app`.
 - **Inert defaults.** A new prop must resolve to `{ enabled: false }` in `resolveConfig` and run no
   code when absent.
 - **Callbacks fire only from `emit`** in `react/use-table-state.ts`, synchronously in the handler.
@@ -46,7 +47,8 @@ Never write PASS without pasting the command output.
 ## Where things are
 
 ```
-src/lib/table/            the library (core / react / ui / index.ts, core.ts = server-safe entry)
+src/lib/table/            the table library (core / react / ui / index.ts, core.ts = server-safe entry)
+src/lib/ui/               the primitives: buttons, inputs, menus, overlays, feedback, icons, tokens
 src/features/timetable    reference consumer: client + server modes, inline + on-demand children
 src/features/inventory    second dataset: server multi-sort, tree rows, linked selection, drawer
 src/features/playground   dynamic-settings demo: config → JSX + event log, state in the URL
@@ -58,7 +60,8 @@ docs/                     PRODUCT, ARCHITECTURE, DESIGN, API, REQUIREMENTS_TRACE
 
 ## E2E gotchas
 
-- antd `Segmented` hides its radios — click `.ant-segmented-item` by text. antd `Select` options
-  are `.ant-select-item-option[title="…"]`.
+- Our controls are addressable by role: Segmented options are `role="radio"`, Select is
+  `role="combobox"` + `role="option"`, Switch is `role="switch"`, Drawer is `role="dialog"`.
+  Prefer `getByRole` over class selectors.
 - Expand toggles relabel to "Collapse row"; scope locators to the row (`firstExpandToggle` helper).
 - Read `test-results/**/error-context.md` before guessing at a failure.

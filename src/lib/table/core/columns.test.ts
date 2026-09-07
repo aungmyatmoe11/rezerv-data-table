@@ -11,7 +11,7 @@ interface Row {
   price: { amount: number };
 }
 
-const opts = { breakpoints: null, order: null, tableSortDirections: ["ascend", "descend"] as const };
+const opts = { breakpoints: null, tableSortDirections: ["ascend", "descend"] as const };
 
 afterEach(() => {
   resetWarnings();
@@ -44,16 +44,16 @@ describe("resolveColumns", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("no numeric `width`"));
   });
 
-  it("drops hidden and responsive-hidden columns and applies a leaf order", () => {
+  it("drops hidden and responsive-hidden columns, keeping source order", () => {
     const columns: ColumnDef<Row>[] = [
       { dataIndex: "name", title: "Name" },
       { dataIndex: "city", title: "City", hidden: true },
       { dataIndex: "age", title: "Age", responsive: ["lg"] },
       { dataIndex: "price.amount", title: "Price" },
     ];
-    const layout = resolveColumns(columns, { ...opts, breakpoints: new Set(["xs", "sm"]), order: ["price.amount", "name"] });
-    expect(layout.leaves.map((l) => l.key)).toEqual(["price.amount", "name"]);
-    expect(layout.leaves[0]?.path).toEqual(["price", "amount"]);
+    const layout = resolveColumns(columns, { ...opts, breakpoints: new Set(["xs", "sm"]) });
+    expect(layout.leaves.map((l) => l.key)).toEqual(["name", "price.amount"]);
+    expect(layout.leaves[1]?.path).toEqual(["price", "amount"]);
   });
 
   it("builds multi-row headers for grouped columns", () => {

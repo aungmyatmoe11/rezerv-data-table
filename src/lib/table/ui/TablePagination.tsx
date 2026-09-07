@@ -1,7 +1,6 @@
 "use client";
 
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { InputNumber, Select } from "antd";
+import { ChevronLeftIcon, ChevronRightIcon, NumberInput, Select } from "@/lib/ui";
 import { pageItems, pageRange } from "../core/pagination";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 import type { PaginationApi } from "../react/use-table";
@@ -12,10 +11,7 @@ interface TablePaginationProps {
   locale: typeof DEFAULT_LOCALE;
 }
 
-/**
- * Hand-built pagination (the assignment evaluates pagination, so the logic is ours).
- * antd supplies only the size-changer `Select` and the quick-jumper `InputNumber`.
- */
+/** Hand-built pagination — markup, keyboard behaviour and page-window logic are all ours. */
 export function TablePagination({ api, align, locale }: TablePaginationProps) {
   const { resolved, page: pageNumber, pageSize, total, pages } = api;
   const { config } = resolved;
@@ -32,12 +28,12 @@ export function TablePagination({ api, align, locale }: TablePaginationProps) {
 
   const prev = (
     <button type="button" className="dt__page-btn" aria-label={locale.pagePrev} disabled={disabled || pageNumber <= 1} onClick={() => go(pageNumber - 1)}>
-      <LeftOutlined />
+      <ChevronLeftIcon />
     </button>
   );
   const next = (
     <button type="button" className="dt__page-btn" aria-label={locale.pageNext} disabled={disabled || pageNumber >= pages} onClick={() => go(pageNumber + 1)}>
-      <RightOutlined />
+      <ChevronRightIcon />
     </button>
   );
 
@@ -101,14 +97,17 @@ export function TablePagination({ api, align, locale }: TablePaginationProps) {
       {resolved.showQuickJumper ? (
         <label className="dt__page-jumper">
           <span>{locale.pageJumpTo}</span>
-          <InputNumber
+          <NumberInput
             size={small ? "small" : "middle"}
             aria-label={locale.pageJumpTo}
             min={1}
             max={pages}
             disabled={disabled}
             style={{ width: 64 }}
-            onPressEnter={(event) => {
+            value={null}
+            onChange={() => undefined}
+            onKeyDown={(event) => {
+              if (event.key !== "Enter") return;
               const value = Number((event.target as HTMLInputElement).value);
               if (Number.isFinite(value)) go(value);
             }}

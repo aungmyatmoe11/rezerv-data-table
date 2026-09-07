@@ -12,8 +12,8 @@ call an API.
 - One `TableState` behind one `useReducer`; `reduce(prev, action, ctx)` is pure and holds every
   cross-slice rule.
 - A slice is controlled when its prop key is present (`sortOrder`, `filteredValue`,
-  `pagination.current`, `pagination.pageSize`, `selectedRowKeys`, `expandedRowKeys`,
-  `columnReorder.order`) — antd parity. `commit` writes only uncontrolled slices.
+  `pagination.current`, `pagination.pageSize`, `selectedRowKeys`, `expandedRowKeys`) — antd
+  parity. `commit` writes only uncontrolled slices.
 - `send(action)` runs `reduce → commit → emit` **inside the event handler**. `emit` is the only
   place a consumer callback fires. No effect watches state to call props.
 

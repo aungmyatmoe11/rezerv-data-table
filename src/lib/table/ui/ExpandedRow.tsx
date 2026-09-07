@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "antd";
+import { Button } from "@/lib/ui";
 import type { ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 import type { ExpandableConfig, FlatEntry, LazyEntry } from "../core/types";

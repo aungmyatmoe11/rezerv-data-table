@@ -5,7 +5,6 @@ import { DEFAULT_SORT_DIRECTIONS } from "./sorting";
 import type {
   BuiltinSelection,
   ColumnDef,
-  ColumnReorderConfig,
   ControlledFlags,
   DataTableProps,
   ExpandableConfig,
@@ -96,7 +95,6 @@ export type ResolvedExpansion<T> =
       columnWidth: number | string;
     };
 
-export type ResolvedReorder = { enabled: false } | { enabled: true; config: ColumnReorderConfig };
 
 export interface ResolvedLoading {
   active: boolean;
@@ -113,7 +111,6 @@ export interface ResolvedConfig<T> {
   scroll: { x: number | string | null; y: number | string | "auto" | null; scrollToFirstRowOnChange: boolean };
   sticky: { offsetHeader: number; offsetScroll: number } | null;
   virtual: boolean;
-  reorder: ResolvedReorder;
   loading: ResolvedLoading;
   size: TableSize;
   rowHeight: number;
@@ -126,7 +123,7 @@ export interface ResolvedConfig<T> {
   locale: typeof DEFAULT_LOCALE;
   controlled: ControlledFlags;
   /** Initial (default*) values for uncontrolled slices. */
-  defaults: { page: number; pageSize: number; selectedKeys: readonly import("./types").Key[]; expandedKeys: readonly import("./types").Key[]; expandAll: boolean; columnOrder: readonly import("./types").Key[] | null };
+  defaults: { page: number; pageSize: number; selectedKeys: readonly import("./types").Key[]; expandedKeys: readonly import("./types").Key[]; expandAll: boolean };
 }
 
 function walkColumns<T>(columns: readonly ColumnDef<T>[], visit: (column: ColumnDef<T>) => void): void {
@@ -141,7 +138,7 @@ function walkColumns<T>(columns: readonly ColumnDef<T>[], visit: (column: Column
  * supplied, so hooks and render paths can early-return without touching feature code.
  */
 export function resolveConfig<T extends object>(props: DataTableProps<T>): ResolvedConfig<T> {
-  const { pagination, rowSelection, expandable, scroll, sticky, virtual, columnReorder, loading, columns, dataSource } = props;
+  const { pagination, rowSelection, expandable, scroll, sticky, virtual, loading, columns, dataSource } = props;
 
   let sortControlled = false;
   let filtersControlled = false;
@@ -234,7 +231,6 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
 
   const stickyConfig = sticky === undefined || sticky === false ? null : sticky === true ? {} : sticky;
 
-  const reorderConfig: ColumnReorderConfig | null = columnReorder === undefined || columnReorder === false ? null : columnReorder === true ? {} : columnReorder;
 
   const controlled: ControlledFlags = {
     sort: sortControlled,
@@ -243,7 +239,6 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
     pageSize: pagination !== false && pagination?.pageSize !== undefined,
     selectedKeys: rowSelection?.selectedRowKeys !== undefined,
     expandedKeys: expandable?.expandedRowKeys !== undefined,
-    columnOrder: reorderConfig?.order !== undefined,
   };
 
   return {
@@ -257,7 +252,6 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
     },
     sticky: stickyConfig === null ? null : { offsetHeader: stickyConfig.offsetHeader ?? 0, offsetScroll: stickyConfig.offsetScroll ?? 0 },
     virtual: isVirtual,
-    reorder: reorderConfig === null ? { enabled: false } : { enabled: true, config: reorderConfig },
     loading: resolvedLoading,
     size,
     rowHeight,
@@ -275,7 +269,6 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
       selectedKeys: rowSelection?.defaultSelectedRowKeys ?? [],
       expandedKeys: expandable?.defaultExpandedRowKeys ?? [],
       expandAll: expandable?.defaultExpandAllRows ?? false,
-      columnOrder: reorderConfig?.defaultOrder ?? null,
     },
   };
 }

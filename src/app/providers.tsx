@@ -1,7 +1,7 @@
 "use client";
 
-import { App as AntdApp, ConfigProvider, theme } from "antd";
 import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
+import { ToastProvider } from "@/lib/ui";
 import { colorModeStore, type ColorMode } from "./color-mode";
 
 interface ThemeContextValue {
@@ -20,6 +20,11 @@ export const BRAND = {
   radius: 8,
 } as const;
 
+/**
+ * Colour mode lives in an external store so the first client render already adopts the saved
+ * choice (no setState-in-effect). Theming itself is pure CSS custom properties — there is no
+ * component library and no style engine to configure.
+ */
 export function AppProviders({ children }: { children: ReactNode }) {
   const mode = useSyncExternalStore(colorModeStore.subscribe, colorModeStore.getSnapshot, colorModeStore.getServerSnapshot);
 
@@ -33,14 +38,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={value}>
-      <ConfigProvider
-        theme={{
-          algorithm: mode === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
-          token: { colorPrimary: BRAND.primary, colorLink: BRAND.primary, borderRadius: BRAND.radius, fontFamily: "var(--font-sans)" },
-        }}
-      >
-        <AntdApp>{children}</AntdApp>
-      </ConfigProvider>
+      <ToastProvider>{children}</ToastProvider>
     </ThemeContext.Provider>
   );
 }

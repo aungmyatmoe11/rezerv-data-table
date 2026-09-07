@@ -21,7 +21,8 @@ semantics. `rowSpan` is degraded to 1 under `virtual`.
 - **Pagination only** — the default and fine for most screens, but the 10,000-row
   no-pagination case would mount 10,000 rows.
 - **`@tanstack/react-virtual`** — good library, but it is what the previous attempt used and it
-  blurs the "from scratch" line.
+  blurs the "from scratch" line (and this repo now ships no UI dependency at all — see
+  [ADR 0006](0006-no-component-library.md)).
 - **Absolute-positioned rows** — breaks native table semantics and sticky columns.
 
 ## Consequences

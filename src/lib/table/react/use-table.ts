@@ -73,12 +73,6 @@ export interface ExpansionApi<T> {
   resolved: Extract<ResolvedExpansion<T>, { enabled: true }>;
 }
 
-export interface ReorderApi {
-  order: readonly Key[];
-  draggableKeys: readonly Key[];
-  setOrder: (order: readonly Key[]) => void;
-}
-
 export interface TableInstance<T extends object> {
   props: DataTableProps<T>;
   config: ResolvedConfig<T>;
@@ -95,7 +89,6 @@ export interface TableInstance<T extends object> {
   pagination: PaginationApi | null;
   selection: SelectionApi<T> | null;
   expansion: ExpansionApi<T> | null;
-  reorder: ReorderApi | null;
 }
 
 function hasResponsive<T>(columns: readonly ColumnDef<T>[]): boolean {
@@ -135,7 +128,6 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
       props.scroll,
       props.sticky,
       props.virtual,
-      props.columnReorder,
       props.loading,
       props.size,
       props.rowHeight,
@@ -164,7 +156,7 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
   }, []);
 
   const { internal, send } = useTableStateContainer<T>(() => {
-    const initialLayout = resolveColumns(columns, { breakpoints: null, order: config.defaults.columnOrder, tableSortDirections: config.sortDirections });
+    const initialLayout = resolveColumns(columns, { breakpoints: null, tableSortDirections: config.sortDirections });
     return {
       sort: sortFromColumns(initialLayout.leaves, "default"),
       filters: filtersFromLeaves(initialLayout.leaves, "default"),
@@ -172,16 +164,12 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
       pageSize: config.defaults.pageSize,
       selectedKeys: config.defaults.selectedKeys,
       expandedKeys: config.defaults.expandAll ? collectKeys(dataSource, getKey, childrenColumnName) : config.defaults.expandedKeys,
-      columnOrder: config.defaults.columnOrder,
     };
   }, getLatest);
 
-  // --- columns (need the effective column order, which may be controlled) ---
-  const controlledOrder = config.reorder.enabled ? (config.reorder.config.order ?? null) : null;
-  const orderForLayout = flags.columnOrder ? controlledOrder : internal.columnOrder;
   const layout = useMemo(
-    () => resolveColumns(columns, { breakpoints, order: orderForLayout, tableSortDirections: config.sortDirections }),
-    [columns, breakpoints, orderForLayout, config.sortDirections],
+    () => resolveColumns(columns, { breakpoints, tableSortDirections: config.sortDirections }),
+    [columns, breakpoints, config.sortDirections],
   );
   const leavesByKey = useMemo(() => buildLeavesByKey(layout.leaves), [layout.leaves]);
 
@@ -196,9 +184,8 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
     }
     if (flags.selectedKeys && config.selection.enabled && config.selection.config.selectedRowKeys !== undefined) values.selectedKeys = config.selection.config.selectedRowKeys;
     if (flags.expandedKeys && expansion.enabled && expansion.config.expandedRowKeys !== undefined) values.expandedKeys = expansion.config.expandedRowKeys;
-    if (flags.columnOrder) values.columnOrder = controlledOrder;
     return values;
-  }, [flags, layout.leaves, config.pagination, config.selection, expansion, controlledOrder]);
+  }, [flags, layout.leaves, config.pagination, config.selection, expansion]);
   const effective = useMemo(() => mergeControlled(internal, controlledValues, flags), [internal, controlledValues, flags]);
   const sort = useMemo(() => reconcileSort(effective.sort, leavesByKey), [effective.sort, leavesByKey]);
 
@@ -393,15 +380,6 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
     };
   }, [expansion, expandedSet, send, lazy.map, lazy.retry]);
 
-  const reorder = useMemo<ReorderApi | null>(() => {
-    if (!config.reorder.enabled) return null;
-    return {
-      order: layout.leaves.map((leaf) => leaf.key),
-      draggableKeys: layout.leaves.filter((leaf) => leaf.draggable).map((leaf) => leaf.key),
-      setOrder: (order) => send({ type: "columns/reorder", order }),
-    };
-  }, [config.reorder.enabled, layout.leaves, send]);
-
   return {
     props,
     config,
@@ -417,6 +395,5 @@ export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef
     pagination,
     selection,
     expansion: expansionApi,
-    reorder,
   };
 }

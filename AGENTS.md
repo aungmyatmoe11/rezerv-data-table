@@ -10,7 +10,7 @@ work is handed back.
 | Public props, `types.ts`, `resolve-config.ts`, ESLint firewall, ADRs, contracts | `table-architect` | [.claude/agents/table-architect.md](.claude/agents/table-architect.md) |
 | Pure engine: sorting, filtering, pagination, expansion, selection, columns, spans, reducer, pipeline | `table-core` | [.claude/agents/table-core.md](.claude/agents/table-core.md) |
 | Hooks: state container, emit, lazy children, sticky cue, virtual, auto height, request adapter | `table-react` | [.claude/agents/table-react.md](.claude/agents/table-react.md) |
-| Markup, CSS, antd primitives, theming, a11y | `table-ui` | [.claude/agents/table-ui.md](.claude/agents/table-ui.md) |
+| Markup, CSS, the `src/lib/ui` primitives, theming, a11y | `table-ui` | [.claude/agents/table-ui.md](.claude/agents/table-ui.md) |
 | `/timetable`, `/inventory`, `/playground`, mocks, route handlers | `table-consumer` | [.claude/agents/table-consumer.md](.claude/agents/table-consumer.md) |
 | Vitest, Playwright, perf, CI | `table-qa` | [.claude/agents/table-qa.md](.claude/agents/table-qa.md) |
 
@@ -18,7 +18,7 @@ Ownership is disjoint. A change that crosses two rows is two hand-offs, architec
 
 ## Non-negotiables (summary)
 
-- Table engine from scratch; antd is reference vocabulary and non-table primitives only.
+- Everything from scratch: no table library **and** no component library. Ant Design is a naming reference only. Runtime deps: react, react-dom, next, dayjs.
 - Every feature inert by default; every conflict in the matrix in [docs/API.md](docs/API.md).
 - Core stays pure; callbacks only from `emit`; scroll never re-renders more than `<tbody>`.
 - Keep e2e aria-labels stable: `Class timetable`, `Inventory items`, `Stock movements`,

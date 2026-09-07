@@ -110,8 +110,6 @@ export interface ColumnCommon<T> {
   colSpan?: number;
   onCell?: (record: T, index: number) => CellSpanProps;
   onHeaderCell?: (column: ColumnDef<T>) => HTMLAttributes<HTMLTableCellElement>;
-  /** Opt this column out of `columnReorder`. Fixed and grouped columns are never draggable. */
-  draggable?: boolean;
 }
 
 export type DataColumn<T> = {
@@ -271,12 +269,6 @@ export interface StickyConfig {
   getContainer?: () => HTMLElement | Window;
 }
 
-export interface ColumnReorderConfig {
-  order?: readonly Key[];
-  defaultOrder?: readonly Key[];
-  onReorder?: (order: Key[]) => void;
-}
-
 export interface LoadingConfig {
   spinning?: boolean;
   delay?: number;
@@ -395,7 +387,6 @@ export interface DataTableProps<T extends object> {
   scroll?: ScrollConfig;
   sticky?: boolean | StickyConfig;
   virtual?: boolean;
-  columnReorder?: boolean | ColumnReorderConfig;
   sortDirections?: readonly SortDirection[];
   showSorterTooltip?: boolean;
 
@@ -444,7 +435,6 @@ export interface LeafColumn<T> {
   onFilter: ((value: Key, record: T) => boolean) | null;
   onCell: ((record: T, index: number) => CellSpanProps) | null;
   render: ((value: unknown, record: T, index: number) => CellResult) | null;
-  draggable: boolean;
   /** Position among visible leaves. */
   index: number;
 }
@@ -516,7 +506,6 @@ export interface TableState {
   page: { number: number; pageSize: number };
   selectedKeys: readonly Key[];
   expandedKeys: readonly Key[];
-  columnOrder: readonly Key[] | null;
 }
 
 export interface ControlledFlags {
@@ -526,7 +515,6 @@ export interface ControlledFlags {
   pageSize: boolean;
   selectedKeys: boolean;
   expandedKeys: boolean;
-  columnOrder: boolean;
 }
 
 export interface CellSpan {

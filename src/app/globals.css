@@ -170,33 +170,30 @@ kbd {
   }
 }
 
-/* --- WCAG AA contrast for antd presets (light mode only; dark presets already pass) ---
-   antd 6 preset tags are `.ant-tag.ant-tag-filled.ant-tag-<color>`, so match that specificity. */
-html:not([data-theme="dark"]) .ant-typography-secondary,
-html:not([data-theme="dark"]) .ant-typography.ant-typography-secondary {
+.home-card-link {
+  display: block;
+  height: 100%;
+  border-radius: var(--ui-radius);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.home-card-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.home-card-link:focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus);
+}
+.pg-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--app-muted);
+  font-size: 13px;
 }
-html:not([data-theme="dark"]) .ant-tag.ant-tag-success,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-success {
-  color: #237804;
-}
-html:not([data-theme="dark"]) .ant-tag.ant-tag-error,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-error {
-  color: #a8071a;
-}
-html:not([data-theme="dark"]) .ant-tag.ant-tag-processing,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-processing {
-  color: #0958d9;
-}
-html:not([data-theme="dark"]) .ant-tag.ant-tag-warning,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-warning {
-  color: #ad4e00;
-}
-html:not([data-theme="dark"]) .ant-tag.ant-tag-geekblue,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-geekblue {
-  color: #1d39c4;
-}
-html:not([data-theme="dark"]) .ant-tag.ant-tag-purple,
-html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-purple {
-  color: #531dab;
+
+@media (prefers-reduced-motion: reduce) {
+  .home-card-link {
+    transition: none;
+  }
 }

@@ -62,7 +62,6 @@ export function generateJsx(config: PlaygroundConfig): string {
   if (scroll.length > 0) push("scroll", `{{ ${scroll.join(", ")} }}`);
   if (config.stickyHeader) push("sticky", "{{ offsetHeader: 56 }}");
   if (config.virtual) push("virtual");
-  if (config.columnReorder) push("columnReorder", "{{ onReorder: (order) => saveLayout(order) }}");
   if (!config.sortedHighlight || config.sortedColor !== "" || config.fixedGap) {
     const theme: string[] = [];
     if (!config.sortedHighlight) theme.push("sortedColumnBg: 'transparent'");

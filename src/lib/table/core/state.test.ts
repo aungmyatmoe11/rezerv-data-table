@@ -16,11 +16,11 @@ const columns: ColumnDef<Row>[] = [
   { dataIndex: "key", title: "Key" },
 ];
 
-const base: TableState = initialState({ sort: [], filters: {}, page: 3, pageSize: 10, selectedKeys: [], expandedKeys: [], columnOrder: null });
+const base: TableState = initialState({ sort: [], filters: {}, page: 3, pageSize: 10, selectedKeys: [], expandedKeys: [] });
 
 function ctx(overrides: Partial<ReduceContext<Row>> = {}): ReduceContext<Row> {
   return {
-    leavesByKey: leavesByKey(resolveColumns(columns, { breakpoints: null, order: null, tableSortDirections: ["ascend", "descend"] }).leaves),
+    leavesByKey: leavesByKey(resolveColumns(columns, { breakpoints: null, tableSortDirections: ["ascend", "descend"] }).leaves),
     sortDirections: ["ascend", "descend"],
     pageKeys: ["a", "b"],
     allKeys: ["a", "b", "c", "d"],
@@ -29,7 +29,7 @@ function ctx(overrides: Partial<ReduceContext<Row>> = {}): ReduceContext<Row> {
   };
 }
 
-const none: ControlledFlags = { sort: false, filters: false, page: false, pageSize: false, selectedKeys: false, expandedKeys: false, columnOrder: false };
+const none: ControlledFlags = { sort: false, filters: false, page: false, pageSize: false, selectedKeys: false, expandedKeys: false };
 
 describe("reduce — cross-slice rules", () => {
   it("sort, filter and page-size changes reset the page to 1", () => {

@@ -5,14 +5,14 @@ const firstDataRow = (page: Page) => table(page).locator("tbody tr.dt__tr").firs
 /** The toggle re-labels itself Expand ↔ Collapse, so match both and scope to the first expandable row. */
 const firstExpandToggle = (page: Page) => table(page).locator("tbody tr.dt__tr:has(button.dt__expand)").first().getByRole("button", { name: /expand row|collapse row/i });
 
-/** antd Segmented hides its radio inputs; click the visible label instead. */
+/** Our Segmented renders real radios, and Select a real listbox — both addressable by role. */
 async function pickSegment(page: Page, label: string): Promise<void> {
-  await page.locator(".ant-segmented-item", { hasText: label }).first().click();
+  await page.getByRole("radio", { name: label, exact: true }).first().click();
 }
 
 async function chooseScenario(page: Page, label: string): Promise<void> {
   await page.getByRole("combobox").first().click();
-  await page.locator(`.ant-select-item-option[title="${label}"]`).click();
+  await page.getByRole("option", { name: label, exact: true }).click();
 }
 
 async function waitForRows(page: Page): Promise<void> {

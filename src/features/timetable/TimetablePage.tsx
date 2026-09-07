@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Button, Segmented, Select, Space, Typography } from "antd";
+import { Alert, Button, Segmented, Select, Space, Text } from "@/lib/ui";
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, useTableRequest, type Key, type RequestParams } from "@/lib/table";
 import { SCENARIOS, resetScenarioLatches, type Scenario } from "@/mocks/scenarios";
@@ -133,11 +133,11 @@ export function TimetablePage() {
             <Select<Scenario> value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
           </label>
         </div>
-        <Typography.Text type="secondary">
+        <Text tone="secondary">
           {dataMode === "client"
             ? "One mocked fetch, then sorting and pagination run locally over the full dataset."
             : "The table emits sort / page changes through onChange; useTableRequest calls /api/classes and hands back one page + total."}
-        </Typography.Text>
+        </Text>
       </div>
 
       <div className="stat-row">
@@ -148,25 +148,20 @@ export function TimetablePage() {
       </div>
 
       {selectedKeys.length > 0 ? (
-        <Alert
-          type="info"
-          showIcon
-          style={{ marginBottom: 12 }}
-          message={
-            <Space wrap>
-              <span>
-                <strong>{selectedKeys.length}</strong> {selectedKeys.length === 1 ? "class" : "classes"} selected
-              </span>
-              <Button size="small">Send reminder</Button>
-              <Button size="small" danger>
-                Cancel classes
-              </Button>
-              <Button size="small" type="link" onClick={() => setSelectedKeys([])}>
-                Clear
-              </Button>
-            </Space>
-          }
-        />
+        <Alert tone="info" style={{ marginBottom: 12 }}>
+          <Space wrap>
+            <span>
+              <strong>{selectedKeys.length}</strong> {selectedKeys.length === 1 ? "class" : "classes"} selected
+            </span>
+            <Button size="small">Send reminder</Button>
+            <Button size="small" danger>
+              Cancel classes
+            </Button>
+            <Button size="small" variant="link" onClick={() => setSelectedKeys([])}>
+              Clear
+            </Button>
+          </Space>
+        </Alert>
       ) : null}
 
       <DataTable<ClassSession>

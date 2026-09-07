@@ -21,15 +21,14 @@ test.describe("playground — the generated JSX matches the rendered table", () 
   });
 
   test("URL state drives config: every attribute in the query shows up in the JSX and the DOM", async ({ page }) => {
-    await page.goto("/playground?bordered=true&selection=checkbox&expansion=inline&scrollY=fixed&columnReorder=true");
+    await page.goto("/playground?bordered=true&selection=checkbox&expansion=inline&scrollY=fixed");
     const table = liveTable(page);
     await expect(table).toHaveAttribute("data-bordered", "true");
     await expect(table).toHaveAttribute("data-sticky-header", "true");
     await expect(table.getByRole("checkbox", { name: "Select all rows on this page" })).toBeVisible();
     await expect(table.getByRole("button", { name: "Expand row" }).first()).toBeVisible();
-    await expect(table.getByRole("button", { name: /^Reorder column/ }).first()).toBeVisible();
     const code = await generated(page).innerText();
-    for (const fragment of ["bordered", "rowSelection", "expandable", "y: 420", "columnReorder"]) expect(code).toContain(fragment);
+    for (const fragment of ["bordered", "rowSelection", "expandable", "y: 420"]) expect(code).toContain(fragment);
   });
 
   test("callbacks land in the event log with the antd-shaped payload", async ({ page }) => {
@@ -67,53 +66,6 @@ test.describe("playground — the generated JSX matches the rendered table", () 
     const height = await scroller.evaluate((el) => el.getBoundingClientRect().height);
     expect(height).toBeLessThan(520);
     await expect(scroller).toHaveCSS("overflow-y", "auto");
-  });
-
-  test("columnReorder: dragging a header handle reorders columns and emits onReorder", async ({ page }) => {
-    await page.goto("/playground?columnReorder=true");
-    const table = liveTable(page);
-    const headers = table.locator("thead th");
-    const before = await headers.allInnerTexts();
-    const instructorHandle = table.getByRole("button", { name: "Reorder column Instructor" });
-    // the header's accessible name starts with its drag handle, so match the title anywhere
-    const timeHeader = table.getByRole("columnheader", { name: /\bTime\b/ });
-    const from = await instructorHandle.boundingBox();
-    const to = await timeHeader.boundingBox();
-    if (from === null || to === null) throw new Error("header cells not laid out");
-    await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(from.x + 20, from.y + from.height / 2, { steps: 4 });
-    await page.mouse.move(to.x + to.width * 0.8, to.y + to.height / 2, { steps: 12 });
-    await page.mouse.up();
-    await expect.poll(() => headers.allInnerTexts()).not.toEqual(before);
-    await expect(page.locator(".pg-event-list li").first()).toContainText("columnReorder.onReorder");
-  });
-
-  test("keyboard reorder: Space, ArrowRight, Space moves a column", async ({ page }) => {
-    await page.goto("/playground?columnReorder=true");
-    const table = liveTable(page);
-    const headers = table.locator("thead th");
-    const before = await headers.allInnerTexts();
-    // dnd-kit's screen-reader live region is the reliable signal that each phase has committed
-    const live = page.locator('[id^="DndLiveRegion"]');
-    await table.getByRole("button", { name: "Reorder column Instructor" }).focus();
-    await page.keyboard.press("Space");
-    // "picked up" is replaced within a frame by the first "moved over <itself>" once droppables are measured
-    await expect(live).toContainText(/instructor was moved over droppable area instructor/);
-    // inside a horizontally scrollable table dnd-kit may spend the first arrow press scrolling the
-    // container (its keep-in-view heuristic); a user simply presses again, so the test does too
-    for (let attempt = 0; attempt < 3; attempt += 1) {
-      await page.keyboard.press("ArrowRight");
-      const moved = await expect(live)
-        .toContainText(/instructor was moved over droppable area location/, { timeout: 700 })
-        .then(() => true, () => false);
-      if (moved) break;
-    }
-    await expect(live).toContainText(/instructor was moved over droppable area location/);
-    await page.keyboard.press("Space");
-    await expect(live).toContainText(/instructor was dropped over droppable area location/);
-    await expect.poll(() => headers.allInnerTexts()).not.toEqual(before);
-    await expect(page.locator(".pg-event-list li").first()).toContainText("columnReorder.onReorder");
   });
 
   test("toggling a switch updates the table and the JSX together", async ({ page }) => {

@@ -7,9 +7,10 @@ flowchart LR
   subgraph lib["src/lib/table"]
     core["core/  pure TS\ntypes · value · sorting · filtering · pagination\nexpansion · selection · columns · spans\nstate (reducer) · resolve-config · row-model"]
     react["react/  hooks\nuse-table-state (send/emit) · use-table\nuse-lazy-children · use-sticky-scroll\nuse-virtual-rows · use-row-heights · use-auto-height\nuse-breakpoint · use-table-request"]
-    ui["ui/  markup + CSS\nDataTable · TableHeader · HeaderCell · FilterDropdown\nTableBody · BodyRow · BodyCell · ExpandedRow\nTablePagination · TableStates · ColumnReorder · theme"]
+    ui["ui/  markup + CSS\nDataTable · TableHeader · HeaderCell · FilterDropdown\nTableBody · BodyRow · BodyCell · ExpandedRow\nTablePagination · TableStates · theme"]
     core --> react --> ui
   end
+  primitives["src/lib/ui  primitives\nButton · Checkbox · Radio · Switch · Segmented\nSelect · MenuButton · Popover · Tooltip · Drawer\nTag · Alert · Empty · Spinner · Progress · icons"] --> ui
   features["src/features/*  timetable · inventory · playground"] --> ui
   mocks["src/mocks + src/app/api/*"] --> features
 ```
@@ -18,7 +19,8 @@ flowchart LR
 | --- | --- | --- |
 | `core` | only other `core` files; `import type` from React is allowed for `ReactNode` in public types | `eslint.config.mjs` (`@typescript-eslint/no-restricted-imports`, `allowTypeImports`) |
 | `react` | `core`, `react` | same |
-| `ui` | `core`, `react`, antd non-table primitives, `@dnd-kit/*` | same + `no-restricted-imports` for `antd` `Table` / `Pagination`, `@tanstack/*` |
+| `ui` | `core`, `react`, `@/lib/ui` | same |
+| `@/lib/ui` (primitives) | React only | same — no component library may be imported anywhere |
 | `src/lib/table` | never `@/features`, `@/app`, `@/mocks` | same |
 | `src/lib/table/core.ts` | server-safe entry (no hooks) used by route handlers | — |
 
@@ -27,7 +29,7 @@ flowchart LR
 `resolveConfig(props)` (memoised on prop identities) maps every feature to
 `{ enabled: false }` or `{ enabled: true, …defaults }`. Each hook early-returns on
 `enabled: false` (no state, no effect, no listener) and the renderer emits no selection / expand
-column, pager, overlay or dnd context unless enabled. This is both the ergonomic story ("add an
+column, pager or overlay unless enabled. This is both the ergonomic story ("add an
 attribute, get a feature") and the performance story ("no attribute, no cost").
 
 ## Row-model pipeline (`core/row-model.ts`)
@@ -55,15 +57,14 @@ interface TableState {
   page: { number: number; pageSize: number };
   selectedKeys: Key[];
   expandedKeys: Key[];
-  columnOrder: Key[] | null;
 }
 ```
 
 - **Controlled by key presence** (antd parity): `column.sortOrder`, `column.filteredValue`,
   `pagination.current`, `pagination.pageSize`, `rowSelection.selectedRowKeys`,
-  `expandable.expandedRowKeys`, `columnReorder.order`. `effective = mergeControlled(internal, props, flags)`.
+  `expandable.expandedRowKeys`. `effective = mergeControlled(internal, props, flags)`.
 - **Actions:** `sort/toggle`, `filter/set`, `page/set`, `page/setSize`, `select/toggle | radio |
-  page | all | invert | none | custom`, `expand/toggle | set`, `columns/reorder`.
+  page | all | invert | none | custom`, `expand/toggle | set`.
 - **`reduce(prev, action, ctx)`** is pure; cross-slice rules (sort / filter / size → page 1) live
   only here. Filters and sorts never clear selection; stale keys are pruned at derive time.
 - **`send`** (stable, reads a `latest` ref written in `useLayoutEffect`):
@@ -74,7 +75,7 @@ interface TableState {
 `emit` mapping: sort / filter → `pagination.onChange(1, size)` then `onChange(…, 'sort' | 'filter')`;
 page → `pagination.onChange` (+ `onShowSizeChange`) then `onChange(…, 'paginate')`; selection →
 `rowSelection.onSelect` / `onSelectAll` then `onChange(keys, rows, { type })`; expansion →
-`onExpand` then `onExpandedRowsChange`; reorder → `onReorder`. After sort / filter / paginate,
+`onExpand` then `onExpandedRowsChange`. After sort / filter / paginate,
 `scroll.scrollToFirstRowOnChange` scrolls the body to the top.
 
 ## Sticky columns
@@ -109,12 +110,26 @@ degraded to 1 under `virtual`.
 to `parent height − table chrome` (title, pagination bars, footer). `useBreakpoint` uses
 `matchMedia` for `column.responsive`.
 
-## Column reorder
+## The primitive layer (`src/lib/ui`)
 
-`ColumnReorderProvider` (dnd-kit `DndContext` + `SortableContext`, pointer + keyboard sensors)
-mounts only when `columnReorder` is on. Only unfixed, ungrouped leaves are sortable; a drop
-permutes the draggable subsequence and keeps fixed columns in their slots, then dispatches
-`columns/reorder`. `columns.ts` applies `columnOrder` before partitioning.
+Everything the app and the table render — buttons, checkbox, radio, switch, segmented control,
+select, menu, popover, tooltip, number and colour inputs, tag, alert, empty, spinner, progress,
+card, collapse, drawer, toast and the icon set — is written here, on React alone. Two decisions
+carry the layer:
+
+- **One floating layer.** `Popover` renders through a portal (the table body is an
+  `overflow: auto` scroller, which would clip an in-place panel), positions itself from the
+  trigger's viewport rect, flips above when there is no room below, tracks scroll and resize
+  through rAF, and closes on outside pointerdown or Escape. `Select`, `MenuButton` and the
+  column `FilterDropdown` are all built on it.
+- **Tokens, not a style engine.** `ui.css` defines `--ui-*` custom properties for light and dark;
+  `data-theme` on `<html>` switches them, and a tiny inline script in the root layout applies the
+  stored mode before first paint. Because no styles are computed in JavaScript, the server and
+  the browser always emit identical markup.
+
+Portals guard on `useIsClient()` (a `useSyncExternalStore` that is `false` during SSR and the
+hydration pass) rather than a mount effect, which keeps the React Compiler's
+`set-state-in-effect` rule satisfied.
 
 ## Server adapter
 

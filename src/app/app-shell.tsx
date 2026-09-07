@@ -1,10 +1,9 @@
 "use client";
 
-import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import { Button, Tooltip } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { Button, MoonIcon, SunIcon, Tooltip } from "@/lib/ui";
 import { useColorMode } from "./providers";
 
 const NAV = [
@@ -34,7 +33,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <Tooltip title={mode === "dark" ? "Switch to light" : "Switch to dark"}>
-          <Button type="text" shape="circle" aria-label="Toggle colour mode" icon={mode === "dark" ? <SunOutlined /> : <MoonOutlined />} onClick={toggle} />
+          <Button variant="text" shape="circle" aria-label="Toggle colour mode" icon={mode === "dark" ? <SunIcon /> : <MoonIcon />} onClick={toggle} />
         </Tooltip>
       </header>
       <main className="app-main">{children}</main>

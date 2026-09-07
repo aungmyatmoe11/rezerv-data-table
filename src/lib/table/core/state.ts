@@ -17,8 +17,7 @@ export type TableAction =
   | { type: "select/none" }
   | { type: "select/custom"; keys: readonly Key[] }
   | { type: "expand/toggle"; key: Key }
-  | { type: "expand/set"; keys: readonly Key[] }
-  | { type: "columns/reorder"; order: readonly Key[] };
+  | { type: "expand/set"; keys: readonly Key[] };
 
 export interface ReduceContext<T> {
   leavesByKey: ReadonlyMap<Key, LeafColumn<T>>;
@@ -38,7 +37,6 @@ export interface InitialStateInput {
   pageSize: number;
   selectedKeys: readonly Key[];
   expandedKeys: readonly Key[];
-  columnOrder: readonly Key[] | null;
 }
 
 export function initialState(input: InitialStateInput): TableState {
@@ -48,7 +46,6 @@ export function initialState(input: InitialStateInput): TableState {
     page: { number: input.page, pageSize: input.pageSize },
     selectedKeys: input.selectedKeys,
     expandedKeys: input.expandedKeys,
-    columnOrder: input.columnOrder,
   };
 }
 
@@ -99,8 +96,6 @@ export function reduce<T>(prev: TableState, action: TableAction, ctx: ReduceCont
       return { ...prev, expandedKeys: toggleKey(prev.expandedKeys, action.key) };
     case "expand/set":
       return { ...prev, expandedKeys: [...action.keys] };
-    case "columns/reorder":
-      return { ...prev, columnOrder: [...action.order] };
     default:
       return prev;
   }
@@ -113,7 +108,6 @@ export interface ControlledValues {
   pageSize?: number;
   selectedKeys?: readonly Key[];
   expandedKeys?: readonly Key[];
-  columnOrder?: readonly Key[] | null;
 }
 
 /** Controlled slices are read from props; everything else comes from internal state. */
@@ -127,7 +121,6 @@ export function mergeControlled(internal: TableState, controlled: ControlledValu
     },
     selectedKeys: flags.selectedKeys ? (controlled.selectedKeys ?? []) : internal.selectedKeys,
     expandedKeys: flags.expandedKeys ? (controlled.expandedKeys ?? []) : internal.expandedKeys,
-    columnOrder: flags.columnOrder ? (controlled.columnOrder ?? null) : internal.columnOrder,
   };
 }
 
@@ -142,6 +135,5 @@ export function pickUncontrolled(next: TableState, flags: ControlledFlags, prevI
     },
     selectedKeys: flags.selectedKeys ? prevInternal.selectedKeys : next.selectedKeys,
     expandedKeys: flags.expandedKeys ? prevInternal.expandedKeys : next.expandedKeys,
-    columnOrder: flags.columnOrder ? prevInternal.columnOrder : next.columnOrder,
   };
 }

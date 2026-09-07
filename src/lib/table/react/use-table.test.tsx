@@ -22,11 +22,10 @@ function setup(overrides: Partial<DataTableProps<Row>> = {}) {
 }
 
 describe("useTable — progressive disclosure", () => {
-  it("a bare table has no selection, expansion or reorder API and paginates by default", () => {
+  it("a bare table has no selection or expansion API and paginates by default", () => {
     const { result } = setup();
     expect(result.current.selection).toBeNull();
     expect(result.current.expansion).toBeNull();
-    expect(result.current.reorder).toBeNull();
     expect(result.current.pagination).toMatchObject({ page: 1, pageSize: 10, total: 23, pages: 3, server: false });
     expect(result.current.model.flat).toHaveLength(10);
     expect(result.current.layout.hasFixed).toBe(false);

@@ -1,4 +1,4 @@
-import { Button, Tag, Typography } from "antd";
+import { Button, Tag, Text } from "@/lib/ui";
 import type { ColumnDef } from "@/lib/table";
 import { studioTime } from "../format";
 import type { InventoryItem, StockMovement } from "./types";
@@ -22,7 +22,7 @@ export function formatQuantity(quantity: string): string {
  */
 export function buildItemColumns(onShowMovements: (item: InventoryItem) => void): ColumnDef<InventoryItem>[] {
   return [
-    { dataIndex: "sku", title: "SKU", fixed: "left", width: 170, sorter: { multiple: 4 }, render: (sku) => <Typography.Text code>{sku}</Typography.Text> },
+    { dataIndex: "sku", title: "SKU", fixed: "left", width: 170, sorter: { multiple: 4 }, render: (sku) => <Text code>{sku}</Text> },
     { dataIndex: "name", title: "Product", width: 240, ellipsis: true, sorter: { multiple: 3 } },
     {
       dataIndex: "category",
@@ -47,13 +47,13 @@ export function buildItemColumns(onShowMovements: (item: InventoryItem) => void)
       sorter: { multiple: 1 },
       render: (amount, record) => <span style={{ fontVariantNumeric: "tabular-nums" }}>{formatMoney(amount, record.unitPrice.currency)}</span>,
     },
-    { dataIndex: "active", title: "Active", width: 100, align: "center", render: (active) => <Tag color={active ? "success" : "default"}>{active ? "Yes" : "No"}</Tag> },
+    { dataIndex: "active", title: "Active", width: 100, align: "center", render: (active) => <Tag tone={active ? "success" : "neutral"}>{active ? "Yes" : "No"}</Tag> },
     {
       dataIndex: "lastCountedOn",
       title: "Last counted",
       width: 140,
       sorter: { multiple: 0 },
-      render: (date) => (date === null ? <Typography.Text type="secondary">Never</Typography.Text> : studioTime(date).format("D MMM YYYY")),
+      render: (date) => (date === null ? <Text tone="secondary">Never</Text> : studioTime(date).format("D MMM YYYY")),
     },
     {
       key: "actions",
@@ -82,7 +82,7 @@ export const movementColumns: ColumnDef<StockMovement>[] = [
     sorter: (a, b) => Number(a.delta) - Number(b.delta),
     render: (delta) => {
       const value = Number(delta);
-      return <Tag color={value >= 0 ? "success" : "error"}>{value >= 0 ? `+${formatQuantity(delta)}` : formatQuantity(delta)}</Tag>;
+      return <Tag tone={value >= 0 ? "success" : "danger"}>{value >= 0 ? `+${formatQuantity(delta)}` : formatQuantity(delta)}</Tag>;
     },
   },
 ];

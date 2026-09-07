@@ -2,23 +2,26 @@
 
 ## Tokens
 
-The library reads antd's theme tokens once (`ui/theme.ts`, `theme.useToken()`) and writes them
-as `--dt-*` CSS variables on the table root; the `theme` prop overrides any of them per instance.
-Nothing in `data-table.css` uses a raw colour.
+Two token layers, both plain CSS custom properties — no styling engine, nothing computed in
+JavaScript. `src/lib/ui/ui.css` defines the app-wide `--ui-*` palette (light, plus a dark
+override under `html[data-theme="dark"]`); `ui/theme.ts` maps those onto the table's own
+`--dt-*` properties, which the `theme` prop can override per instance. Nothing in
+`data-table.css` uses a raw colour.
 
 | Variable | Source | Purpose |
 | --- | --- | --- |
-| `--dt-header-bg`, `--dt-header-color` | `colorFillAlter`, `colorTextHeading` | header row |
-| `--dt-row-bg`, `--dt-hover-bg`, `--dt-selected-bg` | `colorBgContainer`, `colorFillTertiary`, `controlItemBgActive` | body rows; fixed cells inherit `--dt-row-bg` so pinned cells follow hover / selection |
-| `--dt-sorted-bg`, `--dt-sorted-header-bg` | `colorFillQuaternary`… | sorted-column highlight (antd "sorted colours") |
-| `--dt-border`, `--dt-radius` | `colorBorderSecondary`, `borderRadiusLG` | per-cell borders, wrapper |
-| `--dt-shadow` | `colorFillSecondary` | sticky-column shadow strip |
-| `--dt-primary`, `--dt-text-secondary` | `colorPrimary`, `colorTextSecondary` | sort caret active state, priority badge, muted text |
+| `--dt-header-bg`, `--dt-header-color` | `--ui-fill-alter`, `--ui-text` | header row |
+| `--dt-row-bg`, `--dt-hover-bg`, `--dt-selected-bg` | `--ui-bg`, `--ui-fill-tertiary`, `--ui-primary-soft` | body rows; fixed cells inherit `--dt-row-bg` so pinned cells follow hover / selection |
+| `--dt-sorted-bg`, `--dt-sorted-header-bg` | `--ui-fill-alter`, `--ui-fill-secondary` | sorted-column highlight |
+| `--dt-border`, `--dt-radius` | `--ui-border-soft`, 8px | per-cell borders, wrapper |
+| `--dt-shadow` | fixed rgba | sticky-column shadow strip |
+| `--dt-primary`, `--dt-text-secondary` | `--ui-primary`, `--ui-text-secondary` | sort caret active state, priority badge, muted text |
 | `--dt-row-height` | `size` preset or `rowHeight` | virtual rows, skeleton rows |
 | `--dt-fixed-gap` | `theme.fixedColumnGap` | gapped fixed columns |
 
-App-level brand: primary `#0f6e56`, canvas `#f5f7f6` light / `#0f1412` dark; `colorLink` is the
-primary so links meet AA. Light-mode antd preset tags are darkened (`globals.css`) to pass 4.5:1.
+App-level brand: primary `#0f6e56`, canvas `#f5f7f6` light / `#0f1412` dark. Every semantic
+colour pair (`--ui-success` on `--ui-success-bg`, and so on) is chosen to clear WCAG AA 4.5:1 in
+both themes — axe checks this on `/` and `/timetable` in CI.
 
 ## Density
 
@@ -48,7 +51,7 @@ primary so links meet AA. Light-mode antd preset tags are darkened (`globals.css
 | --- | --- |
 | Loading, no data yet | skeleton rows (`loading.skeletonRows`, default 6) that mirror leaf widths and alignment |
 | Loading, data on screen | previous rows stay, translucent overlay + spinner (`loading.indicator` overrides) |
-| Empty | antd `Empty` or `locale.emptyText`, one row spanning all columns |
+| Empty | our `Empty` (inbox glyph + message) or `locale.emptyText`, one row spanning all columns |
 | Error | `role="alert"` message + Retry (`onRetry`), one row spanning all columns |
 | Expanded row loading | skeleton lines inside the region (`renderLoading` overrides) |
 | Expanded row error | inline alert + Retry (`renderError` overrides) |
@@ -63,7 +66,7 @@ primary so links meet AA. Light-mode antd preset tags are darkened (`globals.css
 - `ellipsis` cells are `white-space: nowrap; overflow: hidden; text-overflow: ellipsis` with the
   full text in `title`.
 - Pagination bars are flex rows; `position` decides top/bottom × start/center/end, any subset.
-- Responsive: `column.responsive` hides columns below a breakpoint (antd's `xs…xxl` values);
+- Responsive: `column.responsive` hides columns below a breakpoint (antd's `xs…xxl` value names);
   narrow viewports keep the pinned column and scroll the rest.
 
 ## Anti-patterns (do not)
@@ -71,4 +74,4 @@ primary so links meet AA. Light-mode antd preset tags are darkened (`globals.css
 - Do not put a `box-shadow` on a sticky cell — it paints under the neighbour; use the strip.
 - Do not use `border-collapse: collapse` — it breaks sticky columns in Chromium/WebKit.
 - Do not animate `height: auto`; use the grid-rows trick.
-- Do not colour text with antd preset tag colours on light backgrounds without the AA overrides.
+- Do not introduce a raw colour: add a `--ui-*` token (light **and** dark) and use that.

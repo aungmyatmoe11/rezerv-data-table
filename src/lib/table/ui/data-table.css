@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------------------
- * DataTable — hand-written markup + CSS. Tokens (--dt-*) are fed from antd's
+ * DataTable — hand-written markup + CSS. Tokens (--dt-*) are fed from the design system's
  * theme by ui/theme.ts; the `theme` prop overrides individual values.
  * ------------------------------------------------------------------------- */
 
@@ -95,7 +95,7 @@
   position: relative;
   padding: var(--dt-cell-py) var(--dt-cell-px);
   border-bottom: 1px solid var(--dt-border);
-  /* antd fill tokens are translucent — layer them over the opaque row colour so sticky cells never show what scrolls beneath */
+  /* fill tokens are translucent — layer them over the opaque row colour so sticky cells never show what scrolls beneath */
   background-color: var(--dt-row-bg);
   background-image: linear-gradient(var(--dt-cell-bg, transparent), var(--dt-cell-bg, transparent));
   text-align: start;
@@ -599,24 +599,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   overflow-wrap: normal;
-}
-
-/* --- drag reorder -------------------------------------------------------- */
-.dt__th[data-draggable="true"] {
-  cursor: grab;
-}
-.dt__th[data-dragging="true"] {
-  opacity: 0.5;
-}
-.dt__th[data-over="true"] {
-  box-shadow: inset 2px 0 0 var(--dt-primary);
-}
-.dt__drag-handle {
-  display: inline-flex;
-  margin-inline-end: 6px;
-  color: var(--dt-text-secondary);
-  cursor: grab;
-  touch-action: none;
 }
 
 /* --- motion preferences -------------------------------------------------- */

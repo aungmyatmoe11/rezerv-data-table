@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // This repo is nested inside a larger workspace; pin the Turbopack root so lockfile discovery stays local.
   turbopack: { root: path.resolve(import.meta.dirname) },
-  transpilePackages: ["antd", "@ant-design/icons", "@ant-design/nextjs-registry", "@ant-design/cssinjs"],
 };
 
 export default nextConfig;

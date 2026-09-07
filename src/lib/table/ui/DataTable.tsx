@@ -4,7 +4,6 @@ import { useId, useMemo, useRef, type CSSProperties } from "react";
 import type { DataTableProps, Key, PaginationPosition } from "../core/types";
 import { useAutoHeight } from "../react/use-auto-height";
 import { useTable } from "../react/use-table";
-import { ColumnReorderProvider } from "./ColumnReorder";
 import type { RowContext } from "./context";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
@@ -109,7 +108,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
   const footer = props.footer?.(table.pageData);
   const summary = props.summary?.(table.pageData);
 
-  const root = (
+  return (
     <div
       ref={wrapperRef}
       id={tableId}
@@ -156,7 +155,4 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
       </div>
     </div>
   );
-
-  // dnd-kit context only mounts when `columnReorder` is on — zero cost otherwise
-  return table.reorder === null ? root : <ColumnReorderProvider reorder={table.reorder}>{root}</ColumnReorderProvider>;
 }

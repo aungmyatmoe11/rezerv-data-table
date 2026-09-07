@@ -1,11 +1,11 @@
-import { Progress, Tag, Typography } from "antd";
+import { Progress, Tag, Text, type Tone } from "@/lib/ui";
 import type { ColumnDef } from "@/lib/table";
 import { studioTime } from "../format";
 import type { Attendee, BookingStatus, ClassSession, ClassStatus, DataMode, PaymentType } from "./types";
 
-const STATUS_COLOR: Record<ClassStatus, string> = { Scheduled: "processing", Full: "success", Cancelled: "error" };
-const BOOKING_COLOR: Record<BookingStatus, string> = { Booked: "processing", "Checked-in": "success", Cancelled: "default", "No-show": "warning" };
-const PAYMENT_COLOR: Record<PaymentType, string> = { "One-time": "default", Package: "geekblue", Membership: "purple" };
+const STATUS_TONE: Record<ClassStatus, Tone> = { Scheduled: "info", Full: "success", Cancelled: "danger" };
+const BOOKING_TONE: Record<BookingStatus, Tone> = { Booked: "info", "Checked-in": "success", Cancelled: "neutral", "No-show": "warning" };
+const PAYMENT_TONE: Record<PaymentType, Tone> = { "One-time": "neutral", Package: "info", Membership: "accent" };
 
 export function formatTimeRange(startAt: string, endAt: string): string {
   const start = studioTime(startAt);
@@ -29,12 +29,12 @@ export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
       sorter: server ? true : (a, b) => a.name.localeCompare(b.name),
       render: (name, record) => (
         <div style={{ display: "grid", lineHeight: 1.3 }}>
-          <Typography.Text strong ellipsis>
+          <Text strong ellipsis>
             {name}
-          </Typography.Text>
-          <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+          </Text>
+          <Text tone="secondary" style={{ fontSize: 12 }}>
             {record.location}
-          </Typography.Text>
+          </Text>
         </div>
       ),
     },
@@ -60,7 +60,7 @@ export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
         const ratio = record.capacity === 0 ? 0 : Math.round((booked / record.capacity) * 100);
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Progress percent={ratio} size={[80, 6]} showInfo={false} aria-label={`${booked} of ${record.capacity} booked`} status={ratio >= 100 ? "success" : "normal"} {...(ratio >= 80 && ratio < 100 ? { strokeColor: "#d48806" } : {})} style={{ margin: 0, width: 80 }} />
+            <Progress percent={ratio} width={80} height={6} aria-label={`${booked} of ${record.capacity} booked`} tone={ratio >= 100 ? "success" : ratio >= 80 ? "warning" : "info"} />
             <span style={{ fontVariantNumeric: "tabular-nums" }}>
               {booked} / {record.capacity}
             </span>
@@ -79,7 +79,7 @@ export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
         { text: "Cancelled", value: "Cancelled" },
       ],
       onFilter: (value, record) => record.status === value,
-      render: (status) => <Tag color={STATUS_COLOR[status]}>{status}</Tag>,
+      render: (status) => <Tag tone={STATUS_TONE[status]}>{status}</Tag>,
     },
   ];
 }
@@ -93,9 +93,9 @@ export const attendeeColumns: ColumnDef<Attendee>[] = [
     render: (name, record) => (
       <div style={{ display: "grid", lineHeight: 1.3 }}>
         <span>{name}</span>
-        <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+        <Text tone="secondary" style={{ fontSize: 12 }}>
           {record.email}
-        </Typography.Text>
+        </Text>
       </div>
     ),
   },
@@ -103,13 +103,13 @@ export const attendeeColumns: ColumnDef<Attendee>[] = [
     dataIndex: "paymentType",
     title: "Payment",
     width: 140,
-    render: (type) => <Tag color={PAYMENT_COLOR[type]}>{type}</Tag>,
+    render: (type) => <Tag tone={PAYMENT_TONE[type]}>{type}</Tag>,
   },
   {
     dataIndex: "bookingStatus",
     title: "Booking status",
     width: 150,
     sorter: (a, b) => a.bookingStatus.localeCompare(b.bookingStatus),
-    render: (status) => <Tag color={BOOKING_COLOR[status]}>{status}</Tag>,
+    render: (status) => <Tag tone={BOOKING_TONE[status]}>{status}</Tag>,
   },
 ];

@@ -46,7 +46,6 @@ export interface PlaygroundConfig {
   hideColumn: "none" | "instructor" | "location";
   ellipsis: boolean;
   responsive: boolean;
-  columnReorder: boolean;
   spans: boolean;
   // sorting & filtering
   multiSort: boolean;
@@ -91,7 +90,6 @@ export const DEFAULT_CONFIG: PlaygroundConfig = {
   hideColumn: "none",
   ellipsis: false,
   responsive: false,
-  columnReorder: false,
   spans: false,
   multiSort: false,
   sortedHighlight: true,
@@ -113,7 +111,7 @@ export const PRESETS: readonly Preset[] = [
   { key: "dense", label: "Dense report", description: "Small size, borders, title / footer / summary, fixed header, ellipsis.", config: { size: "small", bordered: true, title: true, footer: true, summary: true, scrollY: "fixed", ellipsis: true, fixedRight: true, showSizeChanger: true, showQuickJumper: true } },
   { key: "tree", label: "Tree data", description: "Recurring series as parent rows with occurrences as children.", config: { expansion: "tree", selection: "checkbox" } },
   { key: "bigdata", label: "10,000 rows (virtual)", description: "Virtual windowing over ten thousand rows, no pagination.", config: { rows: 10_000, virtual: true, pagination: false, scrollY: "fixed", rowHeight: 44 } },
-  { key: "everything", label: "Everything on", description: "Every attribute enabled at once — nothing conflicts.", config: { bordered: true, title: true, footer: true, summary: true, selection: "checkbox", selectionsMenu: true, expansion: "inline", fixedRight: true, scrollY: "fixed", stickyHeader: true, showSizeChanger: true, showQuickJumper: true, showTotal: true, multiSort: true, filters: true, columnReorder: true, ellipsis: true } },
+  { key: "everything", label: "Everything on", description: "Every attribute enabled at once — nothing conflicts.", config: { bordered: true, title: true, footer: true, summary: true, selection: "checkbox", selectionsMenu: true, expansion: "inline", fixedRight: true, scrollY: "fixed", stickyHeader: true, showSizeChanger: true, showQuickJumper: true, showTotal: true, multiSort: true, filters: true, ellipsis: true } },
 ];
 
 // --- URL codec (only non-default keys are written) ---------------------------

@@ -1,6 +1,7 @@
 # API — `DataTable<T>` props, defaults, differences from Ant Design
 
-Import from `@/lib/table`. Everything is inert unless supplied.
+Import from `@/lib/table`. Everything is inert unless supplied. The controls the table renders
+come from `@/lib/ui`, this repo's own primitive layer — there is no component library.
 
 ```tsx
 import { DataTable, defineColumns, useTableRequest, type ColumnDef } from "@/lib/table";
@@ -31,12 +32,11 @@ import { DataTable, defineColumns, useTableRequest, type ColumnDef } from "@/lib
 | `scroll` | `{ x?, y?, scrollToFirstRowOnChange? }` | — | `x: number \| string \| true`, `y: number \| string \| 'auto'` (★ `'auto'` fills the parent) |
 | `sticky` | `boolean \| { offsetHeader, offsetScroll }` | off | sticky header without `scroll.y` |
 | `virtual` | `boolean` | `false` | needs `scroll.y` (+ `rowHeight` recommended); warns otherwise |
-| `columnReorder` | `boolean \| { order?, defaultOrder?, onReorder? }` | off | ★ pointer + keyboard drag |
 | `sortDirections` | `('ascend' \| 'descend')[]` | `['ascend', 'descend']` | table-wide cycle |
 | `showSorterTooltip` | `boolean` | `true` | |
 | `onChange` | `(pagination, filters, sorter, { currentDataSource, action }) => void` | — | fires on `'paginate' \| 'sort' \| 'filter'` |
 | `onScroll` | `(event) => void` | — | body scroller |
-| `theme` | `Partial<TableTheme>` | antd tokens | `headerBg`, `rowBg`, `hoverRowBg`, `selectedRowBg`, `sortedColumnBg`, `sortedHeaderBg`, `borderColor`, `stickyShadow`, `fixedColumnGap`, `radius`, `fontSize` |
+| `theme` | `Partial<TableTheme>` | design-system tokens | `headerBg`, `rowBg`, `hoverRowBg`, `selectedRowBg`, `sortedColumnBg`, `sortedHeaderBg`, `borderColor`, `stickyShadow`, `fixedColumnGap`, `radius`, `fontSize` |
 | `className` / `style` / `id` / `aria-label` / `aria-labelledby` | | — | |
 
 ## Columns
@@ -57,7 +57,7 @@ Leaf props: `key`, `title` (node or `({ sortOrder }) => node`), `width`, `minWid
 `sortOrder` (controlled by presence), `defaultSortOrder`, `sortDirections`, `sortIcon`,
 `showSorterTooltip`, `filters`, `onFilter`, `filteredValue` (controlled by presence),
 `defaultFilteredValue`, `filterMultiple`, `colSpan` (header; `0` hides), `onCell` →
-`{ colSpan, rowSpan, className, style }`, `onHeaderCell`, `draggable` (★ opt-out of reorder).
+`{ colSpan, rowSpan, className, style }`, `onHeaderCell`.
 
 `CellResult` is `ReactNode | { children, props: { colSpan?, rowSpan? } }` (antd's legacy span form
 is accepted too).
@@ -109,7 +109,7 @@ pagination, onChange, params, refetch }` — spread it onto `DataTable`.
 
 Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `state`, `model`
 (pipeline output), `pageData`, `send`, and feature APIs `sorting`, `filtering`, `pagination`,
-`selection`, `expansion`, `reorder` (each `null` when disabled).
+`selection`, `expansion` (each `null` when disabled).
 
 ## Differences from Ant Design Table
 
@@ -119,11 +119,10 @@ Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `st
 | no error state | `error` + `onRetry`, `locale.errorText` / `retryText` | brief requires an error state |
 | lazy children need consumer code | `expandable.loadChildren` with owned state machine | brief requires on-demand children with loading / error |
 | `virtual` uses rc-virtual-list | hand-written windowing; `rowHeight`, `expandedRowHeight` | no library allowed |
-| column reorder via user code | `columnReorder` with `onReorder` | the "order column" demo as one attribute |
 | `scroll.y` number only | `scroll.y: 'auto'` | "auto height" demo |
 | `size` presets only | `rowHeight` in px | user request |
 | `components`, `getPopupContainer`, `rowSelection.onCell`, `expandable.expandedRowOffset`, `pagination.itemRender` | not implemented | not needed for the brief; would be additive |
-| sort tooltip / icons via antd internals | `sortIcon`, `showSorterTooltip` (antd Tooltip) | parity |
+| sort tooltip / icons via antd internals | `sortIcon`, `showSorterTooltip` (our `Tooltip`) | parity |
 
 ## Feature-conflict matrix
 
@@ -134,15 +133,12 @@ Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `st
 | `virtual` × `pagination` / `summary` | supported | windows the page; summary in `<tfoot>` |
 | tree × `expandedRowRender` | exclusive | `expandedRowRender` wins, dev warning |
 | tree × `rowSpan` | caveat | spans over flattened rows; collapsing can break a group |
-| `fixed` × `columnReorder` | supported | fixed leaves are not sortable; moves never cross the fixed boundary |
 | `fixed` × `responsive` / `hidden` | supported | offsets recomputed from visible leaves |
 | `checkStrictly: false` × pagination | supported | entities from the sorted set; header checkbox scope = page |
 | `sticky` × `scroll.y` | supported | `scroll.y` wins (header sticks inside the scroller) |
 | `scroll.y: 'auto'` × pagination / title / footer | supported | chrome height subtracted; no definite parent height → warning, natural height |
-| group header / header `colSpan` × `columnReorder` | auto opt-out | grouped leaves are not draggable |
 | multi-sort × server | supported | array sorter payload; no client sort for server columns |
 | `loading` overlay × pointer events | by design | overlay blocks interaction until the fetch settles |
-| `columnReorder` × `scroll.x` (keyboard) | caveat | dnd-kit keeps the dragged header in view: when the target column sits in the far half of the scroller the first arrow press scrolls, the next one moves |
 
 ## Development warnings (`warnOnce`)
 
