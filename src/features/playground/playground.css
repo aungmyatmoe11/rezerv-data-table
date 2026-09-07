@@ -25,16 +25,24 @@
 }
 .pg-field {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 6px 12px;
   padding: 6px 0;
   font-size: 13px;
 }
+/* the label keeps its own line once the control needs the full width, instead of being overlapped */
 .pg-field-label {
   display: inline-flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 84px;
+}
+.pg-field > :not(.pg-field-label) {
+  flex: 0 1 auto;
   min-width: 0;
+  max-width: 100%;
 }
 .pg-field-label code {
   font-size: 12px;

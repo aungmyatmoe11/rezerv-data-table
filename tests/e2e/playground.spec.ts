@@ -68,6 +68,30 @@ test.describe("playground — the generated JSX matches the rendered table", () 
     await expect(scroller).toHaveCSS("overflow-y", "auto");
   });
 
+  test("footer renders under the table and above the pagination", async ({ page }) => {
+    await page.goto("/playground?title=true&footer=true");
+    const order = await liveTable(page).evaluate((root) => [...root.children].map((child) => child.className.split(" ")[0]));
+    expect(order.filter((c) => c === "dt__title" || c === "dt__scroller" || c === "dt__footer" || c === "dt__pagination")).toEqual([
+      "dt__title",
+      "dt__scroller",
+      "dt__footer",
+      "dt__pagination",
+    ]);
+  });
+
+  test("sorting a column is visible in the icon, the label and the column tint", async ({ page }) => {
+    await page.goto("/playground");
+    const header = liveTable(page).getByRole("columnheader", { name: /^Class/ });
+    const idle = await header.locator(".dt__sort-icons span").first().evaluate((el) => getComputedStyle(el).color);
+    await header.getByRole("button").click();
+    await expect(header).toHaveAttribute("aria-sort", "ascending");
+    await expect(header).toHaveAttribute("data-sorted", "true");
+    const active = await header.locator('.dt__sort-icons span[data-active="true"]').evaluate((el) => getComputedStyle(el).color);
+    expect(active).not.toBe(idle);
+    // the header label picks up the accent too, so the state is legible without reading the caret
+    expect(await header.locator(".dt__sort-label").evaluate((el) => getComputedStyle(el).color)).toBe(active);
+  });
+
   test("toggling a switch updates the table and the JSX together", async ({ page }) => {
     await page.goto("/playground");
     await toggle(page, "bordered");

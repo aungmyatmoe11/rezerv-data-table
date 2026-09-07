@@ -32,6 +32,14 @@ test.describe("timetable — client mode", () => {
     await expect(page.locator(".dt__skeleton-row")).toHaveCount(0);
   });
 
+  test("ellipsis cells expose their full text on hover", async ({ page }) => {
+    const cell = table(page).locator('tbody td.dt__td[data-ellipsis="true"]').first();
+    const title = await cell.getAttribute("title");
+    expect(title).not.toBeNull();
+    // the Class column renders custom markup, so the title falls back to the underlying value
+    expect(await cell.innerText()).toContain(title ?? "");
+  });
+
   test("sorts a column ascending → descending → none", async ({ page }) => {
     const header = page.getByRole("columnheader", { name: /^Class/ });
     const button = header.getByRole("button");

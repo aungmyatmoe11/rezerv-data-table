@@ -148,8 +148,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         </table>
         {showOverlay ? <LoadingOverlay indicator={config.loading.indicator} /> : null}
       </div>
-      {paginationBars("bottom")}
       {footer !== undefined && footer !== null ? <div className="dt__footer">{footer}</div> : null}
+      {paginationBars("bottom")}
       <div className="dt__live" aria-live="polite">
         {loadingActive ? "Loading" : props.error !== undefined && props.error !== null ? "Error" : ""}
       </div>

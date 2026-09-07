@@ -19,6 +19,14 @@ interface BodyCellProps<T> {
   cellId: string | undefined;
 }
 
+function titleOf(content: ReactNode, value: unknown): string | undefined {
+  if (typeof content === "string") return content.length === 0 ? undefined : content;
+  if (typeof content === "number") return String(content);
+  if (typeof value === "string") return value.length === 0 ? undefined : value;
+  if (typeof value === "number" || typeof value === "bigint") return String(value);
+  return undefined;
+}
+
 function isSpanResult(result: CellResult): result is { children: ReactNode; props: { colSpan?: number; rowSpan?: number } } {
   return typeof result === "object" && result !== null && !isValidElement(result) && "props" in result && !Array.isArray(result);
 }
@@ -43,7 +51,8 @@ function BodyCellInner<T>({ leaf, record, index, rowKey, span, sorted, left, rig
     "--dt-left": left === undefined ? undefined : `${left}px`,
     "--dt-right": right === undefined ? undefined : `${right}px`,
   };
-  const title = leaf.ellipsis && leaf.ellipsisTitle && typeof content === "string" ? content : undefined;
+  // ellipsis cells expose their full text on hover; custom renders fall back to the raw value
+  const title = leaf.ellipsis && leaf.ellipsisTitle ? titleOf(content, value) : undefined;
   const className = ["dt__td", leaf.className, span?.className].filter(Boolean).join(" ");
 
   return (

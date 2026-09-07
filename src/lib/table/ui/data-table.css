@@ -11,6 +11,7 @@
   --dt-selected-bg: #e6f4ff;
   --dt-sorted-bg: #fafafa;
   --dt-sorted-header-bg: #f0f0f0;
+  --dt-sort-idle: rgba(0, 0, 0, 0.28);
   --dt-border: #f0f0f0;
   --dt-text: rgba(0, 0, 0, 0.88);
   --dt-text-secondary: rgba(0, 0, 0, 0.45);
@@ -271,15 +272,24 @@
   display: inline-flex;
   flex-direction: column;
   line-height: 0;
-  color: var(--dt-text-secondary);
-  font-size: 11px;
+  /* resting carets are faint so the active one reads as the state, not as decoration */
+  color: var(--dt-sort-idle);
+  font-size: 12px;
   flex: 0 0 auto;
+  transition: color var(--dt-motion) ease;
 }
 .dt__sort-icons > span + span {
-  margin-top: -4px;
+  margin-top: -4.5px;
+}
+.dt__sort:hover .dt__sort-icons {
+  color: var(--dt-text-secondary);
 }
 .dt__sort-icons [data-active="true"] {
   color: var(--dt-primary);
+}
+.dt__th[data-sorted="true"] .dt__sort-label {
+  color: var(--dt-primary);
+  font-weight: 600;
 }
 .dt__sort-priority {
   display: inline-flex;
