@@ -36,8 +36,8 @@ function toTree(rows: readonly ClassSession[]): ClassSession[] {
     children: [1, 2, 3].map((week) => {
       const start = new Date(row.startAt);
       const end = new Date(row.endAt);
-      start.setDate(start.getDate() + week * 7);
-      end.setDate(end.getDate() + week * 7);
+      start.setUTCDate(start.getUTCDate() + week * 7);
+      end.setUTCDate(end.getUTCDate() + week * 7);
       return { ...row, id: `${row.id}-w${week}`, name: `${row.name} · week ${week + 1}`, startAt: start.toISOString(), endAt: end.toISOString(), bookedCount: Math.max(0, row.bookedCount - week * 2), attendees: [] };
     }),
   }));

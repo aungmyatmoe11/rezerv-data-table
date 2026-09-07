@@ -1,6 +1,6 @@
 import { Progress, Tag, Typography } from "antd";
-import dayjs from "dayjs";
 import type { ColumnDef } from "@/lib/table";
+import { studioTime } from "../format";
 import type { Attendee, BookingStatus, ClassSession, ClassStatus, DataMode, PaymentType } from "./types";
 
 const STATUS_COLOR: Record<ClassStatus, string> = { Scheduled: "processing", Full: "success", Cancelled: "error" };
@@ -8,8 +8,8 @@ const BOOKING_COLOR: Record<BookingStatus, string> = { Booked: "processing", "Ch
 const PAYMENT_COLOR: Record<PaymentType, string> = { "One-time": "default", Package: "geekblue", Membership: "purple" };
 
 export function formatTimeRange(startAt: string, endAt: string): string {
-  const start = dayjs(startAt);
-  const end = dayjs(endAt);
+  const start = studioTime(startAt);
+  const end = studioTime(endAt);
   return `${start.format("ddd D MMM · HH:mm")} – ${end.format("HH:mm")}`;
 }
 

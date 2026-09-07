@@ -1,6 +1,6 @@
 import { Button, Tag, Typography } from "antd";
-import dayjs from "dayjs";
 import type { ColumnDef } from "@/lib/table";
+import { studioTime } from "../format";
 import type { InventoryItem, StockMovement } from "./types";
 
 const CATEGORIES = ["Apparel", "Equipment", "Supplements", "Accessories", "Recovery"];
@@ -53,7 +53,7 @@ export function buildItemColumns(onShowMovements: (item: InventoryItem) => void)
       title: "Last counted",
       width: 140,
       sorter: { multiple: 0 },
-      render: (date) => (date === null ? <Typography.Text type="secondary">Never</Typography.Text> : dayjs(date).format("D MMM YYYY")),
+      render: (date) => (date === null ? <Typography.Text type="secondary">Never</Typography.Text> : studioTime(date).format("D MMM YYYY")),
     },
     {
       key: "actions",
@@ -72,7 +72,7 @@ export function buildItemColumns(onShowMovements: (item: InventoryItem) => void)
 }
 
 export const movementColumns: ColumnDef<StockMovement>[] = [
-  { dataIndex: "occurredAt", title: "When", width: 180, sorter: (a, b) => a.occurredAt.localeCompare(b.occurredAt), defaultSortOrder: "descend", render: (value) => dayjs(value).format("D MMM YYYY · HH:mm") },
+  { dataIndex: "occurredAt", title: "When", width: 180, sorter: (a, b) => a.occurredAt.localeCompare(b.occurredAt), defaultSortOrder: "descend", render: (value) => studioTime(value).format("D MMM YYYY · HH:mm") },
   { dataIndex: "reason", title: "Reason", width: 200 },
   {
     dataIndex: "delta",

@@ -32,8 +32,9 @@ export function classesFor(count: RowCount): ClassSession[] {
     const dayShift = Math.floor(index / classSeed.length);
     const start = new Date(row.startAt);
     const end = new Date(row.endAt);
-    start.setDate(start.getDate() + dayShift);
-    end.setDate(end.getDate() + dayShift);
+    // UTC getters/setters — shifting in local time would produce a different instant per timezone
+    start.setUTCDate(start.getUTCDate() + dayShift);
+    end.setUTCDate(end.getUTCDate() + dayShift);
     const bookedCount = (index * 7 + dayShift) % (row.capacity + 1);
     const status: ClassStatus = row.status === "Cancelled" && index % 13 === 0 ? "Cancelled" : bookedCount >= row.capacity ? "Full" : "Scheduled";
     return { ...row, name: `${row.name}${NAME_SUFFIX[dayShift % NAME_SUFFIX.length] ?? ""}`, startAt: start.toISOString(), endAt: end.toISOString(), bookedCount, status };
