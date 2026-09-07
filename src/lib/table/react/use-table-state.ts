@@ -49,7 +49,7 @@ export function emit<T extends object>(prev: TableState, next: TableState, actio
   const fireChange = (kind: "sort" | "filter" | "paginate", clearedKey: Key | null): void => {
     const model = deps.modelFor(next);
     const total = model.page.total;
-    const state = paginationState(deps.paginationEnabled ? model.page.current : 1, next.page.pageSize, total);
+    const state = paginationState(deps.paginationEnabled ? model.page.number : 1, next.page.pageSize, total);
     props.onChange?.(state, { ...next.filters }, toSorterResult(next.sort, deps.leavesByKey, clearedKey), { currentDataSource: model.sorted, action: kind });
     if (deps.scrollToFirstRowOnChange) deps.scrollToTop();
   };
@@ -66,12 +66,12 @@ export function emit<T extends object>(prev: TableState, next: TableState, actio
       fireChange("filter", null);
       return;
     case "page/set":
-      pagination?.onChange?.(next.page.current, next.page.pageSize);
+      pagination?.onChange?.(next.page.number, next.page.pageSize);
       fireChange("paginate", null);
       return;
     case "page/setSize":
-      pagination?.onShowSizeChange?.(next.page.current, next.page.pageSize);
-      pagination?.onChange?.(next.page.current, next.page.pageSize);
+      pagination?.onShowSizeChange?.(next.page.number, next.page.pageSize);
+      pagination?.onChange?.(next.page.number, next.page.pageSize);
       fireChange("paginate", null);
       return;
     case "select/toggle":

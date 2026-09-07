@@ -513,7 +513,7 @@ export interface SortEntry {
 export interface TableState {
   sort: readonly SortEntry[];
   filters: FilterState;
-  page: { current: number; pageSize: number };
+  page: { number: number; pageSize: number };
   selectedKeys: readonly Key[];
   expandedKeys: readonly Key[];
   columnOrder: readonly Key[] | null;
@@ -522,7 +522,7 @@ export interface TableState {
 export interface ControlledFlags {
   sort: boolean;
   filters: boolean;
-  current: boolean;
+  page: boolean;
   pageSize: boolean;
   selectedKeys: boolean;
   expandedKeys: boolean;

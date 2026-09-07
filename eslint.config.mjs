@@ -19,6 +19,7 @@ const eslintConfig = defineConfig([
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_" }],
       "no-restricted-imports": [
         "error",
         {
@@ -34,14 +35,20 @@ const eslintConfig = defineConfig([
   },
   {
     // core = pure TypeScript. No React, no DOM, no Next, no antd, no app modules.
+    // Type-only imports (e.g. `ReactNode` for public prop types) are allowed; runtime imports are not.
     files: ["src/lib/table/core/**/*.ts"],
     rules: {
       "no-restricted-globals": ["error", { name: "fetch", message: "Core must stay free of I/O." }, { name: "document", message: "Core must stay free of the DOM." }, { name: "window", message: "Core must stay free of the DOM." }],
-      "no-restricted-imports": [
+      "no-restricted-imports": "off",
+      "@typescript-eslint/no-restricted-imports": [
         "error",
         {
           patterns: [
-            { group: ["react", "react-dom", "react/*", "next", "next/*", "antd", "antd/*", "@ant-design/*", "@dnd-kit/*", "@/features/*", "@/app/*", "@/mocks/*", "../react", "../react/*", "../ui", "../ui/*", ...forbiddenTableEngines], message: "core/ is pure TypeScript: no React, DOM, Next, antd, or app modules." },
+            {
+              group: ["react", "react-dom", "react/*", "next", "next/*", "antd", "antd/*", "@ant-design/*", "@dnd-kit/*", "@/features/*", "@/app/*", "@/mocks/*", "../react", "../react/*", "../ui", "../ui/*", ...forbiddenTableEngines],
+              message: "core/ is pure TypeScript: no React, DOM, Next, antd, or app modules (type-only imports are fine).",
+              allowTypeImports: true,
+            },
           ],
         },
       ],

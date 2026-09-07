@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Key, LazyEntry } from "../core/types";
 
 export interface LazyChildren {
-  /** Stable Map identity; pair it with `version` in memo dependencies. */
+  /** Stable Map identity (mutated in place); pair it with `version` in memo dependencies. */
   map: ReadonlyMap<Key, LazyEntry>;
   version: number;
   retry: (key: Key) => void;
@@ -27,23 +27,25 @@ export function useLazyChildren<T>(
   expandedKeys: readonly Key[],
   getRecord: (key: Key) => T | undefined,
 ): LazyChildren {
-  const mapRef = useRef<Map<Key, LazyEntry>>(new Map());
+  const [map] = useState(() => new Map<Key, LazyEntry>());
   const controllers = useRef<Map<Key, AbortController>>(new Map());
   const generations = useRef<Map<Key, number>>(new Map());
   const [version, setVersion] = useState(0);
   const bump = useCallback(() => setVersion((v) => v + 1), []);
-  const loaderRef = useRef(loader);
-  const getRecordRef = useRef(getRecord);
-  loaderRef.current = loader;
-  getRecordRef.current = getRecord;
+
+  // latest-ref pattern: keeps `load` stable even when the consumer passes an inline loader
+  const latest = useRef({ loader, getRecord });
+  useLayoutEffect(() => {
+    latest.current = { loader, getRecord };
+  });
 
   const load = useCallback(
     (key: Key, force: boolean): void => {
-      const fetcher = loaderRef.current;
+      const fetcher = latest.current.loader;
       if (fetcher === null) return;
-      const record = getRecordRef.current(key);
+      const record = latest.current.getRecord(key);
       if (record === undefined) return;
-      const entry = mapRef.current.get(key);
+      const entry = map.get(key);
       if (!force && entry !== undefined && (entry.status === "loading" || (entry.status === "ready" && cache))) return;
 
       controllers.current.get(key)?.abort();
@@ -51,25 +53,25 @@ export function useLazyChildren<T>(
       generations.current.set(key, generation);
       const controller = new AbortController();
       controllers.current.set(key, controller);
-      mapRef.current.set(key, { status: "loading" });
+      map.set(key, { status: "loading" });
       bump();
 
       fetcher(record, controller.signal).then(
         (data) => {
           if (generations.current.get(key) !== generation) return;
           controllers.current.delete(key);
-          mapRef.current.set(key, { status: "ready", data });
+          map.set(key, { status: "ready", data });
           bump();
         },
         (error: unknown) => {
           if (generations.current.get(key) !== generation || isAbort(error)) return;
           controllers.current.delete(key);
-          mapRef.current.set(key, { status: "error", error });
+          map.set(key, { status: "error", error });
           bump();
         },
       );
     },
-    [cache, bump],
+    [map, cache, bump],
   );
 
   const cancel = useCallback(
@@ -79,12 +81,12 @@ export function useLazyChildren<T>(
       controller.abort();
       controllers.current.delete(key);
       generations.current.set(key, (generations.current.get(key) ?? 0) + 1);
-      if (mapRef.current.get(key)?.status === "loading") {
-        mapRef.current.set(key, { status: "idle" });
+      if (map.get(key)?.status === "loading") {
+        map.set(key, { status: "idle" });
         bump();
       }
     },
-    [bump],
+    [map, bump],
   );
 
   // expandedKeys ပြောင်းတိုင်း — အသစ်ဖွင့်တဲ့ row ကို fetch၊ ပိတ်လိုက်တဲ့ row ရဲ့ in-flight request ကို abort
@@ -108,5 +110,5 @@ export function useLazyChildren<T>(
   const retry = useCallback((key: Key) => load(key, true), [load]);
 
   if (loader === null) return { map: EMPTY, version: 0, retry: noop };
-  return { map: mapRef.current, version, retry };
+  return { map, version, retry };
 }

@@ -27,7 +27,7 @@ function build(compareSpy: (a: Row, b: Row) => number) {
     filters: {},
     sort: [{ columnKey: "age", order: "descend", multiple: false }],
     paginationEnabled: true,
-    current: 1,
+    page: 1,
     pageSize: 10,
     total: undefined,
     expansionMode: "none",
@@ -64,7 +64,7 @@ describe("createRowModel", () => {
     const sortCalls = compare.mock.calls.length;
     expect(sortCalls).toBeGreaterThan(0);
 
-    const second = run({ ...input, current: 3 });
+    const second = run({ ...input, page: 3 });
     expect(second.page.rows.map((r) => r.age)).toEqual([4, 3, 2, 1, 0]);
     expect(second.sorted).toBe(first.sorted); // S3 reused
     expect(compare.mock.calls.length).toBe(sortCalls); // comparator not re-invoked
@@ -73,15 +73,15 @@ describe("createRowModel", () => {
   it("server mode: keeps the parent's page untouched and reports `total`", () => {
     const { input, run } = build((a, b) => a.age - b.age);
     const onePage = rows.slice(0, 10);
-    const model = run({ ...input, dataSource: onePage, total: 250, current: 4, sort: [] });
-    expect(model.page).toMatchObject({ server: true, total: 250, current: 4 });
+    const model = run({ ...input, dataSource: onePage, total: 250, page: 4, sort: [] });
+    expect(model.page).toMatchObject({ server: true, total: 250, number: 4 });
     expect(model.page.rows).toBe(onePage);
   });
 
   it("clamps an out-of-range page instead of rendering nothing", () => {
     const { input, run } = build((a, b) => a.age - b.age);
-    const model = run({ ...input, current: 99, sort: [] });
-    expect(model.page.current).toBe(3);
+    const model = run({ ...input, page: 99, sort: [] });
+    expect(model.page.number).toBe(3);
     expect(model.page.rows).toHaveLength(5);
   });
 

@@ -1,0 +1,627 @@
+/* ---------------------------------------------------------------------------
+ * DataTable — hand-written markup + CSS. Tokens (--dt-*) are fed from antd's
+ * theme by ui/theme.ts; the `theme` prop overrides individual values.
+ * ------------------------------------------------------------------------- */
+
+.dt {
+  --dt-header-bg: #fafafa;
+  --dt-header-color: rgba(0, 0, 0, 0.88);
+  --dt-row-bg: #ffffff;
+  --dt-hover-bg: #f5f5f5;
+  --dt-selected-bg: #e6f4ff;
+  --dt-sorted-bg: #fafafa;
+  --dt-sorted-header-bg: #f0f0f0;
+  --dt-border: #f0f0f0;
+  --dt-text: rgba(0, 0, 0, 0.88);
+  --dt-text-secondary: rgba(0, 0, 0, 0.45);
+  --dt-primary: #1677ff;
+  --dt-error: #ff4d4f;
+  --dt-shadow: rgba(0, 0, 0, 0.16);
+  --dt-radius: 8px;
+  --dt-font-size: 14px;
+  --dt-row-height: 47px;
+  --dt-cell-px: 16px;
+  --dt-cell-py: 12px;
+  --dt-header-top: 0px;
+  --dt-fixed-gap: 0px;
+  --dt-skeleton: rgba(0, 0, 0, 0.06);
+  --dt-skeleton-shine: rgba(0, 0, 0, 0.12);
+  --dt-motion: 160ms;
+
+  position: relative;
+  color: var(--dt-text);
+  font-size: var(--dt-font-size);
+  line-height: 1.5715;
+}
+
+.dt[data-size="small"] {
+  --dt-cell-px: 8px;
+  --dt-cell-py: 8px;
+}
+.dt[data-size="large"] {
+  --dt-cell-px: 16px;
+  --dt-cell-py: 16px;
+}
+
+.dt__title,
+.dt__footer {
+  padding: var(--dt-cell-py) var(--dt-cell-px);
+  background: var(--dt-header-bg);
+  border: 1px solid var(--dt-border);
+}
+.dt__title {
+  border-radius: var(--dt-radius) var(--dt-radius) 0 0;
+  border-bottom: 0;
+}
+.dt__footer {
+  border-radius: 0 0 var(--dt-radius) var(--dt-radius);
+  border-top: 0;
+}
+
+/* --- scroller ------------------------------------------------------------ */
+.dt__scroller {
+  position: relative;
+  overflow: auto;
+  overflow-anchor: none;
+  max-height: var(--dt-scroll-y, none);
+  border: 1px solid var(--dt-border);
+  border-radius: var(--dt-radius);
+  background: var(--dt-row-bg);
+  scrollbar-width: thin;
+}
+.dt[data-has-title="true"] .dt__scroller {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.dt[data-has-footer="true"] .dt__scroller {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* --- table --------------------------------------------------------------- */
+.dt__table {
+  border-collapse: separate; /* required for position: sticky on cells */
+  border-spacing: 0;
+  width: 100%;
+  min-width: var(--dt-scroll-x, auto);
+  table-layout: auto;
+}
+.dt[data-layout="fixed"] .dt__table {
+  table-layout: fixed;
+}
+
+.dt__th,
+.dt__td {
+  position: relative;
+  padding: var(--dt-cell-py) var(--dt-cell-px);
+  border-bottom: 1px solid var(--dt-border);
+  background: var(--dt-cell-bg, var(--dt-row-bg));
+  text-align: start;
+  vertical-align: middle;
+  transition: background-color var(--dt-motion) ease;
+  overflow-wrap: anywhere;
+}
+.dt__th[data-align="center"],
+.dt__td[data-align="center"] {
+  text-align: center;
+}
+.dt__th[data-align="right"],
+.dt__td[data-align="right"] {
+  text-align: end;
+}
+
+.dt__th {
+  --dt-cell-bg: var(--dt-header-bg);
+  color: var(--dt-header-color);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.dt[data-sticky-header="true"] .dt__th {
+  position: sticky;
+  top: var(--dt-header-top);
+  z-index: 3;
+}
+.dt__th[data-sorted="true"] {
+  --dt-cell-bg: var(--dt-sorted-header-bg);
+}
+.dt__td[data-sorted="true"] {
+  --dt-cell-bg: var(--dt-sorted-bg);
+}
+
+/* bordered = per-cell borders (border-collapse: collapse would break sticky) */
+.dt[data-bordered="true"] .dt__th,
+.dt[data-bordered="true"] .dt__td {
+  border-inline-end: 1px solid var(--dt-border);
+}
+.dt[data-bordered="true"] .dt__th:last-child,
+.dt[data-bordered="true"] .dt__td:last-child {
+  border-inline-end: 0;
+}
+.dt[data-bordered="true"] .dt__title,
+.dt[data-bordered="true"] .dt__footer {
+  border-color: var(--dt-border);
+}
+.dt__thead tr:not(:last-child) .dt__th {
+  border-bottom: 1px solid var(--dt-border);
+}
+.dt__tbody tr:last-child .dt__td {
+  border-bottom: 0;
+}
+
+/* --- rows ---------------------------------------------------------------- */
+.dt__tr[data-hoverable="true"]:hover .dt__td {
+  --dt-cell-bg: var(--dt-hover-bg);
+}
+.dt__tr[data-selected="true"] .dt__td {
+  --dt-cell-bg: var(--dt-selected-bg);
+}
+.dt__tr[data-clickable="true"] {
+  cursor: pointer;
+}
+
+/* --- fixed / sticky columns ---------------------------------------------- */
+.dt__th[data-fixed],
+.dt__td[data-fixed] {
+  position: sticky;
+  z-index: 2;
+}
+.dt[data-sticky-header="true"] .dt__th[data-fixed] {
+  z-index: 4;
+}
+.dt__th[data-fixed="left"],
+.dt__td[data-fixed="left"] {
+  inset-inline-start: var(--dt-left, 0);
+}
+.dt__th[data-fixed="right"],
+.dt__td[data-fixed="right"] {
+  inset-inline-end: var(--dt-right, 0);
+}
+/* shadow cue — a strip outside the edge cell, painted only while content scrolls beneath */
+.dt__th[data-fixed-edge="left"]::after,
+.dt__td[data-fixed-edge="left"]::after,
+.dt__th[data-fixed-edge="right"]::before,
+.dt__td[data-fixed-edge="right"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 30px;
+  pointer-events: none;
+  transition: box-shadow var(--dt-motion) ease;
+}
+.dt__th[data-fixed-edge="left"]::after,
+.dt__td[data-fixed-edge="left"]::after {
+  inset-inline-start: 100%;
+  margin-inline-start: var(--dt-fixed-gap);
+}
+.dt__th[data-fixed-edge="right"]::before,
+.dt__td[data-fixed-edge="right"]::before {
+  inset-inline-end: 100%;
+  margin-inline-end: var(--dt-fixed-gap);
+}
+.dt__scroller[data-ping-left="true"] [data-fixed-edge="left"]::after {
+  box-shadow: inset 10px 0 8px -8px var(--dt-shadow);
+}
+.dt__scroller[data-ping-right="true"] [data-fixed-edge="right"]::before {
+  box-shadow: inset -10px 0 8px -8px var(--dt-shadow);
+}
+.dt[data-fixed-gap="true"] [data-fixed-edge="left"] {
+  border-inline-end: var(--dt-fixed-gap) solid var(--dt-border);
+}
+.dt[data-fixed-gap="true"] [data-fixed-edge="right"] {
+  border-inline-start: var(--dt-fixed-gap) solid var(--dt-border);
+}
+
+/* --- ellipsis ------------------------------------------------------------ */
+.dt__td[data-ellipsis="true"],
+.dt__th[data-ellipsis="true"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* --- header sort control ------------------------------------------------- */
+.dt__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: calc(var(--dt-cell-py) * -1) calc(var(--dt-cell-px) * -1);
+  padding: var(--dt-cell-py) var(--dt-cell-px);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  box-sizing: content-box;
+}
+.dt__th[data-align="right"] .dt__sort {
+  flex-direction: row-reverse;
+}
+.dt__th[data-align="center"] .dt__sort {
+  justify-content: center;
+}
+.dt__sort:hover {
+  --dt-cell-bg: var(--dt-sorted-header-bg);
+  background: var(--dt-sorted-header-bg);
+}
+.dt__sort:focus-visible,
+.dt__expand:focus-visible,
+.dt__page-btn:focus-visible {
+  outline: 2px solid var(--dt-primary);
+  outline-offset: -2px;
+}
+.dt__sort-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.dt__th[data-ellipsis="true"] .dt__sort-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dt__sort-icons {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0;
+  color: var(--dt-text-secondary);
+  font-size: 11px;
+  flex: 0 0 auto;
+}
+.dt__sort-icons > span + span {
+  margin-top: -4px;
+}
+.dt__sort-icons [data-active="true"] {
+  color: var(--dt-primary);
+}
+.dt__sort-priority {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--dt-primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+.dt__filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-inline-start: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--dt-text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+}
+.dt__filter-trigger:hover {
+  background: var(--dt-sorted-header-bg);
+}
+.dt__filter-trigger[data-active="true"] {
+  color: var(--dt-primary);
+}
+.dt__filter-menu {
+  min-width: 160px;
+  padding: 8px 0;
+  border-radius: var(--dt-radius);
+  background: var(--dt-row-bg);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+.dt__filter-menu label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.dt__filter-menu label:hover {
+  background: var(--dt-hover-bg);
+}
+.dt__filter-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 8px 0;
+  border-top: 1px solid var(--dt-border);
+}
+
+/* --- expand & tree -------------------------------------------------------- */
+.dt__expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--dt-border);
+  border-radius: 4px;
+  background: var(--dt-row-bg);
+  color: var(--dt-text-secondary);
+  cursor: pointer;
+  font-size: 10px;
+  vertical-align: middle;
+  transition: transform var(--dt-motion) ease, color var(--dt-motion) ease;
+}
+.dt__expand:hover {
+  color: var(--dt-primary);
+  border-color: var(--dt-primary);
+}
+.dt__expand[aria-expanded="true"] {
+  transform: rotate(90deg);
+}
+.dt__expand-spacer {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.dt__tree-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+.dt__tree-cell .dt__expand,
+.dt__tree-cell .dt__expand-spacer {
+  flex: 0 0 auto;
+}
+
+.dt__expanded-row .dt__td {
+  padding: 0;
+  --dt-cell-bg: var(--dt-header-bg);
+}
+.dt__expanded {
+  display: grid;
+  grid-template-rows: 1fr;
+  animation: dt-expand var(--dt-motion) ease-out;
+}
+.dt__expanded > div {
+  min-height: 0;
+  overflow: hidden;
+}
+.dt__expanded-body {
+  padding: var(--dt-cell-py) var(--dt-cell-px);
+}
+@keyframes dt-expand {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+.dt[data-virtual="true"] .dt__expanded {
+  animation: none;
+}
+.dt__expanded-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--dt-error);
+}
+.dt__expanded-loading {
+  display: grid;
+  gap: 10px;
+}
+
+/* --- selection ----------------------------------------------------------- */
+.dt__selection-cell {
+  width: 1px;
+  white-space: nowrap;
+}
+.dt__selection-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.dt__selection-menu {
+  display: inline-flex;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--dt-text-secondary);
+  cursor: pointer;
+  font-size: 10px;
+}
+
+/* --- states -------------------------------------------------------------- */
+.dt__state-cell {
+  padding: 32px var(--dt-cell-px);
+  text-align: center;
+  color: var(--dt-text-secondary);
+}
+.dt__error {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--dt-text);
+}
+.dt__error-icon {
+  font-size: 28px;
+  color: var(--dt-error);
+}
+.dt__skeleton-bar {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--dt-skeleton) 25%, var(--dt-skeleton-shine) 37%, var(--dt-skeleton) 63%);
+  background-size: 400% 100%;
+  animation: dt-shimmer 1.4s ease infinite;
+}
+@keyframes dt-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+.dt__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--dt-row-bg) 65%, transparent);
+  backdrop-filter: blur(1px);
+}
+.dt__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* --- summary ------------------------------------------------------------- */
+.dt__summary .dt__td {
+  --dt-cell-bg: var(--dt-header-bg);
+  font-weight: 600;
+  border-top: 1px solid var(--dt-border);
+  border-bottom: 0;
+}
+.dt[data-sticky-header="true"] .dt__summary .dt__td {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+
+/* --- pagination ---------------------------------------------------------- */
+.dt__pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+}
+.dt__pagination[data-align="left"] {
+  justify-content: flex-start;
+}
+.dt__pagination[data-align="center"] {
+  justify-content: center;
+}
+.dt__pagination[data-align="right"] {
+  justify-content: flex-end;
+}
+.dt__pagination[data-size="small"] {
+  padding: 8px 0;
+  --dt-page-btn: 24px;
+}
+.dt__pagination-total {
+  color: var(--dt-text-secondary);
+  margin-inline-end: 4px;
+}
+.dt__page-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dt__page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--dt-page-btn, 32px);
+  height: var(--dt-page-btn, 32px);
+  padding: 0 6px;
+  border: 1px solid var(--dt-border);
+  border-radius: 6px;
+  background: var(--dt-row-bg);
+  color: var(--dt-text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--dt-motion) ease, color var(--dt-motion) ease;
+}
+.dt__page-btn:hover:not(:disabled) {
+  border-color: var(--dt-primary);
+  color: var(--dt-primary);
+}
+.dt__page-btn[aria-current="page"] {
+  border-color: var(--dt-primary);
+  color: var(--dt-primary);
+  font-weight: 600;
+}
+.dt__page-btn:disabled {
+  cursor: not-allowed;
+  color: var(--dt-text-secondary);
+  opacity: 0.6;
+}
+.dt__page-btn[data-jump="true"] {
+  border-color: transparent;
+  color: var(--dt-text-secondary);
+  letter-spacing: 1px;
+}
+.dt__page-simple {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dt__page-jumper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--dt-text-secondary);
+}
+
+/* --- virtual spacer rows ------------------------------------------------- */
+.dt__spacer td {
+  padding: 0;
+  border: 0;
+}
+.dt[data-virtual="true"] .dt__tr {
+  height: var(--dt-row-height);
+}
+.dt[data-virtual="true"] .dt__tr .dt__td {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: var(--dt-row-height);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+}
+
+/* --- drag reorder -------------------------------------------------------- */
+.dt__th[data-draggable="true"] {
+  cursor: grab;
+}
+.dt__th[data-dragging="true"] {
+  opacity: 0.5;
+}
+.dt__th[data-over="true"] {
+  box-shadow: inset 2px 0 0 var(--dt-primary);
+}
+.dt__drag-handle {
+  display: inline-flex;
+  margin-inline-end: 6px;
+  color: var(--dt-text-secondary);
+  cursor: grab;
+  touch-action: none;
+}
+
+/* --- motion preferences -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .dt,
+  .dt * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

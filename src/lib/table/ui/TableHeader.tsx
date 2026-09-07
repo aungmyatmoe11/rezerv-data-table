@@ -1,0 +1,104 @@
+"use client";
+
+import type { CSSProperties, ReactNode } from "react";
+import type { Key } from "../core/types";
+import type { TableInstance } from "../react/use-table";
+import type { RowContext } from "./context";
+import { HeaderCell } from "./HeaderCell";
+import { SelectionHeader } from "./SelectionCell";
+
+interface TableHeaderProps<T extends object> {
+  table: TableInstance<T>;
+  ctx: RowContext<T>;
+  renderDragHandle: ((key: Key) => { handle: ReactNode; attributes: Record<string, unknown>; dragging: boolean; setRef: (node: HTMLElement | null) => void } | null) | null;
+}
+
+export function TableHeader<T extends object>({ table, ctx, renderDragHandle }: TableHeaderProps<T>) {
+  const { layout, config, sorting, filtering, selection, props } = table;
+  const depth = layout.headerRows.length;
+  const hasExpandColumn = ctx.expansionMode === "row" && ctx.showExpandColumn;
+  const extrasEdge = ctx.stickyExtras && ctx.edgeLeftKey === null;
+
+  let extraLeft = 0;
+  const selectionStyle = ctx.stickyExtras ? ({ "--dt-left": `${extraLeft}px` } as CSSProperties) : undefined;
+  if (selection !== null) extraLeft += ctx.extraWidths.selection;
+  const expandStyle = ctx.stickyExtras ? ({ "--dt-left": `${extraLeft}px` } as CSSProperties) : undefined;
+  if (hasExpandColumn) extraLeft += ctx.extraWidths.expand;
+  const leftShift = ctx.stickyExtras ? extraLeft : 0;
+
+  return (
+    <thead className="dt__thead">
+      {layout.headerRows.map((row, rowIndex) => {
+        const rowAttrs = props.onHeaderRow?.(row.map((cell) => cell.column), rowIndex) ?? {};
+        return (
+          <tr key={rowIndex} {...rowAttrs}>
+            {rowIndex === 0 && selection !== null ? (
+              <th
+                scope="col"
+                className="dt__th dt__selection-cell"
+                rowSpan={depth === 1 ? undefined : depth}
+                style={selectionStyle}
+                data-fixed={ctx.stickyExtras ? "left" : undefined}
+                data-fixed-edge={extrasEdge && !hasExpandColumn ? "left" : undefined}
+              >
+                {selection.type === "checkbox" ? (
+                  <SelectionHeader
+                    allChecked={selection.pageAllChecked}
+                    indeterminate={selection.pageIndeterminate}
+                    disabled={!selection.pageHasChangeable}
+                    hideSelectAll={selection.resolved.hideSelectAll}
+                    title={selection.resolved.config.columnTitle}
+                    locale={config.locale}
+                    selections={selection.resolved.selections}
+                    changeableKeys={selection.changeableKeys}
+                    onTogglePage={selection.togglePage}
+                    onSelectAll={selection.selectAll}
+                    onInvert={selection.invert}
+                    onNone={selection.none}
+                  />
+                ) : (
+                  (selection.resolved.config.columnTitle ?? null)
+                )}
+              </th>
+            ) : null}
+            {rowIndex === 0 && hasExpandColumn ? (
+              <th
+                scope="col"
+                className="dt__th dt__selection-cell"
+                rowSpan={depth === 1 ? undefined : depth}
+                style={expandStyle}
+                data-fixed={ctx.stickyExtras ? "left" : ctx.expandFixed ?? undefined}
+                data-fixed-edge={extrasEdge ? "left" : undefined}
+              >
+                {table.expansion?.resolved.config.columnTitle ?? null}
+              </th>
+            ) : null}
+            {row.map((cell) => {
+              const left = layout.leftOffsets.get(cell.key);
+              const right = layout.rightOffsets.get(cell.key);
+              const edge = cell.key === ctx.edgeLeftKey ? "left" : cell.key === ctx.edgeRightKey ? "right" : null;
+              const drag = cell.leaf !== null && renderDragHandle !== null ? renderDragHandle(cell.key) : null;
+              return (
+                <HeaderCell
+                  key={String(cell.key)}
+                  cell={cell}
+                  sorting={sorting}
+                  filtering={filtering}
+                  tableSortDirections={config.sortDirections}
+                  showSorterTooltip={config.showSorterTooltip}
+                  locale={config.locale}
+                  left={left === undefined ? undefined : left + leftShift}
+                  right={right}
+                  edge={edge}
+                  dragHandle={drag?.handle ?? null}
+                  dragAttributes={drag === null ? undefined : { ...drag.attributes, ref: drag.setRef }}
+                  dragging={drag?.dragging ?? false}
+                />
+              );
+            })}
+          </tr>
+        );
+      })}
+    </thead>
+  );
+}

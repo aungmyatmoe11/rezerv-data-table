@@ -33,7 +33,7 @@ export interface FilteringApi {
 }
 
 export interface PaginationApi {
-  current: number;
+  page: number;
   pageSize: number;
   total: number;
   pages: number;
@@ -96,7 +96,6 @@ export interface TableInstance<T extends object> {
   selection: SelectionApi<T> | null;
   expansion: ExpansionApi<T> | null;
   reorder: ReorderApi | null;
-  refs: { wrapper: RefObject<HTMLDivElement | null>; scroller: RefObject<HTMLDivElement | null> };
 }
 
 function hasResponsive<T>(columns: readonly ColumnDef<T>[]): boolean {
@@ -120,15 +119,16 @@ function filtersFromLeaves<T>(leaves: readonly LeafColumn<T>[], mode: "controlle
  * Composes config → columns → state → row model → feature APIs into one view model.
  * Everything a feature needs is `null` when that feature is not configured.
  */
-export function useTable<T extends object>(props: DataTableProps<T>): TableInstance<T> {
+export function useTable<T extends object>(props: DataTableProps<T>, scrollerRef: RefObject<HTMLDivElement | null> | null = null): TableInstance<T> {
   const { columns, dataSource } = props;
+  const isEmpty = dataSource.length === 0;
 
   const config = useMemo(
     () => resolveConfig(props),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- resolveConfig reads exactly these props
     [
       columns,
-      dataSource.length === 0,
+      isEmpty,
       props.pagination,
       props.rowSelection,
       props.expandable,
@@ -168,7 +168,7 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
     return {
       sort: sortFromColumns(initialLayout.leaves, "default"),
       filters: filtersFromLeaves(initialLayout.leaves, "default"),
-      current: config.defaults.current,
+      page: config.defaults.page,
       pageSize: config.defaults.pageSize,
       selectedKeys: config.defaults.selectedKeys,
       expandedKeys: config.defaults.expandAll ? collectKeys(dataSource, getKey, childrenColumnName) : config.defaults.expandedKeys,
@@ -191,8 +191,8 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
     if (flags.sort) values.sort = sortFromColumns(layout.leaves, "controlled");
     if (flags.filters) values.filters = filtersFromLeaves(layout.leaves, "controlled");
     if (config.pagination.enabled) {
-      if (flags.current && config.pagination.config.current !== undefined) values.current = config.pagination.config.current;
-      if (flags.pageSize && config.pagination.config.pageSize !== undefined) values.pageSize = config.pagination.config.pageSize;
+      if (flags.page && config.pagination.controlledPage !== undefined) values.page = config.pagination.controlledPage;
+      if (flags.pageSize && config.pagination.controlledPageSize !== undefined) values.pageSize = config.pagination.controlledPageSize;
     }
     if (flags.selectedKeys && config.selection.enabled && config.selection.config.selectedRowKeys !== undefined) values.selectedKeys = config.selection.config.selectedRowKeys;
     if (flags.expandedKeys && expansion.enabled && expansion.config.expandedRowKeys !== undefined) values.expandedKeys = expansion.config.expandedRowKeys;
@@ -204,8 +204,8 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
 
   // --- on-demand children ---
   const modelRef = useRef<RowModel<T> | null>(null);
-  const preservedRef = useRef<Map<Key, T>>(new Map());
-  const getRecord = useCallback((key: Key): T | undefined => modelRef.current?.recordByKey.get(key) ?? preservedRef.current.get(key), []);
+  const [preserved] = useState(() => new Map<Key, T>());
+  const getRecord = useCallback((key: Key): T | undefined => modelRef.current?.recordByKey.get(key) ?? preserved.get(key), [preserved]);
   const loader = expansion.enabled && expansion.hasLoader ? (expansion.config.loadChildren ?? null) : null;
   const lazy = useLazyChildren<T>(loader, expansion.enabled ? expansion.cacheChildren : true, effective.expandedKeys, getRecord);
 
@@ -226,7 +226,7 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
       filters: state.filters,
       sort: stateSort,
       paginationEnabled,
-      current: state.page.current,
+      page: state.page.number,
       pageSize: state.page.pageSize,
       total,
       expansionMode: expansion.mode,
@@ -271,16 +271,16 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
 
   const preserve = selectionConfig.enabled && selectionConfig.preserveSelectedRowKeys;
   const selectedKeys = useMemo(
-    () => (selectionConfig.enabled ? pruneKeys(effective.selectedKeys, (key) => model.recordByKey.has(key) || preservedRef.current.has(key), preserve) : EMPTY_KEYS),
-    [selectionConfig.enabled, effective.selectedKeys, model.recordByKey, preserve],
+    () => (selectionConfig.enabled ? pruneKeys(effective.selectedKeys, (key) => model.recordByKey.has(key) || preserved.has(key), preserve) : EMPTY_KEYS),
+    [selectionConfig.enabled, effective.selectedKeys, model.recordByKey, preserve, preserved],
   );
   const selectedSet = useMemo(() => new Set(selectedKeys), [selectedKeys]);
   const expandedSet = useMemo(() => new Set(effective.expandedKeys), [effective.expandedKeys]);
 
-  // --- refs & sticky cue ---
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  useStickyScroll(scrollerRef, layout.hasFixed);
+  // --- sticky cue (needs the scroller element from the UI layer) ---
+  const fallbackScroller = useRef<HTMLDivElement | null>(null);
+  const scroller = scrollerRef ?? fallbackScroller;
+  useStickyScroll(scroller, layout.hasFixed && scrollerRef !== null);
 
   // --- wire the reducer context and emit dependencies for `send` ---
   const ctx = useMemo<ReduceContext<T>>(
@@ -290,18 +290,15 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
   const rememberRecords = useCallback(
     (keys: readonly Key[]): void => {
       if (!preserve) return;
-      const next = new Map<Key, T>();
-      for (const key of keys) {
-        const record = getRecord(key);
-        if (record !== undefined) next.set(key, record);
-      }
-      preservedRef.current = next;
+      const records = keys.map((key) => [key, getRecord(key)] as const).filter((pair): pair is readonly [Key, T] => pair[1] !== undefined);
+      preserved.clear();
+      for (const [key, record] of records) preserved.set(key, record);
     },
-    [preserve, getRecord],
+    [preserve, getRecord, preserved],
   );
   const scrollToTop = useCallback(() => {
-    scrollerRef.current?.scrollTo({ top: 0 });
-  }, []);
+    scroller.current?.scrollTo({ top: 0 });
+  }, [scroller]);
   const deps = useMemo<EmitDeps<T>>(
     () => ({
       props,
@@ -347,7 +344,7 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
   const pagination = useMemo<PaginationApi | null>(() => {
     if (!config.pagination.enabled) return null;
     return {
-      current: model.page.current,
+      page: model.page.number,
       pageSize: model.page.pageSize,
       total: model.page.total,
       pages: totalPages(model.page.total, model.page.pageSize),
@@ -421,6 +418,5 @@ export function useTable<T extends object>(props: DataTableProps<T>): TableInsta
     selection,
     expansion: expansionApi,
     reorder,
-    refs: { wrapper: wrapperRef, scroller: scrollerRef },
   };
 }

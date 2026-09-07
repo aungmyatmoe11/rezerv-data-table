@@ -54,6 +54,8 @@ export type ResolvedPagination =
   | {
       enabled: true;
       config: PaginationConfig;
+      controlledPage: number | undefined;
+      controlledPageSize: number | undefined;
       position: readonly PaginationPosition[];
       pageSizeOptions: readonly number[];
       showSizeChanger: boolean;
@@ -124,7 +126,7 @@ export interface ResolvedConfig<T> {
   locale: typeof DEFAULT_LOCALE;
   controlled: ControlledFlags;
   /** Initial (default*) values for uncontrolled slices. */
-  defaults: { current: number; pageSize: number; selectedKeys: readonly import("./types").Key[]; expandedKeys: readonly import("./types").Key[]; expandAll: boolean; columnOrder: readonly import("./types").Key[] | null };
+  defaults: { page: number; pageSize: number; selectedKeys: readonly import("./types").Key[]; expandedKeys: readonly import("./types").Key[]; expandAll: boolean; columnOrder: readonly import("./types").Key[] | null };
 }
 
 function walkColumns<T>(columns: readonly ColumnDef<T>[], visit: (column: ColumnDef<T>) => void): void {
@@ -154,6 +156,8 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
       : {
           enabled: true,
           config: pagination ?? {},
+          controlledPage: pagination?.current,
+          controlledPageSize: pagination?.pageSize,
           position: pagination?.position ?? ["bottomRight"],
           pageSizeOptions: pagination?.pageSizeOptions ?? DEFAULT_PAGE_SIZE_OPTIONS,
           showSizeChanger: pagination?.showSizeChanger ?? false,
@@ -235,7 +239,7 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
   const controlled: ControlledFlags = {
     sort: sortControlled,
     filters: filtersControlled,
-    current: pagination !== false && pagination?.current !== undefined,
+    page: pagination !== false && pagination?.current !== undefined,
     pageSize: pagination !== false && pagination?.pageSize !== undefined,
     selectedKeys: rowSelection?.selectedRowKeys !== undefined,
     expandedKeys: expandable?.expandedRowKeys !== undefined,
@@ -266,7 +270,7 @@ export function resolveConfig<T extends object>(props: DataTableProps<T>): Resol
     locale: { ...DEFAULT_LOCALE, ...stripUndefined(props.locale ?? {}) },
     controlled,
     defaults: {
-      current: pagination !== false ? (pagination?.defaultCurrent ?? 1) : 1,
+      page: pagination !== false ? (pagination?.defaultCurrent ?? 1) : 1,
       pageSize: pagination !== false ? (pagination?.defaultPageSize ?? DEFAULT_PAGE_SIZE) : DEFAULT_PAGE_SIZE,
       selectedKeys: rowSelection?.defaultSelectedRowKeys ?? [],
       expandedKeys: expandable?.defaultExpandedRowKeys ?? [],

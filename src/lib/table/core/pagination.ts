@@ -21,7 +21,7 @@ export function isServerPaged(dataLength: number, total: number | undefined): bo
 
 export interface PaginateResult<T> {
   rows: readonly T[];
-  current: number;
+  number: number;
   pageSize: number;
   total: number;
   server: boolean;
@@ -35,12 +35,12 @@ export function paginate<T>(rows: readonly T[], current: number, pageSize: numbe
     const page = clampPage(current, size, serverTotal);
     // parent က page တစ်ခုထက် ပိုပို့လာရင်ပဲ slice လုပ်တယ်
     const pageRows = rows.length > size ? rows.slice(0, size) : rows;
-    return { rows: pageRows, current: page, pageSize: size, total: serverTotal, server: true };
+    return { rows: pageRows, number: page, pageSize: size, total: serverTotal, server: true };
   }
   const clientTotal = rows.length;
   const page = clampPage(current, size, clientTotal);
   const start = (page - 1) * size;
-  return { rows: rows.slice(start, start + size), current: page, pageSize: size, total: clientTotal, server: false };
+  return { rows: rows.slice(start, start + size), number: page, pageSize: size, total: clientTotal, server: false };
 }
 
 export function paginationState(current: number, pageSize: number, total: number): TablePaginationState {

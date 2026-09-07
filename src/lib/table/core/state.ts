@@ -34,7 +34,7 @@ export interface ReduceContext<T> {
 export interface InitialStateInput {
   sort: readonly SortEntry[];
   filters: FilterState;
-  current: number;
+  page: number;
   pageSize: number;
   selectedKeys: readonly Key[];
   expandedKeys: readonly Key[];
@@ -45,7 +45,7 @@ export function initialState(input: InitialStateInput): TableState {
   return {
     sort: input.sort,
     filters: input.filters,
-    page: { current: input.current, pageSize: input.pageSize },
+    page: { number: input.page, pageSize: input.pageSize },
     selectedKeys: input.selectedKeys,
     expandedKeys: input.expandedKeys,
     columnOrder: input.columnOrder,
@@ -64,18 +64,18 @@ export function reduce<T>(prev: TableState, action: TableAction, ctx: ReduceCont
       const leaf = ctx.leavesByKey.get(action.columnKey);
       if (leaf === undefined || !leaf.sortable) return prev;
       const sort = toggleSort(prev.sort, action.columnKey, { multiple: leaf.multiple, sortDirections: leaf.sortDirections }, ctx.sortDirections);
-      return { ...prev, sort, page: { ...prev.page, current: 1 } };
+      return { ...prev, sort, page: { ...prev.page, number: 1 } };
     }
     case "filter/set": {
       const filters: FilterState = { ...prev.filters, [String(action.columnKey)]: action.value };
-      return { ...prev, filters, page: { ...prev.page, current: 1 } };
+      return { ...prev, filters, page: { ...prev.page, number: 1 } };
     }
     case "page/set":
-      if (action.current === prev.page.current) return prev;
-      return { ...prev, page: { ...prev.page, current: action.current } };
+      if (action.current === prev.page.number) return prev;
+      return { ...prev, page: { ...prev.page, number: action.current } };
     case "page/setSize":
       if (action.pageSize === prev.page.pageSize) return prev;
-      return { ...prev, page: { current: 1, pageSize: action.pageSize } };
+      return { ...prev, page: { number: 1, pageSize: action.pageSize } };
     case "select/toggle": {
       const selectedKeys =
         ctx.keyEntities !== null
@@ -109,7 +109,7 @@ export function reduce<T>(prev: TableState, action: TableAction, ctx: ReduceCont
 export interface ControlledValues {
   sort?: readonly SortEntry[];
   filters?: FilterState;
-  current?: number;
+  page?: number;
   pageSize?: number;
   selectedKeys?: readonly Key[];
   expandedKeys?: readonly Key[];
@@ -122,7 +122,7 @@ export function mergeControlled(internal: TableState, controlled: ControlledValu
     sort: flags.sort ? (controlled.sort ?? []) : internal.sort,
     filters: flags.filters ? (controlled.filters ?? {}) : internal.filters,
     page: {
-      current: flags.current ? (controlled.current ?? 1) : internal.page.current,
+      number: flags.page ? (controlled.page ?? 1) : internal.page.number,
       pageSize: flags.pageSize ? (controlled.pageSize ?? internal.page.pageSize) : internal.page.pageSize,
     },
     selectedKeys: flags.selectedKeys ? (controlled.selectedKeys ?? []) : internal.selectedKeys,
@@ -137,7 +137,7 @@ export function pickUncontrolled(next: TableState, flags: ControlledFlags, prevI
     sort: flags.sort ? prevInternal.sort : next.sort,
     filters: flags.filters ? prevInternal.filters : next.filters,
     page: {
-      current: flags.current ? prevInternal.page.current : next.page.current,
+      number: flags.page ? prevInternal.page.number : next.page.number,
       pageSize: flags.pageSize ? prevInternal.page.pageSize : next.page.pageSize,
     },
     selectedKeys: flags.selectedKeys ? prevInternal.selectedKeys : next.selectedKeys,

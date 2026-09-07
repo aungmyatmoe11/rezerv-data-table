@@ -27,7 +27,7 @@ describe("useTable — progressive disclosure", () => {
     expect(result.current.selection).toBeNull();
     expect(result.current.expansion).toBeNull();
     expect(result.current.reorder).toBeNull();
-    expect(result.current.pagination).toMatchObject({ current: 1, pageSize: 10, total: 23, pages: 3, server: false });
+    expect(result.current.pagination).toMatchObject({ page: 1, pageSize: 10, total: 23, pages: 3, server: false });
     expect(result.current.model.flat).toHaveLength(10);
     expect(result.current.layout.hasFixed).toBe(false);
   });
@@ -53,12 +53,12 @@ describe("useTable — uncontrolled sort fires the FE hook with page reset", () 
     const { result } = setup({ onChange, pagination: { pageSize: 5, onChange: onPage } });
 
     act(() => result.current.pagination?.setPage(3));
-    expect(result.current.pagination?.current).toBe(3);
+    expect(result.current.pagination?.page).toBe(3);
     expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ current: 3 }), {}, expect.objectContaining({ order: null }), expect.objectContaining({ action: "paginate" }));
 
     act(() => result.current.sorting.toggle("age"));
     expect(result.current.sorting.orderOf("age")).toBe("ascend");
-    expect(result.current.pagination?.current).toBe(1);
+    expect(result.current.pagination?.page).toBe(1);
     expect(onPage).toHaveBeenLastCalledWith(1, 5);
     const [pagination, filters, sorter, extra] = onChange.mock.calls.at(-1) as Parameters<NonNullable<DataTableProps<Row>["onChange"]>>;
     expect(pagination).toEqual({ current: 1, pageSize: 5, total: 23 });
@@ -81,15 +81,15 @@ describe("useTable — controlled slices are never written", () => {
   it("emits current=1 on sort but keeps rendering the parent's page until the parent applies it", () => {
     const onChange = vi.fn();
     const { result, rerender } = setup({ onChange, pagination: { current: 2, pageSize: 5 } });
-    expect(result.current.pagination?.current).toBe(2);
+    expect(result.current.pagination?.page).toBe(2);
 
     act(() => result.current.sorting.toggle("name"));
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange.mock.calls[0]?.[0]).toMatchObject({ current: 1 });
-    expect(result.current.pagination?.current).toBe(2); // parent still says 2
+    expect(result.current.pagination?.page).toBe(2); // parent still says 2
 
     rerender({ columns, dataSource: rows, onChange, pagination: { current: 1, pageSize: 5 } });
-    expect(result.current.pagination?.current).toBe(1);
+    expect(result.current.pagination?.page).toBe(1);
     expect(result.current.sorting.orderOf("name")).toBe("ascend"); // uncontrolled slice kept
   });
 
@@ -110,7 +110,7 @@ describe("useTable — controlled slices are never written", () => {
     const onePage = rows.slice(0, 5);
     const serverColumns: ColumnDef<Row>[] = [{ dataIndex: "name", title: "Name", sorter: true }];
     const { result } = setup({ columns: serverColumns, dataSource: onePage, pagination: { current: 2, pageSize: 5, total: 23 } });
-    expect(result.current.pagination).toMatchObject({ current: 2, total: 23, pages: 5, server: true });
+    expect(result.current.pagination).toMatchObject({ page: 2, total: 23, pages: 5, server: true });
     expect(result.current.model.flat.map((e) => e.kind === "row" && e.record.key)).toEqual(onePage.map((r) => r.key));
   });
 });

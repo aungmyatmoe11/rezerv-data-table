@@ -16,7 +16,7 @@ const columns: ColumnDef<Row>[] = [
   { dataIndex: "key", title: "Key" },
 ];
 
-const base: TableState = initialState({ sort: [], filters: {}, current: 3, pageSize: 10, selectedKeys: [], expandedKeys: [], columnOrder: null });
+const base: TableState = initialState({ sort: [], filters: {}, page: 3, pageSize: 10, selectedKeys: [], expandedKeys: [], columnOrder: null });
 
 function ctx(overrides: Partial<ReduceContext<Row>> = {}): ReduceContext<Row> {
   return {
@@ -29,13 +29,13 @@ function ctx(overrides: Partial<ReduceContext<Row>> = {}): ReduceContext<Row> {
   };
 }
 
-const none: ControlledFlags = { sort: false, filters: false, current: false, pageSize: false, selectedKeys: false, expandedKeys: false, columnOrder: false };
+const none: ControlledFlags = { sort: false, filters: false, page: false, pageSize: false, selectedKeys: false, expandedKeys: false, columnOrder: false };
 
 describe("reduce — cross-slice rules", () => {
   it("sort, filter and page-size changes reset the page to 1", () => {
-    expect(reduce(base, { type: "sort/toggle", columnKey: "name" }, ctx()).page.current).toBe(1);
-    expect(reduce(base, { type: "filter/set", columnKey: "name", value: ["x"] }, ctx()).page.current).toBe(1);
-    expect(reduce(base, { type: "page/setSize", pageSize: 20 }, ctx()).page).toEqual({ current: 1, pageSize: 20 });
+    expect(reduce(base, { type: "sort/toggle", columnKey: "name" }, ctx()).page.number).toBe(1);
+    expect(reduce(base, { type: "filter/set", columnKey: "name", value: ["x"] }, ctx()).page.number).toBe(1);
+    expect(reduce(base, { type: "page/setSize", pageSize: 20 }, ctx()).page).toEqual({ number: 1, pageSize: 20 });
   });
 
   it("ignores sort on a non-sortable column and returns the same state object", () => {
@@ -73,15 +73,15 @@ describe("reduce — selection scopes", () => {
 
 describe("controlled slices", () => {
   it("mergeControlled reads controlled slices from props and pickUncontrolled never writes them", () => {
-    const flags: ControlledFlags = { ...none, current: true, sort: true };
-    const effective = mergeControlled(base, { current: 7, sort: [{ columnKey: "name", order: "descend", multiple: false }] }, flags);
-    expect(effective.page.current).toBe(7);
+    const flags: ControlledFlags = { ...none, page: true, sort: true };
+    const effective = mergeControlled(base, { page: 7, sort: [{ columnKey: "name", order: "descend", multiple: false }] }, flags);
+    expect(effective.page.number).toBe(7);
     expect(effective.sort[0]?.order).toBe("descend");
 
     const next = reduce(effective, { type: "sort/toggle", columnKey: "name" }, ctx());
-    expect(next.page.current).toBe(1); // reducer computes the intent…
+    expect(next.page.number).toBe(1); // reducer computes the intent…
     const internal = pickUncontrolled(next, flags, base);
-    expect(internal.page.current).toBe(3); // …but controlled slices are never stored
+    expect(internal.page.number).toBe(3); // …but controlled slices are never stored
     expect(internal.sort).toBe(base.sort);
   });
 });

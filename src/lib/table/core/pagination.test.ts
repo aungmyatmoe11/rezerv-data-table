@@ -24,8 +24,8 @@ describe("paginate", () => {
   it("slices client data in one pass and reports the clamped page", () => {
     const page = paginate(rows, 5, 10, undefined);
     expect(page.rows).toEqual([41, 42, 43, 44, 45]);
-    expect(page).toMatchObject({ current: 5, pageSize: 10, total: 45, server: false });
-    expect(paginate(rows, 9, 10, undefined).current).toBe(5);
+    expect(page).toMatchObject({ number: 5, pageSize: 10, total: 45, server: false });
+    expect(paginate(rows, 9, 10, undefined).number).toBe(5);
   });
 
   it("switches to server mode when the parent hands over fewer rows than `total` (Ant Design rule)", () => {
@@ -33,7 +33,7 @@ describe("paginate", () => {
     expect(isServerPaged(onePage.length, 45)).toBe(true);
     const page = paginate(onePage, 3, 10, 45);
     expect(page.rows).toBe(onePage);
-    expect(page).toMatchObject({ current: 3, total: 45, server: true });
+    expect(page).toMatchObject({ number: 3, total: 45, server: true });
   });
 
   it("stays in client mode when `total` equals the data length", () => {

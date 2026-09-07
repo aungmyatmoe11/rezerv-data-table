@@ -31,7 +31,7 @@ export interface RowModelInput<T> {
   filters: FilterState;
   sort: readonly SortEntry[];
   paginationEnabled: boolean;
-  current: number;
+  page: number;
   pageSize: number;
   total: number | undefined;
   expansionMode: ExpansionMode;
@@ -85,8 +85,8 @@ export function createRowModel<T>(): (input: RowModelInput<T>) => RowModel<T> {
   const filtered = memoLast(filterTree<T>);
   const comparator = memoLast(buildComparator<T>);
   const sorted = memoLast(sortTree<T>);
-  const paged = memoLast((rows: readonly T[], enabled: boolean, current: number, pageSize: number, total: number | undefined): PaginateResult<T> =>
-    enabled ? paginate(rows, current, pageSize, total) : { rows, current: 1, pageSize: Math.max(1, rows.length), total: rows.length, server: false },
+  const paged = memoLast((rows: readonly T[], enabled: boolean, pageNumber: number, pageSize: number, total: number | undefined): PaginateResult<T> =>
+    enabled ? paginate(rows, pageNumber, pageSize, total) : { rows, number: 1, pageSize: Math.max(1, rows.length), total: rows.length, server: false },
   );
   const expandedSet = memoLast((keys: readonly Key[]) => new Set(keys));
   const flattened = memoLast(
@@ -109,7 +109,7 @@ export function createRowModel<T>(): (input: RowModelInput<T>) => RowModel<T> {
     const s2 = filtered(input.dataSource, input.filters, input.leavesByKey, input.childrenColumnName);
     const compare = comparator(input.sort, input.leavesByKey);
     const s3 = sorted(s2, compare, input.childrenColumnName);
-    const page = paged(s3, input.paginationEnabled, input.current, input.pageSize, input.total);
+    const page = paged(s3, input.paginationEnabled, input.page, input.pageSize, input.total);
     const flat = flattened(
       page.rows,
       input.expansionMode,
