@@ -40,6 +40,31 @@ test.describe("timetable — client mode", () => {
     expect(await cell.innerText()).toContain(title ?? "");
   });
 
+  test("a long attendee list is paginated inside the expanded row", async ({ page }) => {
+    const parent = table(page).locator("tbody tr.dt__tr", { hasText: "Power Lifting" }).first();
+    await parent.getByRole("button", { name: /expand row/i }).click();
+    const nested = page.getByRole("table", { name: /^Attendees for Power Lifting/ });
+    await expect(nested).toBeVisible();
+    await expect(nested.locator("tbody tr.dt__tr:not(.dt__state-row)")).toHaveCount(5);
+    const pager = page.getByRole("navigation", { name: /^Attendees for Power Lifting pagination$/ });
+    await expect(pager).toContainText("12 attendees");
+    await pager.getByRole("button", { name: "Page 2" }).click();
+    await expect(nested.locator("tbody tr.dt__tr:not(.dt__state-row)")).toHaveCount(5);
+  });
+
+  test("Reset clears sorting, selection and the demo toggles", async ({ page }) => {
+    const header = page.getByRole("columnheader", { name: /^Class/ });
+    await header.getByRole("button").click();
+    await expect(header).toHaveAttribute("aria-sort", "ascending");
+    await page.getByRole("checkbox", { name: /Select row/ }).first().check();
+    await expect(page.getByText(/1 class selected/)).toBeVisible();
+
+    await page.getByRole("button", { name: "Reset", exact: true }).click();
+    await waitForRows(page);
+    await expect(page.getByRole("columnheader", { name: /^Class/ })).toHaveAttribute("aria-sort", "none");
+    await expect(page.getByText(/selected/)).toHaveCount(0);
+  });
+
   test("sorts a column ascending → descending → none", async ({ page }) => {
     const header = page.getByRole("columnheader", { name: /^Class/ });
     const button = header.getByRole("button");

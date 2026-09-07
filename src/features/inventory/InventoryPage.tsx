@@ -64,11 +64,23 @@ export function InventoryPage() {
   const [linkedSelection, setLinkedSelection] = useState(true);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [drawerItem, setDrawerItem] = useState<InventoryItem | null>(null);
+  const [resetKey, setResetKey] = useState(0);
 
   const changeScenario = (next: Scenario): void => {
     resetScenarioLatches();
     setNonce(String(Date.now()));
     setScenario(next);
+  };
+
+  /** Clears the demo toggles, the selection and the table's own multi-sort / filters / page. */
+  const reset = (): void => {
+    resetScenarioLatches();
+    setScenario("normal");
+    setLinkedSelection(true);
+    setSelectedKeys([]);
+    setDrawerItem(null);
+    setNonce(String(Date.now()));
+    setResetKey((key) => key + 1);
   };
 
   const fetcher = useCallback(
@@ -118,6 +130,9 @@ export function InventoryPage() {
             Linked selection (checkStrictly: false)
             <Switch checked={linkedSelection} onChange={setLinkedSelection} />
           </label>
+          <Button size="small" onClick={reset}>
+            Reset
+          </Button>
         </div>
         <Text tone="secondary">
           Every column sorter is <code>{"{ multiple: n }"}</code> without a comparator, so clicking headers builds a multi-sort that the table only <em>emits</em>; the server orders the page. Products with variants expand into tree rows.
@@ -138,6 +153,7 @@ export function InventoryPage() {
       ) : null}
 
       <DataTable<InventoryItem>
+        key={resetKey}
         aria-label="Inventory items"
         columns={columns}
         dataSource={request.dataSource}

@@ -24,12 +24,12 @@ describe("DataTable — bare render", () => {
     expect(within(table).getAllByRole("row")).toHaveLength(1 + 10); // header + first page
     expect(screen.queryByRole("checkbox")).toBeNull();
     expect(screen.queryByRole("button", { name: /expand row/i })).toBeNull();
-    expect(screen.getByRole("navigation", { name: "Pagination" })).toBeInTheDocument();
+    expect(screen.getByRole("navigation", { name: "People pagination" })).toBeInTheDocument();
   });
 
   it("pagination={false} removes the pager and renders every row", () => {
     render(<DataTable columns={columns} dataSource={rows} pagination={false} />);
-    expect(screen.queryByRole("navigation", { name: "Pagination" })).toBeNull();
+    expect(screen.queryByRole("navigation", { name: /pagination/i })).toBeNull();
     expect(screen.getAllByRole("row")).toHaveLength(1 + 12);
   });
 });

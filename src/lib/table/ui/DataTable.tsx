@@ -102,7 +102,10 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
       ? null
       : pagination.resolved.position
           .filter((position) => position.startsWith(edge))
-          .map((position) => <TablePagination key={position} api={pagination} align={alignOf(position)} locale={config.locale} />);
+          .map((position) => <TablePagination key={position} api={pagination} align={alignOf(position)} locale={config.locale} label={paginationLabel} />);
+
+  const tableName = props["aria-label"];
+  const paginationLabel = tableName === undefined ? "Pagination" : `${tableName} pagination`;
 
   const title = props.title?.(table.pageData);
   const footer = props.footer?.(table.pageData);

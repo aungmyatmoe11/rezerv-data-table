@@ -25,7 +25,8 @@ test("keyboard: sort buttons, expand toggles and pagination are reachable and op
   await expect(expand).toHaveAttribute("aria-expanded", "true");
   await expect(expand).toHaveAttribute("aria-controls", /.+/);
 
-  const next = page.getByRole("button", { name: "Next page" });
+  // the expanded row above added a nested table with its own pager, so target this table's
+  const next = page.getByRole("navigation", { name: "Class timetable pagination" }).getByRole("button", { name: "Next page" });
   await next.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("button", { name: "Page 2" })).toHaveAttribute("aria-current", "page");

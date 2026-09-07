@@ -64,4 +64,6 @@ docs/                     PRODUCT, ARCHITECTURE, DESIGN, API, REQUIREMENTS_TRACE
   `role="combobox"` + `role="option"`, Switch is `role="switch"`, Drawer is `role="dialog"`.
   Prefer `getByRole` over class selectors.
 - Expand toggles relabel to "Collapse row"; scope locators to the row (`firstExpandToggle` helper).
+- A page can hold several tables: pagers are named `"<table aria-label> pagination"`, so address
+  them by that name rather than by "Pagination".
 - Read `test-results/**/error-context.md` before guessing at a failure.

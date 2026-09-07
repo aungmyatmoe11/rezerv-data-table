@@ -44,11 +44,28 @@ export function TimetablePage() {
   const [rowCount, setRowCount] = useState<RowCount>(64);
   const [nonce, setNonce] = useState(() => String(Date.now()));
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
+  const [resetKey, setResetKey] = useState(0);
 
   const changeScenario = (next: Scenario): void => {
     resetScenarioLatches();
     setNonce(String(Date.now()));
     setScenario(next);
+  };
+
+  /**
+   * Back to a clean slate: the demo toggles, the selection, and the table's own sort / filter /
+   * page state. The last one lives inside the table, so the reset key remounts it — the same
+   * thing a consumer would do to drop uncontrolled state.
+   */
+  const reset = (): void => {
+    resetScenarioLatches();
+    setDataMode("client");
+    setChildrenMode("inline");
+    setRowCount(64);
+    setScenario("normal");
+    setSelectedKeys([]);
+    setNonce(String(Date.now()));
+    setResetKey((key) => key + 1);
   };
 
   const columns = useMemo(() => buildClassColumns(dataMode), [dataMode]);
@@ -106,7 +123,8 @@ export function TimetablePage() {
             columns={attendeeColumns}
             dataSource={attendees}
             rowKey="id"
-            pagination={false}
+            // a full class can hold twenty-plus attendees; page them so the parent row stays readable
+            pagination={{ defaultPageSize: 5, size: "small", hideOnSinglePage: true, showTotal: (total) => `${total} attendee${total === 1 ? "" : "s"}` }}
             aria-label={`Attendees for ${record.name}`}
             locale={{ emptyText: "No attendees have booked this class yet." }}
           />
@@ -141,6 +159,9 @@ export function TimetablePage() {
             Scenario
             <Select<Scenario> value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
           </label>
+          <Button size="small" onClick={reset}>
+            Reset
+          </Button>
         </div>
         <Text tone="secondary">
           {dataMode === "client"
@@ -174,6 +195,7 @@ export function TimetablePage() {
       ) : null}
 
       <DataTable<ClassSession>
+        key={resetKey}
         aria-label="Class timetable"
         columns={columns}
         dataSource={dataSource}

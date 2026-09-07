@@ -246,6 +246,16 @@ export function PlaygroundPage() {
             value={PRESETS.find((preset) => Object.entries(preset.config).every(([key, value]) => config[key as keyof PlaygroundConfig] === value) && Object.keys(preset.config).length > 0)?.key ?? "defaults"}
             onChange={(key) => (key === "defaults" ? dispatch({ type: "reset" }) : dispatch({ type: "merge", config: PRESETS.find((preset) => preset.key === key)?.config ?? {} }))}
           />
+          <Button
+            size="small"
+            onClick={() => {
+              dispatch({ type: "reset" });
+              setSelectedKeys([]);
+              setEvents([]);
+            }}
+          >
+            Reset
+          </Button>
         </div>
       </div>
 

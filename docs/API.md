@@ -134,6 +134,9 @@ attendees, and it is the same component, not a cut-down variant. Two rules make 
   (`.dt[data-…] > .dt__scroller > .dt__table > …`) so a parent never restyles a child's cells. A
   nested table therefore renders at *its own* density; give it `size="small"` if you want it
   denser than the parent, and leave it alone to match.
+- **Each pager names its table.** `aria-label` on the table becomes `"<name> pagination"` on its
+  pagination bar, so a nested table's pager never collides with its parent's for screen readers
+  (or for tests).
 - **Children come from wherever the consumer has them.** Inline mode reads them off the record
   (`record.attendees`); on-demand mode receives them as `expandedRowRender`'s fifth argument.
   `/timetable` runs both against the same mock API — the list endpoint embeds children only when

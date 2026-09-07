@@ -9,10 +9,12 @@ interface TablePaginationProps {
   api: PaginationApi;
   align: "left" | "center" | "right";
   locale: typeof DEFAULT_LOCALE;
+  /** Accessible name; a nested table's pager must not collide with its parent's. */
+  label: string;
 }
 
 /** Hand-built pagination — markup, keyboard behaviour and page-window logic are all ours. */
-export function TablePagination({ api, align, locale }: TablePaginationProps) {
+export function TablePagination({ api, align, locale, label }: TablePaginationProps) {
   const { resolved, page: pageNumber, pageSize, total, pages } = api;
   const { config } = resolved;
   if (resolved.hideOnSinglePage && pages <= 1) return null;
@@ -38,7 +40,7 @@ export function TablePagination({ api, align, locale }: TablePaginationProps) {
   );
 
   return (
-    <nav className="dt__pagination" aria-label="Pagination" data-align={align} data-size={small ? "small" : "default"}>
+    <nav className="dt__pagination" aria-label={label} data-align={align} data-size={small ? "small" : "default"}>
       {config.showTotal !== undefined ? <span className="dt__pagination-total">{config.showTotal(total, range)}</span> : null}
       {resolved.simple ? (
         <span className="dt__page-simple">
