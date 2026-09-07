@@ -139,33 +139,38 @@ describe("useTable — selection & expansion APIs appear only with their config"
 
   it("on-demand children: loading → ready, error → retry, collapse aborts", async () => {
     let attempt = 0;
+    // fetch တစ်ခုချင်းစီကို test ကပဲ လက်နဲ့ဖြေပေးတယ် — timer သုံးရင် CI နှေးချိန်မှာ
+    // "loading" ကို မမီလိုက်ဘဲ ကျော်သွားနိုင်လို့ deferred နဲ့ တိကျအောင်ထိန်းထားတယ်
+    let settle: (() => void) | null = null;
     const loadChildren = vi.fn(async (record: Row, signal: AbortSignal) => {
       attempt += 1;
-      await new Promise((resolve, reject) => {
-        const timer = setTimeout(resolve, 5);
-        signal.addEventListener("abort", () => {
-          clearTimeout(timer);
-          reject(Object.assign(new Error("aborted"), { name: "AbortError" }));
-        });
+      await new Promise<void>((resolve, reject) => {
+        settle = resolve;
+        signal.addEventListener("abort", () => reject(Object.assign(new Error("aborted"), { name: "AbortError" })));
       });
       if (attempt === 1) throw new Error("boom");
       return [`child of ${record.key}`];
     });
+    const settleFetch = async (): Promise<void> => {
+      const resolve = settle;
+      settle = null;
+      await act(async () => {
+        resolve?.();
+      });
+    };
     const { result } = setup({ expandable: { expandedRowRender: (_r, _i, _d, _e, children) => String(children), loadChildren } });
 
     await act(async () => {
       result.current.expansion?.toggle("r0");
     });
     expect(result.current.expansion?.lazy.get("r0")?.status).toBe("loading");
-    await act(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 10));
-    });
+    await settleFetch();
     expect(result.current.expansion?.lazy.get("r0")?.status).toBe("error");
 
     await act(async () => {
       result.current.expansion?.retry("r0");
-      await new Promise((resolve) => setTimeout(resolve, 10));
     });
+    await settleFetch();
     expect(result.current.expansion?.lazy.get("r0")).toMatchObject({ status: "ready", data: ["child of r0"] });
 
     await act(async () => {
