@@ -70,6 +70,7 @@ function buildLeaf<T>(column: AnyLeafColumnDef<T>, key: Key, fixed: FixedSide | 
   }
   const ellipsis = column.ellipsis;
   const render = column.render as LeafColumn<T>["render"] | undefined;
+  const formatter = column.formatter as LeafColumn<T>["formatter"] | undefined;
 
   return {
     key,
@@ -93,6 +94,7 @@ function buildLeaf<T>(column: AnyLeafColumnDef<T>, key: Key, fixed: FixedSide | 
     onFilter: typeof column.onFilter === "function" ? column.onFilter : null,
     onCell: typeof column.onCell === "function" ? column.onCell : null,
     render: render ?? null,
+    formatter: formatter ?? null,
     index: -1,
   };
 }

@@ -1,6 +1,5 @@
 import { afterAll, describe, expect, it } from "vitest";
-import { formatTimeRange } from "./timetable/columns";
-import { studioTime } from "./format";
+import { formatTimeRange, studioTime, TIME_FORMATS, type TimeFormat } from "./format";
 
 const START = "2026-09-06T22:00:00.000Z";
 const END = "2026-09-06T22:50:00.000Z";
@@ -14,6 +13,11 @@ describe("studio clock", () => {
   it("renders the studio's wall clock, not the runtime's", () => {
     expect(studioTime(START).format("ddd D MMM · HH:mm")).toBe("Mon 7 Sep · 05:00");
     expect(formatTimeRange(START, END)).toBe("Mon 7 Sep · 05:00 – 05:50");
+  });
+
+  it("renders every display pattern from the same instant", () => {
+    const seen = (Object.keys(TIME_FORMATS) as TimeFormat[]).map((format) => formatTimeRange(START, END, format));
+    expect(seen).toEqual(["Mon 7 Sep · 05:00 – 05:50", "07/09/2026 05:00 – 05:50", "Sep 7, 5:00 AM – 5:50 AM", "05:00 – 05:50"]);
   });
 
   it("is identical in every timezone — the server renders these cells too, so a drift breaks hydration", () => {

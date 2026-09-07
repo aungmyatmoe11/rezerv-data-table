@@ -18,3 +18,23 @@ export const STUDIO_UTC_OFFSET_MINUTES = 420;
 export function studioTime(iso: string): Dayjs {
   return dayjs.utc(iso).utcOffset(STUDIO_UTC_OFFSET_MINUTES);
 }
+
+/** Display patterns a consumer can swap without touching the column's markup. */
+export const TIME_FORMATS = {
+  "day-time": "ddd D MMM · HH:mm",
+  "date-time": "DD/MM/YYYY HH:mm",
+  "12-hour": "MMM D, h:mm A",
+  "time-only": "HH:mm",
+} as const;
+
+export type TimeFormat = keyof typeof TIME_FORMATS;
+
+/**
+ * A class's time range. `pattern` decides the start's shape; the end is always the bare clock,
+ * because a range that repeats the date twice reads badly at every width.
+ */
+export function formatTimeRange(startAt: string, endAt: string, format: TimeFormat = "day-time"): string {
+  const start = studioTime(startAt);
+  const end = studioTime(endAt);
+  return `${start.format(TIME_FORMATS[format])} – ${end.format(format === "12-hour" ? "h:mm A" : "HH:mm")}`;
+}

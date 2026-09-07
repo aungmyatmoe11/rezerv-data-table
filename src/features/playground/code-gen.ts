@@ -77,6 +77,7 @@ export function generateJsx(config: PlaygroundConfig): string {
   if (config.hideColumn !== "none") columnNotes.push(`${config.hideColumn} → hidden: true`);
   if (config.ellipsis) columnNotes.push("all → ellipsis: true");
   if (config.responsive) columnNotes.push('Location → responsive: ["lg"], Instructor → responsive: ["md"]');
+  if (config.timeFormat !== "day-time") columnNotes.push(`Time → formatter: (start, row) => formatTimeRange(start, row.endAt, "${config.timeFormat}")`);
   if (config.multiSort) columnNotes.push("sorter: { compare, multiple: n }");
   if (config.filters) columnNotes.push("Status → filters + onFilter");
   if (config.spans) columnNotes.push("Instructor → onCell: (r) => ({ rowSpan: mergeByInstructor(r) })");

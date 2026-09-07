@@ -116,6 +116,12 @@ export type DataColumn<T> = {
   [P in DataIndexPath<T>]: ColumnCommon<T> & {
     dataIndex: P;
     render?: (value: PathValue<T, P>, record: T, index: number) => CellResult;
+    /**
+     * Value → display text, for columns that only need formatting (dates, money, units).
+     * `render` wins when both are given; the result is also the ellipsis tooltip, and swapping
+     * the function is enough to change how a column reads — no markup rewrite.
+     */
+    formatter?: (value: PathValue<T, P>, record: T, index: number) => string;
   };
 }[DataIndexPath<T>];
 
@@ -123,6 +129,7 @@ export type DataColumn<T> = {
 export type LooseDataColumn<T> = ColumnCommon<T> & {
   dataIndex: readonly (string | number)[];
   render?: (value: unknown, record: T, index: number) => CellResult;
+  formatter?: (value: unknown, record: T, index: number) => string;
 };
 
 /**
@@ -156,6 +163,7 @@ export type ColumnDef<T> = DataColumn<T> | LooseDataColumn<T> | DisplayColumn<T>
 export type AnyLeafColumnDef<T> = ColumnCommon<T> & {
   dataIndex?: DataIndex;
   render?: (value: never, record: T, index: number) => CellResult;
+  formatter?: (value: never, record: T, index: number) => string;
 };
 
 /** Identity helper that preserves literal `dataIndex` inference: `defineColumns<Row>()([...])`. */
@@ -435,6 +443,7 @@ export interface LeafColumn<T> {
   onFilter: ((value: Key, record: T) => boolean) | null;
   onCell: ((record: T, index: number) => CellSpanProps) | null;
   render: ((value: unknown, record: T, index: number) => CellResult) | null;
+  formatter: ((value: unknown, record: T, index: number) => string) | null;
   /** Position among visible leaves. */
   index: number;
 }

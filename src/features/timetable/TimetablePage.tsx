@@ -118,13 +118,20 @@ export function TimetablePage() {
     () => ({
       expandedRowRender: (record: ClassSession, _index: number, _indent: number, _expanded: boolean, children?: unknown) => {
         const attendees = childrenMode === "inline" ? (record.attendees ?? []) : ((children as Attendee[] | undefined) ?? []);
+        const cancelled = attendees.filter((attendee) => attendee.bookingStatus === "Cancelled").length;
         return (
           <DataTable<Attendee>
             columns={attendeeColumns}
             dataSource={attendees}
             rowKey="id"
             // a full class can hold twenty-plus attendees; page them so the parent row stays readable
-            pagination={{ defaultPageSize: 5, size: "small", hideOnSinglePage: true, showTotal: (total) => `${total} attendee${total === 1 ? "" : "s"}` }}
+            pagination={{
+              defaultPageSize: 5,
+              size: "small",
+              hideOnSinglePage: true,
+              // the row above counts booked seats, so say which of these bookings still hold one
+              showTotal: (total) => (cancelled === 0 ? `${total} booked of ${record.capacity}` : `${total - cancelled} booked of ${record.capacity} · ${cancelled} cancelled`),
+            }}
             aria-label={`Attendees for ${record.name}`}
             locale={{ emptyText: "No attendees have booked this class yet." }}
           />

@@ -87,7 +87,7 @@ export function PlaygroundPage() {
 
   // --- columns derived from the config ----------------------------------------
   const columns = useMemo<ColumnDef<ClassSession>[]>(() => {
-    const base = buildClassColumns("client").map((column) => {
+    const base = buildClassColumns("client", config.timeFormat).map((column) => {
       const col = { ...column } as ColumnDef<ClassSession> & { dataIndex?: string; sorter?: unknown; ellipsis?: boolean; hidden?: boolean; responsive?: string[]; fixed?: string; filters?: unknown; onFilter?: unknown; onCell?: unknown };
       if (col.dataIndex === "name" && !config.fixedLeft) delete col.fixed;
       if (config.ellipsis) col.ellipsis = true;
@@ -125,7 +125,7 @@ export function PlaygroundPage() {
       ),
     };
     return [...base.slice(0, 2), location, ...base.slice(2), actions];
-  }, [config.fixedLeft, config.fixedRight, config.ellipsis, config.hideColumn, config.responsive, config.multiSort, config.filters, spans, toast]);
+  }, [config.fixedLeft, config.fixedRight, config.ellipsis, config.hideColumn, config.responsive, config.multiSort, config.filters, config.timeFormat, spans, toast]);
 
   // --- props derived from the config (the same thing the code panel prints) -------
   const tableProps = useMemo<DataTableProps<ClassSession>>(() => {

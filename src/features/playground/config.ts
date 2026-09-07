@@ -1,4 +1,5 @@
 import type { PaginationPosition, TableSize } from "@/lib/table";
+import type { TimeFormat } from "../format";
 
 export type LoadingMode = "off" | "skeleton" | "overlay" | "custom";
 export type SelectionMode = "off" | "checkbox" | "radio";
@@ -46,6 +47,8 @@ export interface PlaygroundConfig {
   hideColumn: "none" | "instructor" | "location";
   ellipsis: boolean;
   responsive: boolean;
+  /** `column.formatter` — swaps how the Time column reads without touching its markup. */
+  timeFormat: TimeFormat;
   spans: boolean;
   // sorting & filtering
   multiSort: boolean;
@@ -90,6 +93,7 @@ export const DEFAULT_CONFIG: PlaygroundConfig = {
   hideColumn: "none",
   ellipsis: false,
   responsive: false,
+  timeFormat: "day-time",
   spans: false,
   multiSort: false,
   sortedHighlight: true,

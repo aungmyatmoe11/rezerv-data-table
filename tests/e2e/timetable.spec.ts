@@ -46,8 +46,12 @@ test.describe("timetable — client mode", () => {
     const nested = page.getByRole("table", { name: /^Attendees for Power Lifting/ });
     await expect(nested).toBeVisible();
     await expect(nested.locator("tbody tr.dt__tr:not(.dt__state-row)")).toHaveCount(5);
+    // the list holds every booking, so its total must reconcile with the parent's "10 / 13"
+    const attendance = await parent.locator('td[data-column="bookedCount"]').innerText();
+    const [booked, capacity] = attendance.trim().split("/").map((part) => part.trim());
     const pager = page.getByRole("navigation", { name: /^Attendees for Power Lifting pagination$/ });
-    await expect(pager).toContainText("12 attendees");
+    await expect(pager).toContainText(`${booked} booked of ${capacity}`);
+    await expect(pager).toContainText("cancelled");
     await pager.getByRole("button", { name: "Page 2" }).click();
     await expect(nested.locator("tbody tr.dt__tr:not(.dt__state-row)")).toHaveCount(5);
   });

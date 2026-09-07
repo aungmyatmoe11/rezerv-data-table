@@ -33,7 +33,11 @@ function isSpanResult(result: CellResult): result is { children: ReactNode; prop
 
 function BodyCellInner<T>({ leaf, record, index, rowKey, span, sorted, left, right, edge, prefix, cellId }: BodyCellProps<T>) {
   const value = getByPath(record, leaf.path);
-  const raw = leaf.render === null ? (value === null || value === undefined ? "" : String(value)) : leaf.render(value, record, index);
+  const formatted = leaf.formatter === null ? undefined : leaf.formatter(value, record, index);
+  const raw =
+    leaf.render !== null
+      ? leaf.render(value, record, index)
+      : (formatted ?? (value === null || value === undefined ? "" : String(value)));
   let content: ReactNode;
   let colSpan = span?.colSpan ?? 1;
   let rowSpan = span?.rowSpan ?? 1;

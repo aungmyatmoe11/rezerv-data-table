@@ -46,7 +46,11 @@ type ColumnDef<T> = DataColumn<T> | LooseDataColumn<T> | DisplayColumn<T> | Grou
 ```
 
 - **DataColumn** — `dataIndex: DataIndexPath<T>` (typed dot path, depth ≤ 3);
-  `render?: (value: PathValue<T, P>, record: T, index: number) => CellResult`.
+  `render?: (value: PathValue<T, P>, record: T, index: number) => CellResult`;
+  `formatter?: (value, record, index) => string` — value → display text for columns that only
+  need formatting (dates, money, units). `render` wins when both are set; the formatted string is
+  also what an `ellipsis` cell shows on hover. Keeping formatting out of `render` is what lets a
+  consumer swap a date pattern at runtime — see `/playground` → *formatter (Time column)*.
 - **LooseDataColumn** — `dataIndex: (string | number)[]` for dynamic paths; `render(value: unknown, …)`.
 - **DisplayColumn** — `key` + `render(record, record, index)`; no `dataIndex`.
 - **GroupColumn** — `title` + `children: ColumnDef<T>[]` (nested header rows).
@@ -55,7 +59,7 @@ Leaf props: `key`, `title` (node or `({ sortOrder }) => node`), `width`, `minWid
 `fixed: 'left' | 'right' | true`, `hidden`, `ellipsis: boolean | { showTitle }`,
 `responsive: Breakpoint[]`, `className`, `sorter: fn | true | { compare?, multiple? }`,
 `sortOrder` (controlled by presence), `defaultSortOrder`, `sortDirections`, `sortIcon`,
-`showSorterTooltip`, `filters`, `onFilter`, `filteredValue` (controlled by presence),
+`showSorterTooltip`, `formatter`, `filters`, `onFilter`, `filteredValue` (controlled by presence),
 `defaultFilteredValue`, `filterMultiple`, `colSpan` (header; `0` hides), `onCell` →
 `{ colSpan, rowSpan, className, style }`, `onHeaderCell`.
 
@@ -121,6 +125,7 @@ Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `st
 | `virtual` uses rc-virtual-list | hand-written windowing; `rowHeight`, `expandedRowHeight` | no library allowed |
 | `scroll.y` number only | `scroll.y: 'auto'` | "auto height" demo |
 | `size` presets only | `rowHeight` in px | user request |
+| formatting only through `render` | `column.formatter` (value → text) | lets display patterns change at runtime without rewriting markup |
 | `components`, `getPopupContainer`, `rowSelection.onCell`, `expandable.expandedRowOffset`, `pagination.itemRender` | not implemented | not needed for the brief; would be additive |
 | sort tooltip / icons via antd internals | `sortIcon`, `showSorterTooltip` (our `Tooltip`) | parity |
 

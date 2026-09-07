@@ -92,6 +92,19 @@ test.describe("playground — the generated JSX matches the rendered table", () 
     expect(await header.locator(".dt__sort-label").evaluate((el) => getComputedStyle(el).color)).toBe(active);
   });
 
+  test("column formatter changes how a value reads, without touching its markup", async ({ page }) => {
+    await page.goto("/playground");
+    const cell = liveTable(page).locator('td[data-column="startAt"]').first();
+    await expect(cell).toHaveText(/^\w{3} \d+ \w{3} · \d{2}:\d{2} – \d{2}:\d{2}$/);
+
+    await page.goto("/playground?timeFormat=12-hour");
+    await expect(liveTable(page).locator('td[data-column="startAt"]').first()).toHaveText(/^\w{3} \d+, \d{1,2}:\d{2} (AM|PM) – \d{1,2}:\d{2} (AM|PM)$/);
+    await expect(generated(page)).toContainText("formatter");
+
+    await page.goto("/playground?timeFormat=time-only");
+    await expect(liveTable(page).locator('td[data-column="startAt"]').first()).toHaveText(/^\d{2}:\d{2} – \d{2}:\d{2}$/);
+  });
+
   test("toggling a switch updates the table and the JSX together", async ({ page }) => {
     await page.goto("/playground");
     await toggle(page, "bordered");

@@ -1,23 +1,17 @@
 import { Progress, Tag, Text, type Tone } from "@/lib/ui";
 import type { ColumnDef } from "@/lib/table";
-import { studioTime } from "../format";
+import { formatTimeRange, type TimeFormat } from "../format";
 import type { Attendee, BookingStatus, ClassSession, ClassStatus, DataMode, PaymentType } from "./types";
 
 const STATUS_TONE: Record<ClassStatus, Tone> = { Scheduled: "info", Full: "success", Cancelled: "danger" };
 const BOOKING_TONE: Record<BookingStatus, Tone> = { Booked: "info", "Checked-in": "success", Cancelled: "neutral", "No-show": "warning" };
 const PAYMENT_TONE: Record<PaymentType, Tone> = { "One-time": "neutral", Package: "info", Membership: "accent" };
 
-export function formatTimeRange(startAt: string, endAt: string): string {
-  const start = studioTime(startAt);
-  const end = studioTime(endAt);
-  return `${start.format("ddd D MMM · HH:mm")} – ${end.format("HH:mm")}`;
-}
-
 /**
  * The timetable's column definitions. In server mode `sorter: true` makes the table emit the
  * sort change instead of sorting locally; the comparator functions are only used client-side.
  */
-export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
+export function buildClassColumns(mode: DataMode, timeFormat: TimeFormat = "day-time"): ColumnDef<ClassSession>[] {
   const server = mode === "server";
   return [
     {
@@ -49,7 +43,9 @@ export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
       title: "Time",
       width: 220,
       sorter: server ? true : (a, b) => a.startAt.localeCompare(b.startAt),
-      render: (startAt, record) => formatTimeRange(startAt, record.endAt),
+      // `formatter` instead of `render`: the column stays plain text, so the display pattern is
+      // swappable at runtime and the value still feeds sorting, ellipsis titles and copy
+      formatter: (startAt, record) => formatTimeRange(startAt, record.endAt, timeFormat),
     },
     {
       dataIndex: "bookedCount",

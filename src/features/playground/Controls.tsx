@@ -176,6 +176,21 @@ export function Controls({ config, onChange }: ControlsProps) {
               <Field label="hidden column">
                 <Select size="small" aria-label="hidden column" value={config.hideColumn} onChange={(v) => set("hideColumn", v)} options={[{ value: "none", label: "none" }, { value: "instructor", label: "Instructor" }, { value: "location", label: "Location" }]} style={{ width: 130 }} />
               </Field>
+              <Field label="formatter" hint="Time column">
+                <Select
+                  size="small"
+                  aria-label="time format"
+                  value={config.timeFormat}
+                  onChange={(v) => set("timeFormat", v)}
+                  options={[
+                    { value: "day-time", label: "Mon 7 Sep · 05:00" },
+                    { value: "date-time", label: "07/09/2026 05:00" },
+                    { value: "12-hour", label: "Sep 7, 5:00 AM" },
+                    { value: "time-only", label: "05:00" },
+                  ]}
+                  style={{ width: 168 }}
+                />
+              </Field>
               <Field label="ellipsis">
                 <Switch checked={config.ellipsis} onChange={(v) => set("ellipsis", v)} />
               </Field>
