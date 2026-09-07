@@ -50,7 +50,7 @@ type ColumnDef<T> = DataColumn<T> | LooseDataColumn<T> | DisplayColumn<T> | Grou
   `formatter?: (value, record, index) => string` — value → display text for columns that only
   need formatting (dates, money, units). `render` wins when both are set; the formatted string is
   also what an `ellipsis` cell shows on hover. Keeping formatting out of `render` is what lets a
-  consumer swap a date pattern at runtime — see `/playground` → *formatter (Time column)*.
+  consumer swap a date pattern at runtime — see *Formatting rule* below.
 - **LooseDataColumn** — `dataIndex: (string | number)[]` for dynamic paths; `render(value: unknown, …)`.
 - **DisplayColumn** — `key` + `render(record, record, index)`; no `dataIndex`.
 - **GroupColumn** — `title` + `children: ColumnDef<T>[]` (nested header rows).
@@ -67,6 +67,26 @@ Leaf props: `key`, `title` (node or `({ sortOrder }) => node`), `width`, `minWid
 is accepted too).
 
 `defineColumns<T>()(cols)` keeps literal types for `satisfies`-style authoring.
+
+### Formatting rule
+
+`formatter` is a plain function, so the *pattern* is what a consumer configures — never markup.
+The timetable's `formatTimeRange(startAt, endAt, format)` (`src/features/format.ts`) shows the
+rule the demos follow, and both `/timetable` → *Time format* and `/playground` → *formatter* drive
+it live from the same control:
+
+1. **A name resolves to a pattern; anything else IS the pattern.** `"day-time"`, `"date-time"`,
+   `"12-hour"`, `"time-only"` and `"date-only"` are shorthands for dayjs patterns; any other string
+   is passed to dayjs verbatim, so `"DD-MM-YYYY"` reads `08-09-2026`. An empty string falls back to
+   the default, because the playground field is edited a character at a time.
+2. **The end of a range is appended only when the pattern shows a clock** (`H`, `h`, `m`, `s`).
+   A date-only pattern is a date, not a range.
+3. **When appended, it repeats the clock alone**, in the 12- or 24-hour style the pattern asked for
+   (`h:mm A`, `h:mm a`, or `HH:mm`) — repeating the date on both sides reads badly at every width.
+4. **Bracketed text is a literal**, as in dayjs: `"[Class on] DD MMM"` → `Class on 07 Sep`.
+
+Every instant goes through `studioTime()`, which pins UTC+07:00 so the server and the browser
+render the same characters — a timezone-dependent format is a hydration bug, not a display choice.
 
 ## `pagination`
 

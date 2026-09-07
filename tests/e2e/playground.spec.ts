@@ -105,6 +105,19 @@ test.describe("playground — the generated JSX matches the rendered table", () 
     await expect(liveTable(page).locator('td[data-column="startAt"]').first()).toHaveText(/^\d{2}:\d{2} – \d{2}:\d{2}$/);
   });
 
+  test("a raw dayjs pattern is accepted wherever a preset name is", async ({ page }) => {
+    await page.goto("/playground?timeFormat=DD-MM-YYYY");
+    // no clock in the pattern, so the cell is a date and not a range
+    await expect(liveTable(page).locator('td[data-column="startAt"]').first()).toHaveText(/^\d{2}-\d{2}-\d{4}$/);
+    await expect(generated(page)).toContainText('"DD-MM-YYYY"');
+
+    // the pattern field is seeded with what is on screen, and editing it re-renders the column
+    const field = page.getByRole("textbox", { name: "time pattern" });
+    await expect(field).toHaveValue("DD-MM-YYYY");
+    await field.fill("YYYY/MM/DD HH:mm");
+    await expect(liveTable(page).locator('td[data-column="startAt"]').first()).toHaveText(/^\d{4}\/\d{2}\/\d{2} \d{2}:\d{2} – \d{2}:\d{2}$/);
+  });
+
   test("toggling a switch updates the table and the JSX together", async ({ page }) => {
     await page.goto("/playground");
     await toggle(page, "bordered");

@@ -56,6 +56,25 @@ test.describe("timetable — client mode", () => {
     await expect(nested.locator("tbody tr.dt__tr:not(.dt__state-row)")).toHaveCount(5);
   });
 
+  test("the Time column's pattern is swappable from the page itself", async ({ page }) => {
+    const timeCell = () => table(page).locator('tbody td[data-column="startAt"]').first();
+    await expect(timeCell()).toHaveText(/^\w{3} \d+ \w{3} · \d{2}:\d{2} – \d{2}:\d{2}$/);
+
+    // options are labelled with their own output, so "07-09-2026" IS the DD-MM-YYYY preset
+    await page.getByRole("combobox", { name: "time format" }).click();
+    await page.getByRole("option", { name: "07-09-2026", exact: true }).click();
+    await expect(timeCell()).toHaveText(/^\d{2}-\d{2}-\d{4}$/);
+
+    await page.getByRole("combobox", { name: "time format" }).click();
+    await page.getByRole("option", { name: /Custom pattern/ }).click();
+    await page.getByRole("textbox", { name: "time pattern" }).fill("D MMM h:mm a");
+    await expect(timeCell()).toHaveText(/^\d+ \w{3} \d{1,2}:\d{2} (am|pm) – \d{1,2}:\d{2} (am|pm)$/);
+
+    await page.getByRole("button", { name: "Reset" }).click();
+    await waitForRows(page);
+    await expect(timeCell()).toHaveText(/^\w{3} \d+ \w{3} · \d{2}:\d{2} – \d{2}:\d{2}$/);
+  });
+
   test("Reset clears sorting, selection and the demo toggles", async ({ page }) => {
     const header = page.getByRole("columnheader", { name: /^Class/ });
     await header.getByRole("button").click();

@@ -13,7 +13,7 @@ export { Select, type SelectOption } from "./Select";
 export { MenuButton, type MenuItem, type MenuTriggerProps } from "./Menu";
 export { Popover, type PopoverPlacement } from "./Popover";
 export { Tooltip } from "./Tooltip";
-export { NumberInput, ColorInput } from "./Inputs";
+export { NumberInput, ColorInput, TextInput } from "./Inputs";
 export { Alert, Empty, Progress, Spinner, Tag, type Tone } from "./Feedback";
 export { Card, Collapse, Drawer, Space, type CollapseItem } from "./Surface";
 export { Text } from "./Text";

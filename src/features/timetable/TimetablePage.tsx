@@ -7,6 +7,8 @@ import { SCENARIOS, resetScenarioLatches, type Scenario } from "@/mocks/scenario
 import { fetchAttendeesHttp, fetchClassesHttp, listAttendeesMock, listClassesMock } from "./api";
 import { withInlineAttendees } from "./data";
 import { attendeeColumns, buildClassColumns } from "./columns";
+import { TimeFormatPicker } from "../TimeFormatPicker";
+import type { TimeFormat } from "../format";
 import type { Attendee, ChildrenMode, ClassSession, DataMode, RowCount } from "./types";
 
 const SCENARIO_LABEL: Record<Scenario, string> = {
@@ -44,6 +46,7 @@ export function TimetablePage() {
   const [rowCount, setRowCount] = useState<RowCount>(64);
   const [nonce, setNonce] = useState(() => String(Date.now()));
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
+  const [timeFormat, setTimeFormat] = useState<TimeFormat>("day-time");
   const [resetKey, setResetKey] = useState(0);
 
   const changeScenario = (next: Scenario): void => {
@@ -63,12 +66,13 @@ export function TimetablePage() {
     setChildrenMode("inline");
     setRowCount(64);
     setScenario("normal");
+    setTimeFormat("day-time");
     setSelectedKeys([]);
     setNonce(String(Date.now()));
     setResetKey((key) => key + 1);
   };
 
-  const columns = useMemo(() => buildClassColumns(dataMode), [dataMode]);
+  const columns = useMemo(() => buildClassColumns(dataMode, timeFormat), [dataMode, timeFormat]);
 
   // --- client mode: one mocked load, then everything is local -----------------
   const clientFetcher = useCallback((_params: RequestParams<ClassSession>, signal: AbortSignal) => fetchAllClasses(scenario, rowCount, nonce, signal), [scenario, rowCount, nonce]);
@@ -165,6 +169,10 @@ export function TimetablePage() {
           <label>
             Scenario
             <Select<Scenario> value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
+          </label>
+          <label>
+            Time format
+            <TimeFormatPicker value={timeFormat} onChange={setTimeFormat} width={196} />
           </label>
           <Button size="small" onClick={reset}>
             Reset

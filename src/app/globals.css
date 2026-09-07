@@ -197,3 +197,11 @@ kbd {
     transition: none;
   }
 }
+
+/* time-format control: the pattern field and its preview stack under the preset select */
+.fmt-picker {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
+}

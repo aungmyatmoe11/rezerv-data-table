@@ -58,3 +58,33 @@ interface ColorInputProps {
 export function ColorInput({ value, onChange, ...aria }: ColorInputProps) {
   return <input type="color" className="ui-color" value={value} aria-label={aria["aria-label"]} onChange={(event) => onChange(event.target.value)} />;
 }
+
+interface TextInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  size?: "middle" | "small";
+  disabled?: boolean;
+  style?: CSSProperties;
+  spellCheck?: boolean;
+  "aria-label"?: string;
+}
+
+/** Plain text field with the same chrome as `NumberInput`. */
+export function TextInput({ value, onChange, placeholder, size = "middle", disabled = false, style, spellCheck = false, ...aria }: TextInputProps) {
+  return (
+    <input
+      type="text"
+      className="ui-input"
+      data-size={size}
+      value={value}
+      disabled={disabled}
+      placeholder={placeholder}
+      spellCheck={spellCheck}
+      autoComplete="off"
+      aria-label={aria["aria-label"]}
+      style={style}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  );
+}

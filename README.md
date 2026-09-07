@@ -56,7 +56,7 @@ import { DataTable, type ColumnDef } from "@/lib/table";
 const columns: ColumnDef<ClassSession>[] = [
   { dataIndex: "name", title: "Class", fixed: "left", width: 220, sorter: (a, b) => a.name.localeCompare(b.name) },
   { dataIndex: "instructor", title: "Instructor", width: 170 },
-  { dataIndex: "startAt", title: "Time", render: (startAt, record) => formatTimeRange(startAt, record.endAt) },
+  { dataIndex: "startAt", title: "Time", formatter: (startAt, record) => formatTimeRange(startAt, record.endAt, "DD-MM-YYYY HH:mm") },
   { dataIndex: "capacity.booked", title: "Attendance", render: (booked, record) => `${booked} / ${record.capacity.total}` },
   { key: "actions", title: "", render: (record) => <Button>Edit</Button> },
 ];
@@ -273,6 +273,7 @@ Each row is one attribute on our component; the link opens the playground with t
 | Hidden columns, ellipsis, responsive | `column.hidden`, `column.ellipsis`, `column.responsive` | [/playground?hideColumn=instructor&ellipsis=true&responsive=true](/playground?hideColumn=instructor&ellipsis=true&responsive=true) |
 | Pagination (positions, size changer, jumper, total, simple) | `pagination.position` × 6, `showSizeChanger`, `showQuickJumper`, `showTotal`, `simple` | [/playground?paginationPosition=topAndBottom&showSizeChanger=true&showQuickJumper=true&showTotal=true](/playground?paginationPosition=topAndBottom&showSizeChanger=true&showQuickJumper=true&showTotal=true) |
 | Big data / virtual | `virtual` (hand-written windowing) | [/playground?rowHeight=44&rows=10000&pagination=false&scrollY=fixed&virtual=true](/playground?rowHeight=44&rows=10000&pagination=false&scrollY=fixed&virtual=true) |
+| Value formatting (dates, money, units) | `column.formatter` — a preset name **or any dayjs pattern**, live in `/timetable` → *Time format* and `/playground` → *formatter*; the rule is in [docs/API.md](docs/API.md#formatting-rule) | [/playground?timeFormat=DD-MM-YYYY](/playground?timeFormat=DD-MM-YYYY) |
 | Dynamic settings | the playground itself: controls → live table → generated JSX + event log | [/playground](/playground) |
 | No data | `locale.emptyText` (defaults to antd `Empty`), plus `error` + `onRetry` | [/playground?empty=true](/playground?empty=true) |
 
