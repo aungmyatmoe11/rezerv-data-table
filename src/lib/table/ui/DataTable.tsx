@@ -2,7 +2,9 @@
 
 import { useId, useMemo, useRef, type CSSProperties } from "react";
 import type { DataTableProps, Key, PaginationPosition } from "../core/types";
+import { useAutoHeight } from "../react/use-auto-height";
 import { useTable } from "../react/use-table";
+import { ColumnReorderProvider } from "./ColumnReorder";
 import type { RowContext } from "./context";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
@@ -27,8 +29,10 @@ function alignOf(position: PaginationPosition): "left" | "center" | "right" {
  * config prop is supplied; see `useTable` for the headless layer.
  */
 export function DataTable<T extends object>(props: DataTableProps<T>) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const table = useTable(props, scrollerRef);
+  const autoHeight = useAutoHeight(wrapperRef, scrollerRef, table.config.scroll.y === "auto");
   const { config, layout, model, selection, expansion, pagination } = table;
   const generatedId = useId();
   const tableId = props.id ?? `dt${generatedId.replace(/:/g, "")}`;
@@ -90,7 +94,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     ...props.style,
     "--dt-row-height": `${config.rowHeight}px`,
     "--dt-header-top": `${headerTop}px`,
-    "--dt-scroll-y": config.scroll.y === "auto" ? undefined : toPx(config.scroll.y),
+    "--dt-scroll-y": config.scroll.y === "auto" ? (autoHeight === null ? undefined : `${autoHeight}px`) : toPx(config.scroll.y),
     "--dt-scroll-x": config.scroll.x === "max-content" ? undefined : toPx(config.scroll.x),
   };
 
@@ -105,8 +109,9 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
   const footer = props.footer?.(table.pageData);
   const summary = props.summary?.(table.pageData);
 
-  return (
+  const root = (
     <div
+      ref={wrapperRef}
       id={tableId}
       className={["dt", props.className].filter(Boolean).join(" ")}
       style={rootStyle}
@@ -138,8 +143,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
               <col key={String(leaf.key)} style={{ width: leaf.widthRaw, minWidth: leaf.minWidth }} />
             ))}
           </colgroup>
-          {config.showHeader ? <TableHeader table={table} ctx={ctx} renderDragHandle={null} /> : null}
-          <TableBody table={table} ctx={ctx} totalColumns={totalColumns} extraColumns={extraColumns} showSkeleton={showSkeleton} />
+          {config.showHeader ? <TableHeader table={table} ctx={ctx} /> : null}
+          <TableBody table={table} ctx={ctx} totalColumns={totalColumns} extraColumns={extraColumns} showSkeleton={showSkeleton} scrollerRef={scrollerRef} />
           {summary !== undefined && summary !== null ? <tfoot className="dt__summary">{summary}</tfoot> : null}
         </table>
         {showOverlay ? <LoadingOverlay indicator={config.loading.indicator} /> : null}
@@ -151,4 +156,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
       </div>
     </div>
   );
+
+  // dnd-kit context only mounts when `columnReorder` is on — zero cost otherwise
+  return table.reorder === null ? root : <ColumnReorderProvider reorder={table.reorder}>{root}</ColumnReorderProvider>;
 }

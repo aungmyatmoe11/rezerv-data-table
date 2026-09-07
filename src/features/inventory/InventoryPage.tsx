@@ -39,7 +39,7 @@ function MovementsDrawer({ item, scenario, nonce, onClose }: { item: InventoryIt
     <Drawer
       open={item !== null}
       onClose={onClose}
-      width={560}
+      size={560}
       title={item === null ? "" : `Stock movements — ${item.name}`}
       destroyOnHidden
       afterOpenChange={(open) => {

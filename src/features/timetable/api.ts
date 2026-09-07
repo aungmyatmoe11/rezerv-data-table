@@ -36,7 +36,7 @@ export async function listClassesMock(params: ListClassesParams, signal?: AbortS
     const sign = params.sortOrder === "ascend" ? 1 : -1;
     rows = rows.slice().sort((a, b) => sign * defaultCompare(a[field], b[field]));
   }
-  const pageSize = Math.min(Math.max(1, params.pageSize), 100);
+  const pageSize = Math.min(Math.max(1, params.pageSize), 10_000);
   const start = (Math.max(1, params.page) - 1) * pageSize;
   return { data: rows.slice(start, start + pageSize), total: rows.length };
 }
@@ -90,7 +90,8 @@ export function parseListParams(searchParams: URLSearchParams): ListClassesParam
   const sortOrderRaw = searchParams.get("sortOrder");
   return {
     page: Number(searchParams.get("page")) || 1,
-    pageSize: Number(searchParams.get("pageSize")) || 10,
+    // HTTP endpoint caps a page at 100 rows, like a real backend would
+    pageSize: Math.min(Number(searchParams.get("pageSize")) || 10, 100),
     sortField: searchParams.get("sortField") ?? undefined,
     sortOrder: sortOrderRaw === "ascend" || sortOrderRaw === "descend" ? sortOrderRaw : undefined,
     scenario: isScenario(scenarioRaw) ? scenarioRaw : "normal",

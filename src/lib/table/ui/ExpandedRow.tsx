@@ -16,6 +16,8 @@ interface ExpandedRowProps<T> {
   onRetry: () => void;
   locale: typeof DEFAULT_LOCALE;
   indentSize: number;
+  /** Measurement ref under `virtual` (variable-height rows). */
+  rowRef: ((node: HTMLTableRowElement | null) => void) | undefined;
 }
 
 function DefaultLoading() {
@@ -32,7 +34,7 @@ function DefaultLoading() {
  * The region below an expanded row. Owns the loading / error / retry presentation for
  * on-demand children; hands ready data to `expandedRowRender`.
  */
-export function ExpandedRow<T>({ tableId, entry, colSpan, mode, config, hasLoader, lazy, onRetry, locale, indentSize }: ExpandedRowProps<T>) {
+export function ExpandedRow<T>({ tableId, entry, colSpan, mode, config, hasLoader, lazy, onRetry, locale, indentSize, rowRef }: ExpandedRowProps<T>) {
   const { record, index, depth, parentKey } = entry;
   const regionId = `${tableId}-region-${String(parentKey)}`;
   const rowId = `${tableId}-row-${String(parentKey)}`;
@@ -62,7 +64,7 @@ export function ExpandedRow<T>({ tableId, entry, colSpan, mode, config, hasLoade
     .join(" ");
 
   return (
-    <tr className={className} data-expanded-for={String(parentKey)}>
+    <tr ref={rowRef} className={className} data-expanded-for={String(parentKey)}>
       <td className="dt__td" colSpan={colSpan}>
         <div className="dt__expanded">
           <div>

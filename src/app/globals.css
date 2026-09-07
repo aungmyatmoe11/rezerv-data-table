@@ -59,6 +59,7 @@ kbd {
 }
 .app-brand {
   display: inline-flex;
+  color: var(--app-text);
   align-items: center;
   gap: 10px;
   font-weight: 700;
@@ -167,4 +168,35 @@ kbd {
   .panel {
     padding: 12px;
   }
+}
+
+/* --- WCAG AA contrast for antd presets (light mode only; dark presets already pass) ---
+   antd 6 preset tags are `.ant-tag.ant-tag-filled.ant-tag-<color>`, so match that specificity. */
+html:not([data-theme="dark"]) .ant-typography-secondary,
+html:not([data-theme="dark"]) .ant-typography.ant-typography-secondary {
+  color: var(--app-muted);
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-success,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-success {
+  color: #237804;
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-error,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-error {
+  color: #a8071a;
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-processing,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-processing {
+  color: #0958d9;
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-warning,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-warning {
+  color: #ad4e00;
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-geekblue,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-geekblue {
+  color: #1d39c4;
+}
+html:not([data-theme="dark"]) .ant-tag.ant-tag-purple,
+html:not([data-theme="dark"]) .ant-tag.ant-tag-filled.ant-tag-purple {
+  color: #531dab;
 }

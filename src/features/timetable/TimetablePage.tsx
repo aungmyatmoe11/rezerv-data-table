@@ -21,16 +21,10 @@ const SCENARIO_LABEL: Record<Scenario, string> = {
 /**
  * Client mode still "fetches" once (mocked, with latency) so skeleton / error states are real;
  * the fetcher returns the WHOLE dataset and the table sorts / pages it locally.
- * The "backend" caps a page at 100 rows, so it walks the pages like a real client would.
  */
 async function fetchAllClasses(scenario: Scenario, rowCount: RowCount, nonce: string, signal: AbortSignal): Promise<{ data: ClassSession[]; total: number }> {
-  const first = await listClassesMock({ page: 1, pageSize: 100, scenario, rows: rowCount, nonce }, signal);
-  const rows = [...first.data];
-  for (let page = 2; rows.length < first.total; page += 1) {
-    const next = await listClassesMock({ page, pageSize: 100, scenario: "normal", rows: rowCount, nonce }, signal);
-    rows.push(...next.data);
-  }
-  const data = withInlineAttendees(rows);
+  const result = await listClassesMock({ page: 1, pageSize: rowCount, scenario, rows: rowCount, nonce }, signal);
+  const data = withInlineAttendees(result.data);
   return { data, total: data.length };
 }
 
@@ -61,7 +55,7 @@ export function TimetablePage() {
 
   // --- client mode: one mocked load, then everything is local -----------------
   const clientFetcher = useCallback((_params: RequestParams<ClassSession>, signal: AbortSignal) => fetchAllClasses(scenario, rowCount, nonce, signal), [scenario, rowCount, nonce]);
-  const client = useTableRequest<ClassSession>(clientFetcher, { enabled: dataMode === "client" });
+  const client = useTableRequest<ClassSession>(clientFetcher, { enabled: dataMode === "client", keepPreviousData: false });
 
   // --- server mode: the table emits, the hook fetches ---------------------------
   const fetcher = useCallback(

@@ -95,7 +95,9 @@
   position: relative;
   padding: var(--dt-cell-py) var(--dt-cell-px);
   border-bottom: 1px solid var(--dt-border);
-  background: var(--dt-cell-bg, var(--dt-row-bg));
+  /* antd fill tokens are translucent — layer them over the opaque row colour so sticky cells never show what scrolls beneath */
+  background-color: var(--dt-row-bg);
+  background-image: linear-gradient(var(--dt-cell-bg, transparent), var(--dt-cell-bg, transparent));
   text-align: start;
   vertical-align: middle;
   transition: background-color var(--dt-motion) ease;

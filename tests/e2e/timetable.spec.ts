@@ -60,8 +60,9 @@ test.describe("timetable — client mode", () => {
     const toggle = firstExpandToggle(page);
     await toggle.click();
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
-    const region = page.getByRole("region", { name: /Attendees|Class/ }).first();
+    const region = page.getByRole("region").first();
     await expect(region).toBeVisible();
+    await expect(region.getByRole("table", { name: /^Attendees for/ })).toBeVisible();
     await expect(region.getByRole("columnheader", { name: /Customer/ })).toBeVisible();
     await toggle.click();
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
@@ -71,6 +72,10 @@ test.describe("timetable — client mode", () => {
   test("on-demand children: loading state, error with Retry, then content", async ({ page }) => {
     await pickSegment(page, "On-demand");
     await chooseScenario(page, "Fail once, then succeed");
+    // the list request fails once too — recover it first, then exercise the child fetch
+    const listAlert = page.getByRole("alert");
+    await expect(listAlert).toBeVisible({ timeout: 15_000 });
+    await listAlert.getByRole("button", { name: "Retry" }).click();
     await waitForRows(page);
     await firstExpandToggle(page).click();
     const region = page.getByRole("region").first();

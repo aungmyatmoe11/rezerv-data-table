@@ -60,7 +60,7 @@ export function buildClassColumns(mode: DataMode): ColumnDef<ClassSession>[] {
         const ratio = record.capacity === 0 ? 0 : Math.round((booked / record.capacity) * 100);
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Progress percent={ratio} size={[80, 6]} showInfo={false} status={ratio >= 100 ? "success" : "normal"} {...(ratio >= 80 && ratio < 100 ? { strokeColor: "#d48806" } : {})} style={{ margin: 0, width: 80 }} />
+            <Progress percent={ratio} size={[80, 6]} showInfo={false} aria-label={`${booked} of ${record.capacity} booked`} status={ratio >= 100 ? "success" : "normal"} {...(ratio >= 80 && ratio < 100 ? { strokeColor: "#d48806" } : {})} style={{ margin: 0, width: 80 }} />
             <span style={{ fontVariantNumeric: "tabular-nums" }}>
               {booked} / {record.capacity}
             </span>

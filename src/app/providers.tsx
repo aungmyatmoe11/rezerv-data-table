@@ -36,7 +36,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
       <ConfigProvider
         theme={{
           algorithm: mode === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
-          token: { colorPrimary: BRAND.primary, borderRadius: BRAND.radius, fontFamily: "var(--font-sans)" },
+          token: { colorPrimary: BRAND.primary, colorLink: BRAND.primary, borderRadius: BRAND.radius, fontFamily: "var(--font-sans)" },
         }}
       >
         <AntdApp>{children}</AntdApp>

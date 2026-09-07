@@ -9,7 +9,7 @@ import type { ColumnDef, FilterItem, HeaderCellModel, Key, SortDirection, SortOr
 import type { FilteringApi, SortingApi } from "../react/use-table";
 import { FilterDropdown } from "./FilterDropdown";
 
-interface HeaderCellProps<T> {
+export interface HeaderCellProps<T> {
   cell: HeaderCellModel<T>;
   sorting: SortingApi;
   filtering: FilteringApi;
@@ -20,7 +20,8 @@ interface HeaderCellProps<T> {
   right: number | undefined;
   edge: "left" | "right" | null;
   dragHandle: ReactNode;
-  dragAttributes: Record<string, unknown> | undefined;
+  dragRef: ((node: HTMLTableCellElement | null) => void) | undefined;
+  dragStyle: CSSProperties | undefined;
   dragging: boolean;
 }
 
@@ -38,7 +39,7 @@ interface HeaderColumnView<T> {
   onHeaderCell?: (column: ColumnDef<T>) => HTMLAttributes<HTMLTableCellElement>;
 }
 
-export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, showSorterTooltip, locale, left, right, edge, dragHandle, dragAttributes, dragging }: HeaderCellProps<T>) {
+export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, showSorterTooltip, locale, left, right, edge, dragHandle, dragRef, dragStyle, dragging }: HeaderCellProps<T>) {
   const { leaf } = cell;
   const key: Key = cell.key;
   const order = leaf?.sortable ? sorting.orderOf(key) : null;
@@ -47,7 +48,8 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
   const title = typeof columnDef.title === "function" ? columnDef.title({ sortOrder: order }) : columnDef.title;
   const headerAttrs: HTMLAttributes<HTMLTableCellElement> = columnDef.onHeaderCell?.(cell.column) ?? {};
 
-  const style: CSSProperties & Record<string, string | undefined> = {
+  const style: CSSProperties & Record<string, string | number | undefined> = {
+    ...dragStyle,
     "--dt-left": left === undefined ? undefined : `${left}px`,
     "--dt-right": right === undefined ? undefined : `${right}px`,
   };
@@ -97,7 +99,7 @@ export function HeaderCell<T>({ cell, sorting, filtering, tableSortDirections, s
   return (
     <th
       {...headerAttrs}
-      {...dragAttributes}
+      ref={dragRef}
       scope={cell.leaf !== null ? "col" : "colgroup"}
       className={["dt__th", cell.className, headerAttrs.className].filter(Boolean).join(" ")}
       style={style}
