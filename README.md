@@ -1,7 +1,5 @@
 # Rezerv DataTable
 
-**Rezerv Frontend Engineering Assessment — Part 2: Component Engineering Challenge (Reusable Data Table)**
-
 A from-scratch, fully typed, config-driven `DataTable<T>` for React 19 / Next.js 16. The defaults
 render a plain semantic table; every feature — pagination, selection, expansion, fixed columns,
 virtual windowing, multi-sort, filters, tree data — stays inert until its config attribute is
@@ -11,13 +9,15 @@ supplied.
 - **Playground:** [/playground](https://rezerv-data-table.vercel.app/playground) — flip attributes, read the generated JSX, watch the callbacks
 - **Real usage:** [/timetable](https://rezerv-data-table.vercel.app/timetable) (class timetable) · **Second dataset:** [/inventory](https://rezerv-data-table.vercel.app/inventory) (server-side multi-sort, tree rows)
 
-> **Constraint honoured — and then some.** No table or grid library: not TanStack Table, AG Grid,
-> MUI DataGrid, Ant Design Table, react-data-grid, and no virtualisation library. The brief allows
-> UI-kit primitives, but this repo ships **no component library either**: every button, checkbox,
-> radio, switch, segmented control, select, menu, tooltip, drawer, tag, spinner, progress bar and
-> icon is written here, in `src/lib/ui`. The runtime dependencies are `react`, `react-dom`, `next`
-> and `dayjs` — nothing else — and an ESLint rule fails the build if a component or table library
-> is imported.
+> **Nothing is borrowed, anywhere in the stack.** No table or grid library — not TanStack Table,
+> AG Grid, MUI DataGrid, Ant Design Table or react-data-grid — and no virtualisation library. A UI
+> kit for the controls would have been the easy call; this repo ships **no component library
+> either**, so every button, checkbox, radio, switch, segmented control, select, menu, tooltip,
+> drawer, tag, spinner, progress bar and icon is written here, in `src/lib/ui`. The runtime
+> dependencies are `react`, `react-dom`, `next` and `dayjs` — nothing else — and an ESLint rule
+> fails the build if a component or table library is imported.
+
+<sub>Built as Part 2 of the Rezerv frontend engineering exercise.</sub>
 
 ---
 
@@ -98,9 +98,11 @@ docs/                 the long-form documentation — see the map at the end
 
 ---
 
-## Where the evaluation criteria are answered
+## What this claims, and where to check it
 
-| Criterion | Where to look | Proof |
+Each claim below has a section that argues it and something executable that demonstrates it.
+
+| Claim | Where to look | How to check it |
 | --- | --- | --- |
 | Reusable, well-typed component API | [Component API design](#component-api-design-and-how-column-definitions-work) · [docs/API.md](docs/API.md) | `core/types.test-d.ts`, `npm run typecheck:contracts`, two unrelated datasets consuming the same component |
 | Correctness — sorting, pagination, expansion (both modes), sticky column | [Client vs server](#client-side-vs-server-side-strategy-sort--pagination) · [Expandable rows](#expandable-rows-design-for-both-inline-and-on-demand-child-rows) · [Sticky columns](#sticky-column-approach) | 104 unit tests, 35 e2e tests on a production build |
@@ -207,7 +209,7 @@ defaults are in [docs/API.md](docs/API.md).
 
 The same component runs both modes; the difference is who owns the data.
 
-| | Client-side (required) | Server-side (bonus) |
+| | Client-side | Server-side |
 | --- | --- | --- |
 | Sorting | `sorter: (a, b) => number` — the table sorts the full array (stable, per tree level) | `sorter: true` or `{ multiple: n }` with no comparator — the table only **emits** the new sorter and renders `dataSource` as given |
 | Pagination | `pagination` (default page size 10) slices the sorted array | `pagination={{ current, pageSize, total }}` with `total > dataSource.length` — the table renders `dataSource` as one page and emits page changes |
@@ -430,8 +432,8 @@ rejected, so the next person can tell a considered choice from an accident.
 - **Perf:** budgets above.
 - CI: docs gate → contracts typecheck → `npm run check`.
 
-**What the suite deliberately does not cover**, so a reviewer does not have to guess whether it
-was missed or decided:
+**What the suite deliberately does not cover.** Each of these is a decision on record rather than
+an oversight:
 
 | Not covered | Why, and what stands in for it |
 | --- | --- |
@@ -448,20 +450,21 @@ was missed or decided:
   cost for the feature developers who are the real users, and let `/playground` generate
   copy-pasteable JSX; the cost is a large prop surface. Every prop is inert when absent and the
   resolved config makes the surface explicit.
-- **No component library either.** The brief permits UI-kit primitives, but importing one would
+- **No component library either.** A UI kit was the cheaper path, but importing one would
   have made "from scratch" a matter of degree, pulled a styling engine (and its hydration
   quirks) into the app, and hidden the accessibility work behind someone else's markup. Writing
   the ~20 primitives in `src/lib/ui` left the runtime at four dependencies, one theming
   mechanism (CSS custom properties) and ARIA we can point at. The trade-off is real: these
   controls cover exactly this app's needs — no virtualised select, no form integration, no RTL
   sweep — and a product team would need more before reusing them widely.
-- **Breadth was capped to protect depth.** The brief values architecture and implementation
-  quality over feature count, so the optional features that survived are the ones that pressure
-  the architecture — server mode, tree data, virtual windowing, spans — because each proved the
-  pipeline generalises. Features that would only have lengthened the list were cut.
-- **Column drag-reorder was removed, not deferred.** It was built and then dropped along with its
-  dependency: the feature is not in the brief, and it was the only thing in the repo pulling an
-  interaction library.
+- **Breadth was capped to protect depth.** In a component meant to be reused, one more feature is
+  worth less than the confidence that the existing ones are right. The optional features that
+  survived are the ones that put pressure on the architecture — server mode, tree data, virtual
+  windowing, spans — because each proved the pipeline generalises. Features that would only have
+  lengthened the list were cut.
+- **Column drag-reorder was removed, not deferred.** It was built, then dropped along with its
+  dependency: it was the only thing in the repo pulling an interaction library, and no screen here
+  needed it enough to justify that.
 - **Key-presence controlled semantics** rather than a separate `controlled` flag: simpler for
   consumers, but `sortOrder: undefined` must be spelled `sortOrder: null` to mean "controlled,
   none".
@@ -485,9 +488,11 @@ was missed or decided:
   index, so a bad fixture degrades instead of crashing the dashboard.
 - **Tree rows and `expandedRowRender` are mutually exclusive** (`expandedRowRender` wins, with a
   warning) — keeping the flatten stage simple.
-- Assumed: staff dashboards run on modern evergreen browsers; `ResizeObserver` and
-  `position: sticky` are available. Assumed the reviewer values the mocked API behaving like a
-  real one (latency, aborts, 503s, malformed payloads) over a real backend.
+- **The mock API behaves like a real one** — latency, aborts, 503s, malformed payloads — rather
+  than resolving instantly. A table that has never met a slow network or a failed request is not
+  evidence that its states work.
+- Assumed: staff dashboards run on modern evergreen browsers, so `ResizeObserver` and
+  `position: sticky` are available.
 
 ---
 
@@ -495,9 +500,9 @@ was missed or decided:
 
 - `scrollTo({ index })` imperative handle under `virtual`.
 - Column resizing. (Column drag-reorder is not deferred — it was removed; see the trade-off above.)
-- Row grouping / aggregation, inline editing, CSV export — out of scope for the brief.
+- Row grouping / aggregation, inline editing, CSV export — out of scope for this component.
 - The four verification gaps in the table above (cross-browser e2e, coverage floor, bundle budget,
-  visual snapshots) — each is a cost worth paying on a product, not on a one-week assessment.
+  visual snapshots) — each is a cost worth paying once a team is changing this code daily.
 - Telemetry. `app/error.tsx` shows the failure and Next's `digest`; a production app would send
   both to Sentry from that boundary, which is one `useEffect` and a DSN.
 
@@ -541,7 +546,7 @@ Feature combinations that need care are listed in the conflict matrix in
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layers, pipeline, state model, sticky / virtual mechanics | You are about to read or change the library |
 | [docs/API.md](docs/API.md) | Every prop, defaults, conflict matrix, dev warnings | You are using the component |
 | [docs/DESIGN.md](docs/DESIGN.md) | Tokens, density, motion, states | You are changing how it looks |
-| [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md) | Brief requirement → code → test | You are checking the submission against the brief |
+| [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md) | Requirement → code → test | You want the coverage map end to end |
 | [docs/adr](docs/adr/README.md) | Why the six load-bearing decisions were made | You disagree with one of them |
 
 ---
