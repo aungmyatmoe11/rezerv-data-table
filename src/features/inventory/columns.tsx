@@ -1,6 +1,6 @@
 import { Button, Tag, Text } from "@/lib/ui";
 import type { ColumnDef } from "@/lib/table";
-import { studioTime } from "../format";
+import { studioTime } from "../shared/format";
 import type { InventoryItem, StockMovement } from "./types";
 
 const CATEGORIES = ["Apparel", "Equipment", "Supplements", "Accessories", "Recovery"];

@@ -1,5 +1,5 @@
 import type { PaginationPosition, TableSize } from "@/lib/table";
-import type { TimeFormat } from "../format";
+import type { TimeFormat } from "../shared/format";
 
 export type LoadingMode = "off" | "skeleton" | "overlay" | "custom";
 export type SelectionMode = "off" | "checkbox" | "radio";

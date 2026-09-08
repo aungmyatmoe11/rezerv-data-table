@@ -3,7 +3,7 @@
 import { Button, Collapse, ColorInput, NumberInput, Segmented, Select, Switch, Text } from "@/lib/ui";
 import type { ReactNode } from "react";
 import type { PaginationPosition, TableSize } from "@/lib/table";
-import { TimeFormatPicker } from "../TimeFormatPicker";
+import { TimeFormatPicker } from "../shared/TimeFormatPicker";
 import type { ExpansionMode, LoadingMode, PlaygroundConfig, RowsPreset, ScrollY, SelectionMode } from "./config";
 
 interface ControlsProps {

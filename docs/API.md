@@ -76,7 +76,7 @@ is accepted too).
 ### Formatting rule
 
 `formatter` is a plain function, so the *pattern* is what a consumer configures — never markup.
-The timetable's `formatTimeRange(startAt, endAt, format)` (`src/features/format.ts`) shows the
+The timetable's `formatTimeRange(startAt, endAt, format)` (`src/features/shared/format.ts`) shows the
 rule the demos follow, and both `/timetable` → *Time format* and `/playground` → *formatter* drive
 it live from the same control:
 

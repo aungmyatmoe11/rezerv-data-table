@@ -7,8 +7,8 @@ import { SCENARIOS, resetScenarioLatches, type Scenario } from "@/mocks/scenario
 import { fetchAttendeesHttp, fetchClassesHttp, isClassStatus, listAttendeesMock, listClassesMock } from "./api";
 import { withInlineAttendees } from "./data";
 import { attendeeColumns, buildClassColumns } from "./columns";
-import { TimeFormatPicker } from "../TimeFormatPicker";
-import type { TimeFormat } from "../format";
+import { TimeFormatPicker } from "../shared/TimeFormatPicker";
+import type { TimeFormat } from "../shared/format";
 import type { Attendee, ChildrenMode, ClassSession, DataMode, RowCount } from "./types";
 
 const SCENARIO_LABEL: Record<Scenario, string> = {

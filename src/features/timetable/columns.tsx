@@ -1,6 +1,6 @@
 import { Progress, Tag, Text, type Tone } from "@/lib/ui";
 import type { ColumnDef, Key } from "@/lib/table";
-import { formatTimeRange, type TimeFormat } from "../format";
+import { formatTimeRange, type TimeFormat } from "../shared/format";
 import type { Attendee, BookingStatus, ClassSession, ClassStatus, DataMode, PaymentType } from "./types";
 
 const STATUS_TONE: Record<ClassStatus, Tone> = { Scheduled: "info", Full: "success", Cancelled: "danger" };
