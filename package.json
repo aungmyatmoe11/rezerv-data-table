@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "description": "Rezerv Frontend Assessment — Part 2. A from-scratch, fully typed, config-driven DataTable with an Ant-Design-shaped API.",
+  "license": "MIT",
+  "author": "Aung Myat Moe",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aungmyatmoe11/rezerv-data-table.git"
+  },
+  "homepage": "https://rezerv-data-table.vercel.app",
   "engines": {
     "node": ">=22"
   },

@@ -370,3 +370,9 @@ was missed or decided:
 | [docs/API.md](docs/API.md) | Every prop, defaults, antd differences, conflict matrix |
 | [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md) | Brief requirement → code → test |
 | [docs/adr](docs/adr/README.md) | Why the six load-bearing decisions were made |
+
+---
+
+## License
+
+[MIT](LICENSE) © Aung Myat Moe
