@@ -153,5 +153,5 @@ Failures land in one of two places, and the split is deliberate:
 
 - `vitest.config.ts`: two projects — `core` (node) and `dom` (jsdom for `react/`, `ui/`,
   `features/`, `app/`); `--typecheck` runs `*.test-d.ts`.
-- `playwright.config.ts`: e2e against a fresh production build on port 3110, `desktop` and
-  `mobile` (Pixel 7) projects. `playwright.perf.config.ts`: sequential, port 3111.
+- `playwright.config.ts`: e2e against a fresh production build on port 3110 — `desktop`, plus
+  `tablet` (Galaxy Tab S4, 712) and `mobile` (Pixel 7, 412) running `responsive.spec.ts`. `playwright.perf.config.ts`: sequential, port 3111.

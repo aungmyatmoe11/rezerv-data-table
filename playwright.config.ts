@@ -20,8 +20,12 @@ export default defineConfig({
     timeout: 240_000,
   },
   projects: [
-    // responsive.spec.ts asserts mobile-only behaviour, so the desktop project skips it
+    // responsive.spec.ts asserts narrow-viewport behaviour, so the desktop project skips it and
+    // the brief's two narrow targets — tablet and mobile — each run it at their own width
     { name: "desktop", use: { ...devices["Desktop Chrome"] }, testIgnore: /responsive\.spec\.ts/ },
+    // Galaxy Tab S4 (712 × 1138) rather than an iPad: it is a Chromium profile, so CI still
+    // installs one engine (the cross-browser trade-off is stated in the README)
+    { name: "tablet", use: { ...devices["Galaxy Tab S4"] }, testMatch: /responsive\.spec\.ts/ },
     { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /responsive\.spec\.ts/ },
   ],
 });

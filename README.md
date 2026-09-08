@@ -332,7 +332,7 @@ paging. Light and dark themes, `prefers-reduced-motion` respected.
   table renders no extra DOM, on-demand skeleton → error → retry).
 - **E2E (Playwright, production build):** timetable client + server modes, inventory multi-sort
   / tree / pinned-right / drawer, playground JSX ↔ DOM parity, virtual window, auto height,
-  formatter patterns, mobile pinned column, axe.
+  formatter patterns, pinned column at tablet **and** mobile widths, axe.
 - **Perf:** budgets above.
 - CI (`.github/workflows/ci.yml`): docs gate → contracts typecheck → `npm run check`.
 

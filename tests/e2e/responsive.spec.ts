@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-// Runs under the "mobile" project (Pixel 7 emulation).
-test("mobile: the timetable scrolls horizontally and keeps the Class column pinned", async ({ page }) => {
+// Runs under both narrow projects — "tablet" (iPad Mini, 768) and "mobile" (Pixel 7, 412) —
+// because the brief names tablet and mobile separately.
+test("narrow viewport: the timetable scrolls horizontally and keeps the Class column pinned", async ({ page }) => {
   await page.goto("/timetable");
   const table = page.getByRole("table", { name: "Class timetable" });
   await expect(table.locator("tbody tr.dt__tr:not(.dt__skeleton-row)").first()).toBeVisible({ timeout: 15_000 });

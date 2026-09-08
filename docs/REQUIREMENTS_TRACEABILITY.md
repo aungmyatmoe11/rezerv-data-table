@@ -25,7 +25,7 @@ Status: **verified** (automated test passes), **manual** (checked by hand in the
 | R-18 | Empty dataset and empty child lists | `TableEmpty`; nested table `emptyText`; `rowExpandable` | e2e empty scenario; `expansion.test.ts` empty children | verified |
 | R-19 | Failed initial fetch and failed child fetch | `fail-once` scenario, retry paths | e2e (both) | verified |
 | R-20 | Slow fetches show skeletons | `slow` scenario (1.8 s) | e2e "shows skeleton rows while loading" | verified |
-| R-21 | Pinned column on narrow / mobile viewports | `scroll.x` + sticky | `responsive.spec.ts` (Pixel 7) | verified |
+| R-21 | Pinned column on narrow / mobile viewports | `scroll.x` + sticky | `responsive.spec.ts` at both narrow targets — tablet (Galaxy Tab S4, 712) and mobile (Pixel 7, 412) | verified |
 | R-22 | Large datasets stay smooth (no laggy sort / scroll) | memoised pipeline, `React.memo`, `virtual` | `tests/perf/table.perf.spec.ts` budgets; e2e 10,000-row sort | verified |
 | R-23 | Invalid sort key or out-of-range page | `reconcileSort` drops unknown keys + `warnOnce`; `clampPage` | `core/sorting.test.ts`, `core/pagination.test.ts` | verified |
 | R-24 | UI/UX: SaaS layout, hover states, transitions, responsive | `src/app/globals.css`, `data-table.css`, `docs/DESIGN.md` | manual (light/dark, 375/768/1280) | manual |
