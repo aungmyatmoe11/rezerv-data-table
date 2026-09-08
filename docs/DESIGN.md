@@ -66,7 +66,7 @@ both themes — axe checks this on `/` and `/timetable` in CI.
 - `ellipsis` cells are `white-space: nowrap; overflow: hidden; text-overflow: ellipsis` with the
   full text in `title`.
 - Pagination bars are flex rows; `position` decides top/bottom × start/center/end, any subset.
-- Responsive: `column.responsive` hides columns below a breakpoint (antd's `xs…xxl` value names);
+- Responsive: `column.responsive` hides columns below a breakpoint (the conventional `xs…xxl` names);
   narrow viewports keep the pinned column and scroll the rest.
 
 ## Anti-patterns (do not)

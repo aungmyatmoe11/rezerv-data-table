@@ -1,4 +1,4 @@
-# API — `DataTable<T>` props, defaults, differences from Ant Design
+# API — `DataTable<T>` props, defaults, deliberate divergences
 
 Import from `@/lib/table`. Everything is inert unless supplied. The controls the table renders
 come from `@/lib/ui`, this repo's own primitive layer — there is no component library.
@@ -24,7 +24,7 @@ import { DataTable, defineColumns, useTableRequest, type ColumnDef } from "@/lib
 | `rowHoverable` | `boolean` | `true` | |
 | `onRow` / `onHeaderRow` | `(record, index) => HTMLAttributes` | — | |
 | `loading` | `boolean \| LoadingConfig` | `false` | `{ spinning, delay, indicator, mode: 'skeleton' \| 'overlay', skeletonRows }`; default mode is skeleton when `dataSource` is empty, overlay otherwise. `delay` (ms, default `0`) holds the skeleton / overlay back until the wait has actually lasted that long, so a fast fetch never flashes one; `0` starts no timer |
-| `error` / `onRetry` | `unknown` / `() => void` | — | error row with Retry (★ not in antd) |
+| `error` / `onRetry` | `unknown` / `() => void` | — | error row with Retry (★ an addition to the conventional surface) |
 | `locale` | `TableLocale` | English | `emptyText`, `errorText`, `retryText`, sort tooltips, selection menu, pager labels |
 | `pagination` | `false \| PaginationConfig` | client, page size 10 | see below |
 | `rowSelection` | `RowSelectionConfig<T>` | off | see below |
@@ -68,7 +68,7 @@ change when the data source behind it changes (a scenario, an account, a filter)
 drops cached children and refetches the rows that are open, so an expanded row can never keep
 showing an answer fetched from a source you have since switched away from.
 
-`CellResult` is `ReactNode | { children, props: { colSpan?, rowSpan? } }` (antd's legacy span form
+`CellResult` is `ReactNode | { children, props: { colSpan?, rowSpan? } }` (the conventional span form
 is accepted too).
 
 `defineColumns<T>()(cols)` keeps literal types for `satisfies`-style authoring.
@@ -140,19 +140,24 @@ Headless instance: `config`, `layout` (leaves, header rows, sticky offsets), `st
 (pipeline output), `pageData`, `send`, and feature APIs `sorting`, `filtering`, `pagination`,
 `selection`, `expansion` (each `null` when disabled).
 
-## Differences from Ant Design Table
+## Deliberate divergences
 
-| antd | Here | Why |
+The prop vocabulary follows the convention React dashboard developers already know (see
+[ADR 0001](adr/0001-from-scratch-engine-with-a-familiar-api.md)). Everywhere this component
+behaves differently from that convention, it is on purpose, and the reason is here — so a
+consumer is never surprised twice.
+
+| Convention | Here | Why |
 | --- | --- | --- |
 | `loading` is a spinner | `loading.mode: 'skeleton' \| 'overlay'`, `skeletonRows` | brief requires skeleton rows that match the layout |
 | no error state | `error` + `onRetry`, `locale.errorText` / `retryText` | brief requires an error state |
 | lazy children need consumer code | `expandable.loadChildren` with owned state machine | brief requires on-demand children with loading / error |
-| `virtual` uses rc-virtual-list | hand-written windowing; `rowHeight`, `expandedRowHeight` | no library allowed |
-| `scroll.y` number only | `scroll.y: 'auto'` | "auto height" demo |
+| `virtual` is delegated to a virtualisation library | hand-written windowing; `rowHeight`, `expandedRowHeight` | no library allowed |
+| `scroll.y` number only | `scroll.y: 'auto'` | a table that fills its container without a hard-coded height |
 | `size` presets only | `rowHeight` in px | user request |
 | formatting only through `render` | `column.formatter` (value → text) | lets display patterns change at runtime without rewriting markup |
-| `components`, `getPopupContainer`, `rowSelection.onCell`, `expandable.expandedRowOffset`, `pagination.itemRender` | not implemented | not needed for the brief; would be additive |
-| sort tooltip / icons via antd internals | `sortIcon`, `showSorterTooltip` (our `Tooltip`) | parity |
+| `components`, `getPopupContainer`, `rowSelection.onCell`, `expandable.expandedRowOffset`, `pagination.itemRender` | not implemented | not needed for the brief; each would be additive, changing no existing semantic |
+| sort tooltip / icons reached through library internals | `sortIcon`, `showSorterTooltip`, using our own `Tooltip` | a public prop instead of an internal escape hatch |
 
 ## Nested tables
 

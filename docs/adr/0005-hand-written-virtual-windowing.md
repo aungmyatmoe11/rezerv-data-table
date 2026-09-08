@@ -2,7 +2,7 @@
 
 ## Context
 
-"Large datasets — interaction must stay smooth" and the antd big-data demo. Virtualisation
+"Large datasets — interaction must stay smooth". Virtualisation
 libraries (`@tanstack/react-virtual`, `react-window`) are close enough to "table/grid library"
 territory that we chose not to depend on them.
 

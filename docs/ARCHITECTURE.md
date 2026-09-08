@@ -38,7 +38,7 @@ attribute, get a feature") and the performance story ("no attribute, no cost").
 | --- | --- | --- |
 | S1 keyed | `resolveRowKey` over the tree; `recordByKey`; duplicate/missing keys warn once | `dataSource`, `rowKey`, `childrenColumnName` |
 | S2 filtered | `filterTree` via `column.onFilter` — identity when no filters | S1, `filters`, `onFilterByKey` |
-| S3 sorted | stable sort per tree level; antd multi-sort merge rule; server columns (no comparator) are identity | S2, `sort`, `comparatorsByKey` |
+| S3 sorted | stable sort per tree level; multi-sort merges by each column's `multiple` priority; server columns (no comparator) are identity | S2, `sort`, `comparatorsByKey` |
 | S4 paged | top-level only; server iff `sorted.length < total`; client `clampPage` + slice | S3, `page`, `pageSize`, `total` |
 | S5 flattened | `flattenExpanded` → `FlatEntry[]` (`row` entries with depth / parent, `expanded` sentinels); lazy children merged in | S4, `expandedKeys`, mode, lazy version |
 | S6 spans | `onCell` colSpan / rowSpan → `SpanMap` or `null` | S5, `onCellByKey` |
@@ -60,7 +60,7 @@ interface TableState {
 }
 ```
 
-- **Controlled by key presence** (antd parity): `column.sortOrder`, `column.filteredValue`,
+- **Controlled by key presence** — a slice is controlled when its prop key is supplied: `column.sortOrder`, `column.filteredValue`,
   `pagination.current`, `pagination.pageSize`, `rowSelection.selectedRowKeys`,
   `expandable.expandedRowKeys`. `effective = mergeControlled(internal, props, flags)`.
 - **Actions:** `sort/toggle`, `filter/set`, `page/set`, `page/setSize`, `select/toggle | radio |

@@ -175,7 +175,7 @@ on dashboards already expects — `columns`, `dataIndex`, `dataSource`, `rowKey`
 one was a deliberate API decision: it removes a learning cost for the feature developers who are
 the component's actual users, and it makes the generated JSX in `/playground` copy-pasteable into a
 real screen. The engine behind those names is written from scratch here; the reasoning is recorded
-in [ADR 0001](docs/adr/0001-from-scratch-engine-with-antd-vocabulary.md).
+in [ADR 0001](docs/adr/0001-from-scratch-engine-with-a-familiar-api.md).
 
 **Reusability is demonstrated, not asserted.** The same component, unmodified, drives three
 screens with different row shapes, different data sources and different feature sets:

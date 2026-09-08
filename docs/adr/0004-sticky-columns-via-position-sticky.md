@@ -15,7 +15,7 @@ passive, rAF-coalesced scroll listener writes on the scroller (no React state).
 
 ## Alternatives
 
-- **Cloned fixed tables with scroll sync** (classic antd v3 approach) — two extra tables, row
+- **Cloned fixed tables with scroll sync** (the classic pre-`position: sticky` approach) — two extra tables, row
   height synchronisation, double rendering.
 - **`box-shadow` on the sticky cell** — paints under the neighbouring cell.
 - **React state for the ping flag** — re-renders the whole table on every scroll.

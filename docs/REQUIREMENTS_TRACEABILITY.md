@@ -32,7 +32,7 @@ Status: **verified** (automated test passes), **manual** (checked by hand in the
 | R-25 | README with the seven named sections | `README.md` | `scripts/validate-docs.mjs` checks the headings | verified |
 | R-26 | Public repository + deployed URL | GitHub `aungmyatmoe11/rezerv-data-table`, Vercel | README links | pending until submission |
 
-## Beyond the brief (user-requested antd parity)
+## Beyond the brief (owner-requested)
 
 Every control listed below is rendered by this repo's own primitives (`src/lib/ui`); no component
 library is installed.

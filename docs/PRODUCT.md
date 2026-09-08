@@ -19,12 +19,12 @@ empty / error states, large datasets) solved once, in the component, rather than
 
 | Date | Decision |
 | --- | --- |
-| 2026-09-06 | API mirrors Ant Design Table's vocabulary; engine is from scratch (assignment constraint). |
-| 2026-09-06 | Scope is the full antd demo list, delivered in tiers: required first, then config, layout, expensive. |
+| 2026-09-06 | Public API uses the prop vocabulary React dashboard developers already know; the engine is written from scratch (assignment constraint). |
+| 2026-09-06 | Scope is tiered — the brief's required features first, then configuration, then layout, then the expensive ones. Breadth stops where it would cost depth. |
 | 2026-09-06 | Table is a leaf; server state lives in `useTableRequest` outside it. |
-| 2026-09-06 | Reviewer documentation is an in-app `/playground` modelled on antd's dynamic-settings demo. |
+| 2026-09-06 | Reviewer documentation is an in-app `/playground`: every attribute is a live control, and the page prints the JSX and the callback log it produces. |
 | 2026-09-07 | Virtual windowing and auto height hand-built; no `@tanstack/*`. |
-| 2026-09-08 | No component library either: every primitive and icon is written in `src/lib/ui`; `antd` and `@dnd-kit` removed, and column drag-reorder dropped with them. |
+| 2026-09-08 | No component library either: every primitive and icon is written in `src/lib/ui`; the UI kit and the drag-and-drop dependency were removed, and column drag-reorder was dropped with them. |
 
 ## Anti-references
 

@@ -11,7 +11,7 @@ abort policy that belong to the application.
 `DataTable` receives data and callbacks only. A separate hook, `useTableRequest(fetcher, options)`,
 owns the request lifecycle (`params → fetch → AbortController → retry`) and returns exactly the
 props the table needs (`dataSource`, `loading`, `error`, `onRetry`, `pagination`, `onChange`).
-Server pagination is detected antd-style (`dataSource.length < total`).
+Server pagination is inferred from the props rather than a flag (`dataSource.length < total`).
 
 ## Alternatives
 
