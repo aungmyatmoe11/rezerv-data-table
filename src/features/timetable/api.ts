@@ -1,4 +1,4 @@
-import { defaultCompare } from "@/lib/table/core";
+import { defaultCompare } from "@/lib/table/server";
 import { isScenario, MockApiError, applyScenario, type Scenario } from "@/mocks/scenarios";
 import { attendeesOf, classesFor, withInlineAttendees } from "./data";
 import type { Attendee, ClassSession, ClassStatus, RowCount } from "./types";

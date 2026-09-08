@@ -22,7 +22,7 @@ flowchart LR
 | `ui` | `core`, `react`, `@/lib/ui` | same |
 | `@/lib/ui` (primitives) | React only | same — no component library may be imported anywhere |
 | `src/lib/table` | never `@/features`, `@/app`, `@/mocks` | same |
-| `src/lib/table/core.ts` | server-safe entry (no hooks) used by route handlers | — |
+| `src/lib/table/server.ts` | server-safe entry (no hooks) used by route handlers | — |
 
 ## Progressive disclosure
 

@@ -1,4 +1,4 @@
-import { defaultCompare, getByPath, toPath } from "@/lib/table/core";
+import { defaultCompare, getByPath, toPath } from "@/lib/table/server";
 import itemsJson from "@/mocks/fixtures/items.json";
 import movementsJson from "@/mocks/fixtures/movements.json";
 import { MockApiError, applyScenario, isScenario, type Scenario } from "@/mocks/scenarios";
