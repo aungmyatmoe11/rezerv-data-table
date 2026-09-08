@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
  * Documentation gate: dangling relative links, README sections the brief mandates,
- * requirement-id coverage, and the agent roster. Does not prove application readiness.
+ * requirement-id coverage, ADRs, and (when present locally) the agent roster.
+ * CLAUDE.md, AGENTS.md and .claude/ are gitignored — CI clones will not have them.
+ * Does not prove application readiness.
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, extname, join, resolve } from "node:path";
@@ -57,17 +59,21 @@ for (let i = 1; i <= 26; i += 1) {
 }
 if (/\bTODO\b|\bTBD\b/.test(trace)) errors.push("docs/REQUIREMENTS_TRACEABILITY.md: contains TODO/TBD");
 
-// --- agent roster matches AGENTS.md ------------------------------------------------
+// --- agent roster (local-only files; skip when absent so CI can clone without them)
 const agents = ["table-architect", "table-core", "table-react", "table-ui", "table-consumer", "table-qa"];
-const agentsDoc = readFileSync(join(root, "AGENTS.md"), "utf8");
-for (const agent of agents) {
-  const file = join(root, ".claude/agents", `${agent}.md`);
-  if (!existsSync(file)) errors.push(`.claude/agents/${agent}.md: missing`);
-  else {
-    const text = readFileSync(file, "utf8");
-    for (const section of ["## Read first", "## Do", "## Own", "## Exit"]) if (!text.includes(section)) errors.push(`.claude/agents/${agent}.md: missing ${section}`);
+const agentsDocPath = join(root, "AGENTS.md");
+const agentRosterPresent = existsSync(agentsDocPath);
+if (agentRosterPresent) {
+  const agentsDoc = readFileSync(agentsDocPath, "utf8");
+  for (const agent of agents) {
+    const file = join(root, ".claude/agents", `${agent}.md`);
+    if (!existsSync(file)) errors.push(`.claude/agents/${agent}.md: missing`);
+    else {
+      const text = readFileSync(file, "utf8");
+      for (const section of ["## Read first", "## Do", "## Own", "## Exit"]) if (!text.includes(section)) errors.push(`.claude/agents/${agent}.md: missing ${section}`);
+    }
+    if (!agentsDoc.includes(agent)) errors.push(`AGENTS.md: does not list ${agent}`);
   }
-  if (!agentsDoc.includes(agent)) errors.push(`AGENTS.md: does not list ${agent}`);
 }
 
 // --- ADR index lists every ADR file ------------------------------------------------
@@ -82,4 +88,5 @@ if (errors.length > 0) {
   for (const error of errors) process.stderr.write(`${error}\n`);
   process.exit(1);
 }
-process.stdout.write(`validate-docs: ${markdown.length} markdown files, ${agents.length} agents, links and sections OK\n`);
+const rosterNote = agentRosterPresent ? `${agents.length} agents` : "agent roster skipped (local-only)";
+process.stdout.write(`validate-docs: ${markdown.length} markdown files, ${rosterNote}, links and sections OK\n`);

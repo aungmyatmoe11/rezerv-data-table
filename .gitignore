@@ -44,3 +44,8 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /blob-report/
+
+# Agent operating docs — keep on disk for local check/fix; do not publish
+/CLAUDE.md
+/AGENTS.md
+/.claude/

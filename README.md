@@ -251,7 +251,7 @@ be spread over effects.
   development warning; out-of-range pages are clamped.
 - **Times render on the studio's clock, not the viewer's.** Timetable cells are server-rendered as
   well as hydrated, so a timezone-dependent format produces different text on each side (React
-  #418). `src/features/format.ts` pins the offset; `format.test.ts` renders the same string under
+  #418). `src/features/shared/format.ts` pins the offset; `format.test.ts` renders the same string under
   five timezones.
 - **Row keys never throw.** A missing or duplicate key warns once and falls back to the row
   index, so a bad fixture degrades instead of crashing the dashboard.
@@ -370,4 +370,3 @@ was missed or decided:
 | [docs/API.md](docs/API.md) | Every prop, defaults, antd differences, conflict matrix |
 | [docs/REQUIREMENTS_TRACEABILITY.md](docs/REQUIREMENTS_TRACEABILITY.md) | Brief requirement → code → test |
 | [docs/adr](docs/adr/README.md) | Why the six load-bearing decisions were made |
-| [CLAUDE.md](CLAUDE.md) · [AGENTS.md](AGENTS.md) · [.claude/agents](.claude/agents) | Rules and roles for AI-assisted work on this repo |
