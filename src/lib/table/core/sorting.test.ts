@@ -92,6 +92,20 @@ describe("sortTree", () => {
     expect(rows[0]?.children?.map((r) => r.key)).toEqual(["b2", "b1"]); // input untouched
   });
 
+  it("recurses through a unary child so grandchildren still sort", () => {
+    const rows: Row[] = [
+      {
+        key: "root",
+        name: "root",
+        age: 1,
+        children: [{ key: "only", name: "only", age: 2, children: [{ key: "g2", name: "g2", age: 20 }, { key: "g1", name: "g1", age: 10 }] }],
+      },
+    ];
+    const compare = buildComparator([{ columnKey: "age", order: "ascend", multiple: false }], leaves(columns));
+    const sorted = sortTree(rows, compare, "children");
+    expect(sorted[0]?.children?.[0]?.children?.map((r) => r.key)).toEqual(["g1", "g2"]);
+  });
+
   it("server-sorted columns (`sorter: true`) produce no comparator → identity", () => {
     const compare = buildComparator([{ columnKey: "name", order: "ascend", multiple: false }], leaves(columns));
     expect(compare).toBeNull();

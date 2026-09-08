@@ -90,7 +90,9 @@ function buildLeaf<T>(column: AnyLeafColumnDef<T>, key: Key, fixed: FixedSide | 
     serverSort,
     multiple,
     sortDirections: column.sortDirections ?? undefined,
-    filterable: Array.isArray(column.filters) && column.filters.length > 0 && typeof column.onFilter === "function",
+    // antd parity: `filters` က dropdown ကို ပြတယ်၊ `onFilter` က "local မှာပါ စစ်မလား" ကိုပဲ ဆုံးဖြတ်တယ်။
+    // `onFilter` မပါရင် table က filter ကို emit ပဲလုပ်ပြီး server က filter ပြီးသား page ကို ပြန်ပေးတယ်။
+    filterable: Array.isArray(column.filters) && column.filters.length > 0,
     onFilter: typeof column.onFilter === "function" ? column.onFilter : null,
     onCell: typeof column.onCell === "function" ? column.onCell : null,
     render: render ?? null,

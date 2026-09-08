@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
+import { clampPage } from "../core/pagination";
 import type { FilterState, SorterResult, TableChangeHandler, TablePaginationState } from "../core/types";
 
 export interface RequestParams<T> {
@@ -62,8 +63,13 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return { ...state, tick: state.tick + 1 };
     case "start":
       return { ...state, status: "loading", error: null };
-    case "success":
-      return { ...state, status: "success", data: action.data, total: action.total, error: null };
+    case "success": {
+      // dataset ကျုံ့သွားရင် (ဥပမာ rows 10,000 → 64) လက်ရှိ page က range ကျော်နေတတ်တယ်။
+      // အဲဒါကို ဒီမှာ clamp ပြီး params ကို ရေးလိုက်တော့ effect က နောက်ဆုံးစာမျက်နှာကို ပြန်ခေါ်တယ်။
+      const page = clampPage(state.params.page, state.params.pageSize, action.total);
+      const params = page === state.params.page ? state.params : { ...state.params, page };
+      return { ...state, status: "success", data: action.data, total: action.total, error: null, params };
+    }
     case "failure":
       return { ...state, status: "error", error: action.error };
     default:

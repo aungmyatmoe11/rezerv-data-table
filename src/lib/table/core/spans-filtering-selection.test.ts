@@ -33,6 +33,15 @@ describe("filterTree", () => {
     expect(hasActiveFilters({ name: null })).toBe(false);
   });
 
+  it("server-side filtering: `filters` without `onFilter` shows the control but never filters locally", () => {
+    // antd parity — the dropdown is how the change is emitted; the server answers it
+    const serverColumns: ColumnDef<Row>[] = [{ dataIndex: "name", title: "Name", filters: [{ text: "A", value: "a" }] }];
+    const resolved = resolveColumns(serverColumns, opts);
+    expect(resolved.leaves[0]?.filterable).toBe(true);
+    expect(resolved.leaves[0]?.onFilter).toBeNull();
+    expect(filterTree(rows, { name: ["a"] }, leavesByKey(resolved.leaves), "children")).toBe(rows);
+  });
+
   it("ORs within a column, ANDs across columns, and filters children recursively", () => {
     const out = filterTree(rows, { name: ["a"] }, lv, "children");
     expect(out.map((r) => r.key)).toEqual(["1", "2"]);

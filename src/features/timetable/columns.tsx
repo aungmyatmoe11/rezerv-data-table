@@ -1,5 +1,5 @@
 import { Progress, Tag, Text, type Tone } from "@/lib/ui";
-import type { ColumnDef } from "@/lib/table";
+import type { ColumnDef, Key } from "@/lib/table";
 import { formatTimeRange, type TimeFormat } from "../format";
 import type { Attendee, BookingStatus, ClassSession, ClassStatus, DataMode, PaymentType } from "./types";
 
@@ -74,7 +74,9 @@ export function buildClassColumns(mode: DataMode, timeFormat: TimeFormat = "day-
         { text: "Full", value: "Full" },
         { text: "Cancelled", value: "Cancelled" },
       ],
-      onFilter: (value, record) => record.status === value,
+      // server mode မှာ onFilter ကို ချန်ထားတယ် — table က page ကို ထပ်မစစ်ဘဲ filter ကို emit ပဲလုပ်ပြီး
+      // API က filter ပြီးသား page နဲ့ total ကို ပြန်ပေးတယ် (antd ရဲ့ server-side filter pattern)
+      ...(server ? {} : { onFilter: (value: Key, record: ClassSession) => record.status === value }),
       render: (status) => <Tag tone={STATUS_TONE[status]}>{status}</Tag>,
     },
   ];

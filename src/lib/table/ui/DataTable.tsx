@@ -3,6 +3,7 @@
 import { useId, useMemo, useRef, type CSSProperties } from "react";
 import type { DataTableProps, Key, PaginationPosition } from "../core/types";
 import { useAutoHeight } from "../react/use-auto-height";
+import { useDelayedFlag } from "../react/use-delayed-flag";
 import { useTable } from "../react/use-table";
 import type { RowContext } from "./context";
 import { TableBody } from "./TableBody";
@@ -82,7 +83,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     [tableId, layout, stickyExtras, selectionWidth, expandWidth, model.spans, sortedKeys, config.rowHoverable, config.locale, selection, expansion, props.onRow, props.rowClassName],
   );
 
-  const loadingActive = config.loading.active;
+  // `loading.delay` — spinner/skeleton ကို delay ကျော်မှသာ ပြတယ် (default 0 ဆိုရင် timer မရှိ)
+  const loadingActive = useDelayedFlag(config.loading.active, config.loading.delay);
   const showSkeleton = loadingActive && config.loading.mode === "skeleton";
   const showOverlay = loadingActive && config.loading.mode === "overlay";
   const stickyHeader = config.scroll.y !== null || config.sticky !== null;

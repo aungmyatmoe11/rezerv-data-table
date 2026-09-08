@@ -122,11 +122,11 @@ export function InventoryPage() {
 
       <div className="panel" style={{ marginBottom: 16 }}>
         <div className="scenario-bar">
-          <label>
-            Scenario
-            <Select<Scenario> value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
-          </label>
-          <label>
+          <div className="scenario-field">
+            <span>Scenario</span>
+            <Select<Scenario> aria-label="Scenario" value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
+          </div>
+          <label className="scenario-field">
             Linked selection (checkStrictly: false)
             <Switch checked={linkedSelection} onChange={setLinkedSelection} />
           </label>

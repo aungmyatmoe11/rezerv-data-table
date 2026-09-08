@@ -212,4 +212,45 @@ test.describe("timetable — server mode", () => {
     expect(pageRequest.url()).toContain("pageSize=10");
     await expect(page.getByText(/11–20 of 64/)).toBeVisible({ timeout: 15_000 });
   });
+
+  test("a status filter is answered by the server, so the total is the filtered total", async ({ page }) => {
+    await page.goto("/timetable");
+    await waitForRows(page);
+    await pickSegment(page, "Server-side");
+    await expect(page.getByText(/1–10 of 64/)).toBeVisible({ timeout: 15_000 });
+
+    await page.getByRole("button", { name: "Filter status" }).click();
+    await page.getByRole("checkbox", { name: "Cancelled" }).check();
+    const [request] = await Promise.all([
+      page.waitForRequest((req) => req.url().includes("/api/classes?") && req.url().includes("status=Cancelled")),
+      page.getByRole("button", { name: "OK" }).click(),
+    ]);
+    expect(request.url()).toContain("page=1");
+
+    // the pager counts the filtered dataset, not the unfiltered one, and every row obeys the filter
+    await expect(page.getByRole("navigation", { name: "Class timetable pagination" })).not.toContainText("of 64", { timeout: 15_000 });
+    const statuses = await table(page).locator('tbody td[data-column="status"]').allInnerTexts();
+    expect(statuses.length).toBeGreaterThan(0);
+    expect([...new Set(statuses.map((text) => text.trim()))]).toEqual(["Cancelled"]);
+  });
+
+  test("shrinking the dataset under the current page lands on the last real page, not an empty one", async ({ page }) => {
+    await page.goto("/timetable");
+    await waitForRows(page);
+    await pickSegment(page, "Server-side");
+    await pickSegment(page, "10,000");
+    await expect(page.getByText(/of 10,?000/)).toBeVisible({ timeout: 20_000 });
+
+    // walk past page 7 — the last page 64 rows can have — inside the 10,000-row dataset …
+    const pager = page.getByRole("navigation", { name: "Class timetable pagination" });
+    for (let i = 0; i < 8; i += 1) await pager.getByRole("button", { name: "Next page" }).click();
+    await expect(page.getByText(/81–90 of 10,?000/)).toBeVisible({ timeout: 20_000 });
+
+    // … then shrink it: page 500 no longer exists, so the table must clamp and refetch
+    await pickSegment(page, "64");
+    await waitForRows(page);
+    await expect(page.getByText(/61–64 of 64/)).toBeVisible({ timeout: 20_000 });
+    // the last page of 64 rows holds four of them — an unclamped page would render none
+    await expect(table(page).locator("tbody tr.dt__tr:not(.dt__skeleton-row)")).toHaveCount(4, { timeout: 20_000 });
+  });
 });

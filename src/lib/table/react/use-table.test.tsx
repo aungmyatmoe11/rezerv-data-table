@@ -1,4 +1,4 @@
-import { act, renderHook } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import type { ColumnDef, DataTableProps } from "../core/types";
 import { useTable } from "./use-table";
@@ -135,6 +135,28 @@ describe("useTable — selection & expansion APIs appear only with their config"
     expect(result.current.expansion?.isExpanded("r0")).toBe(true);
     expect(result.current.model.flat[1]).toMatchObject({ kind: "expanded", parentKey: "r0" });
     expect(onExpand).toHaveBeenCalledWith(true, rows[0]);
+  });
+
+  it("a new loader identity invalidates cached children and refetches the rows that are open", async () => {
+    const loaderA = vi.fn(async () => ["from A"]);
+    const loaderB = vi.fn(async () => ["from B"]);
+    const propsWith = (loadChildren: (record: Row, signal: AbortSignal) => Promise<unknown>): DataTableProps<Row> => ({
+      columns,
+      dataSource: rows,
+      expandable: { expandedRowRender: (_r, _i, _d, _e, children) => String(children), loadChildren },
+    });
+    const { result, rerender } = renderHook((props: DataTableProps<Row>) => useTable(props), { initialProps: propsWith(loaderA) });
+
+    await act(async () => {
+      result.current.expansion?.toggle("r0");
+    });
+    await waitFor(() => expect(result.current.expansion?.lazy.get("r0")).toMatchObject({ status: "ready", data: ["from A"] }));
+
+    // the data source changed under the open row (a scenario switch in the demo): the cached
+    // children are stale, so the row must reload rather than keep showing the old answer
+    rerender(propsWith(loaderB));
+    await waitFor(() => expect(result.current.expansion?.lazy.get("r0")).toMatchObject({ status: "ready", data: ["from B"] }));
+    expect(loaderB).toHaveBeenCalledTimes(1);
   });
 
   it("on-demand children: loading → ready, error → retry, collapse aborts", async () => {

@@ -5,7 +5,8 @@ import { Alert, Button, Space, Text } from "@/lib/ui";
 
 interface RouteErrorProps {
   error: Error & { digest?: string };
-  reset: () => void;
+  /** Next 16.3: re-fetches and re-renders the segment. `reset()` only clears the error state. */
+  retry: () => void;
 }
 
 /**
@@ -13,10 +14,10 @@ interface RouteErrorProps {
  *
  * The table owns *data* failures itself (`error` + `onRetry`). This catches the class it cannot:
  * an exception thrown while rendering — most often from a consumer's own `render` callback, or a
- * server component that threw. `reset()` re-renders this segment only, so a transient failure
- * costs a click instead of a full reload, and the header / nav stay usable throughout.
+ * server component that threw. `retry()` re-fetches and re-renders this segment only, so a
+ * transient failure costs a click instead of a full reload, and the header / nav stay usable.
  */
-export default function RouteError({ error, reset }: RouteErrorProps) {
+export default function RouteError({ error, retry }: RouteErrorProps) {
   const message = error.message.length > 0 ? error.message : "This page stopped while rendering.";
   return (
     <div className="app-error">
@@ -35,7 +36,7 @@ export default function RouteError({ error, reset }: RouteErrorProps) {
         </div>
       </Alert>
       <Space wrap>
-        <Button variant="primary" onClick={reset}>
+        <Button variant="primary" onClick={() => retry()}>
           Try again
         </Button>
         <Link className="app-error-link" href="/">

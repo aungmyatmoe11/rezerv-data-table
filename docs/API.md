@@ -23,7 +23,7 @@ import { DataTable, defineColumns, useTableRequest, type ColumnDef } from "@/lib
 | `rowClassName` | `string \| (record, index) => string` | — | |
 | `rowHoverable` | `boolean` | `true` | |
 | `onRow` / `onHeaderRow` | `(record, index) => HTMLAttributes` | — | |
-| `loading` | `boolean \| LoadingConfig` | `false` | `{ spinning, delay, indicator, mode: 'skeleton' \| 'overlay', skeletonRows }`; default mode is skeleton when `dataSource` is empty, overlay otherwise |
+| `loading` | `boolean \| LoadingConfig` | `false` | `{ spinning, delay, indicator, mode: 'skeleton' \| 'overlay', skeletonRows }`; default mode is skeleton when `dataSource` is empty, overlay otherwise. `delay` (ms, default `0`) holds the skeleton / overlay back until the wait has actually lasted that long, so a fast fetch never flashes one; `0` starts no timer |
 | `error` / `onRetry` | `unknown` / `() => void` | — | error row with Retry (★ not in antd) |
 | `locale` | `TableLocale` | English | `emptyText`, `errorText`, `retryText`, sort tooltips, selection menu, pager labels |
 | `pagination` | `false \| PaginationConfig` | client, page size 10 | see below |
@@ -62,6 +62,11 @@ Leaf props: `key`, `title` (node or `({ sortOrder }) => node`), `width`, `minWid
 `showSorterTooltip`, `formatter`, `filters`, `onFilter`, `filteredValue` (controlled by presence),
 `defaultFilteredValue`, `filterMultiple`, `colSpan` (header; `0` hides), `onCell` →
 `{ colSpan, rowSpan, className, style }`, `onHeaderCell`.
+
+`loadChildren` identity is the children cache key: keep it stable with `useCallback`, and let it
+change when the data source behind it changes (a scenario, an account, a filter). A new identity
+drops cached children and refetches the rows that are open, so an expanded row can never keep
+showing an answer fetched from a source you have since switched away from.
 
 `CellResult` is `ReactNode | { children, props: { colSpan?, rowSpan? } }` (antd's legacy span form
 is accepted too).

@@ -11,19 +11,20 @@ function crash(message: string, digest?: string): Error & { digest?: string } {
 
 describe("route error boundary", () => {
   it("shows the failure, the server reference, and retries the segment", async () => {
-    const reset = vi.fn();
-    render(<RouteError error={crash("render blew up", "a1b2c3")} reset={reset} />);
+    const retry = vi.fn();
+    render(<RouteError error={crash("render blew up", "a1b2c3")} retry={retry} />);
 
     expect(screen.getByRole("alert")).toHaveTextContent("render blew up");
     expect(screen.getByRole("alert")).toHaveTextContent("a1b2c3");
     expect(screen.getByRole("link", { name: "Back to overview" })).toHaveAttribute("href", "/");
 
+    // Next 16.3's `retry()` re-fetches the segment; `reset()` would only clear the error state
     await userEvent.click(screen.getByRole("button", { name: "Try again" }));
-    expect(reset).toHaveBeenCalledTimes(1);
+    expect(retry).toHaveBeenCalledTimes(1);
   });
 
   it("falls back to its own wording when the error carries no message", () => {
-    render(<RouteError error={crash("")} reset={vi.fn()} />);
+    render(<RouteError error={crash("")} retry={vi.fn()} />);
     expect(screen.getByRole("alert")).toHaveTextContent("This page stopped while rendering.");
     expect(screen.queryByText(/Reference:/)).toBeNull();
   });

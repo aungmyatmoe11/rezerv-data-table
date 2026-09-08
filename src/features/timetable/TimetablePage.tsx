@@ -4,7 +4,7 @@ import { Alert, Button, Segmented, Select, Space, Text } from "@/lib/ui";
 import { useCallback, useMemo, useState } from "react";
 import { DataTable, useTableRequest, type Key, type RequestParams } from "@/lib/table";
 import { SCENARIOS, resetScenarioLatches, type Scenario } from "@/mocks/scenarios";
-import { fetchAttendeesHttp, fetchClassesHttp, listAttendeesMock, listClassesMock } from "./api";
+import { fetchAttendeesHttp, fetchClassesHttp, isClassStatus, listAttendeesMock, listClassesMock } from "./api";
 import { withInlineAttendees } from "./data";
 import { attendeeColumns, buildClassColumns } from "./columns";
 import { TimeFormatPicker } from "../TimeFormatPicker";
@@ -80,8 +80,11 @@ export function TimetablePage() {
 
   // --- server mode: the table emits, the hook fetches ---------------------------
   const fetcher = useCallback(
-    (params: RequestParams<ClassSession>, signal: AbortSignal) =>
-      fetchClassesHttp(
+    (params: RequestParams<ClassSession>, signal: AbortSignal) => {
+      // Status filter ကို server ကို လွှတ်လိုက်တယ် — column မှာ onFilter မထားတော့ table က page ကို
+      // ထပ်မစစ်ဘဲ API က filter ပြီးသား page နဲ့ total ကို ပြန်ပေးတယ်
+      const status = (params.filters["status"] ?? []).filter(isClassStatus);
+      return fetchClassesHttp(
         {
           page: params.page,
           pageSize: params.pageSize,
@@ -90,11 +93,13 @@ export function TimetablePage() {
           scenario,
           rows: rowCount,
           nonce,
+          ...(status.length > 0 ? { status } : {}),
           // inline mode ဆိုရင် children ကို parent payload ထဲမှာပါအောင် တောင်းတယ် (`?include=attendees`)
           includeAttendees: childrenMode === "inline",
         },
         signal,
-      ),
+      );
+    },
     [scenario, rowCount, nonce, childrenMode],
   );
   const server = useTableRequest<ClassSession>(fetcher, { defaultPageSize: 10, enabled: dataMode === "server" });
@@ -115,7 +120,7 @@ export function TimetablePage() {
     const cancelled = dataSource.filter((c) => c.status === "Cancelled").length;
     const capacity = dataSource.reduce((sum, c) => sum + c.capacity, 0);
     const booked = dataSource.reduce((sum, c) => sum + c.bookedCount, 0);
-    return { total, full, cancelled, occupancy: capacity === 0 ? 0 : Math.round((booked / capacity) * 100) };
+    return { total, full, cancelled, occupancy: capacity === 0 ? 0 : Math.round((booked / capacity) * 100), scope: dataMode === "server" ? ("page" as const) : ("all" as const) };
   }, [dataMode, dataSource, server.pagination.total]);
 
   const expandable = useMemo(
@@ -154,26 +159,29 @@ export function TimetablePage() {
 
       <div className="panel" style={{ marginBottom: 16 }}>
         <div className="scenario-bar">
-          <label>
-            Data
-            <Segmented<DataMode> value={dataMode} onChange={setDataMode} options={[{ label: "Client-side", value: "client" }, { label: "Server-side", value: "server" }]} />
-          </label>
-          <label>
-            Children
-            <Segmented<ChildrenMode> value={childrenMode} onChange={setChildrenMode} options={[{ label: "Inline", value: "inline" }, { label: "On-demand", value: "on-demand" }]} />
-          </label>
-          <label>
-            Rows
-            <Segmented<RowCount> value={rowCount} onChange={setRowCount} options={[{ label: "64", value: 64 }, { label: "10,000", value: 10_000 }]} />
-          </label>
-          <label>
-            Scenario
-            <Select<Scenario> value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
-          </label>
-          <label>
-            Time format
+          {/* caption ကို <label> နဲ့ မထုပ်ဘူး — <label> က သူ့အောက်က ပထမဆုံး control ကိုပဲ နာမည်ပေးလို့
+              radiogroup ရဲ့ ပထမ option က "Rows 10,000" ဆိုပြီး မှားနေတတ်တယ်။ caption က span၊
+              အမည်ကို control ကိုယ်တိုင် aria-label နဲ့ ယူတယ်။ */}
+          <div className="scenario-field">
+            <span>Data</span>
+            <Segmented<DataMode> aria-label="Data" value={dataMode} onChange={setDataMode} options={[{ label: "Client-side", value: "client" }, { label: "Server-side", value: "server" }]} />
+          </div>
+          <div className="scenario-field">
+            <span>Children</span>
+            <Segmented<ChildrenMode> aria-label="Children" value={childrenMode} onChange={setChildrenMode} options={[{ label: "Inline", value: "inline" }, { label: "On-demand", value: "on-demand" }]} />
+          </div>
+          <div className="scenario-field">
+            <span>Rows</span>
+            <Segmented<RowCount> aria-label="Rows" value={rowCount} onChange={setRowCount} options={[{ label: "64", value: 64 }, { label: "10,000", value: 10_000 }]} />
+          </div>
+          <div className="scenario-field">
+            <span>Scenario</span>
+            <Select<Scenario> aria-label="Scenario" value={scenario} onChange={changeScenario} style={{ width: 210 }} options={SCENARIOS.map((value) => ({ value, label: SCENARIO_LABEL[value] }))} />
+          </div>
+          <div className="scenario-field">
+            <span>Time format</span>
             <TimeFormatPicker value={timeFormat} onChange={setTimeFormat} width={196} />
-          </label>
+          </div>
           <Button size="small" onClick={reset}>
             Reset
           </Button>
@@ -186,10 +194,12 @@ export function TimetablePage() {
       </div>
 
       <div className="stat-row">
+        {/* server mode မှာ Full / Cancelled / Occupancy က လက်ရှိ page ကနေ တွက်တာဖြစ်လို့ label မှာ
+            အဲဒါကို ဖော်ပြထားတယ် — aggregate endpoint မရှိဘဲ dataset တစ်ခုလုံးလို ဟန်မဆောင်ဘူး */}
         <Stat label="Classes" value={stats.total} />
-        <Stat label="Full" value={stats.full} />
-        <Stat label="Cancelled" value={stats.cancelled} />
-        <Stat label="Occupancy" value={`${stats.occupancy}%`} />
+        <Stat label={stats.scope === "page" ? "Full (this page)" : "Full"} value={stats.full} />
+        <Stat label={stats.scope === "page" ? "Cancelled (this page)" : "Cancelled"} value={stats.cancelled} />
+        <Stat label={stats.scope === "page" ? "Occupancy (this page)" : "Occupancy"} value={`${stats.occupancy}%`} />
       </div>
 
       {selectedKeys.length > 0 ? (
@@ -210,7 +220,9 @@ export function TimetablePage() {
       ) : null}
 
       <DataTable<ClassSession>
-        key={resetKey}
+        // dataMode ပြောင်းရင် remount — server hook က sorter: [] နဲ့ စတာမို့ header ရဲ့ aria-sort
+        // အဟောင်း ကျန်မနေစေဖို့ (Reset key နဲ့ တူတဲ့ pattern)
+        key={`${dataMode}-${resetKey}`}
         aria-label="Class timetable"
         columns={columns}
         dataSource={dataSource}

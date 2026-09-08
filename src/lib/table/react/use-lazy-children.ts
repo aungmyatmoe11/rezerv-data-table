@@ -9,6 +9,7 @@ export interface LazyChildren {
 }
 
 const EMPTY: ReadonlyMap<Key, LazyEntry> = new Map();
+const EMPTY_KEYS: ReadonlySet<Key> = new Set();
 const noop = (): void => undefined;
 
 function isAbort(error: unknown): boolean {
@@ -20,6 +21,10 @@ function isAbort(error: unknown): boolean {
  *   idle → loading → ready | error, with retry.
  * Expanding starts a fetch (unless cached), collapsing aborts it, a stale response never wins
  * (generation guard). Returns a constant when no loader is configured so nothing runs.
+ *
+ * `loader` identity is the cache key: keep it stable with `useCallback`, and let it change when
+ * the underlying data source does — a new identity invalidates cached children and refetches the
+ * rows that are open, which is what makes a scenario / account / filter switch honest.
  */
 export function useLazyChildren<T>(
   loader: ((record: T, signal: AbortSignal) => Promise<unknown>) | null,
@@ -91,13 +96,24 @@ export function useLazyChildren<T>(
 
   // expandedKeys ပြောင်းတိုင်း — အသစ်ဖွင့်တဲ့ row ကို fetch၊ ပိတ်လိုက်တဲ့ row ရဲ့ in-flight request ကို abort
   const previousKeys = useRef<ReadonlySet<Key>>(new Set());
+  const previousLoader = useRef(loader);
   useEffect(() => {
     if (loader === null) return;
     const current = new Set(expandedKeys);
+
+    // loader identity ပြောင်းတာဟာ "data source ပြောင်းသွားပြီ" လို့ ဆိုလိုတယ် (ဥပမာ scenario ချိန်းလိုက်တာ)။
+    // cache ထဲက အဟောင်းတွေ မမှန်တော့လို့ ရှင်းပစ်ပြီး "အခုမှဖွင့်လိုက်တဲ့ row" အဖြစ် သတ်မှတ်လိုက်တော့
+    // အောက်ကလမ်းကြောင်းအတိုင်းပဲ ပြန်ဆွဲပေးတယ် (in-flight ကို `load` ကိုယ်တိုင် abort လုပ်တယ်)။
+    if (previousLoader.current !== loader) {
+      previousLoader.current = loader;
+      map.clear();
+      previousKeys.current = EMPTY_KEYS;
+    }
+
     for (const key of current) if (!previousKeys.current.has(key)) load(key, false);
     for (const key of previousKeys.current) if (!current.has(key)) cancel(key);
     previousKeys.current = current;
-  }, [loader, expandedKeys, load, cancel]);
+  }, [loader, expandedKeys, load, cancel, map]);
 
   useEffect(() => {
     const active = controllers.current;

@@ -27,7 +27,7 @@ Status: **verified** (automated test passes), **manual** (checked by hand in the
 | R-20 | Slow fetches show skeletons | `slow` scenario (1.8 s) | e2e "shows skeleton rows while loading" | verified |
 | R-21 | Pinned column on narrow / mobile viewports | `scroll.x` + sticky | `responsive.spec.ts` at both narrow targets — tablet (Galaxy Tab S4, 712) and mobile (Pixel 7, 412) | verified |
 | R-22 | Large datasets stay smooth (no laggy sort / scroll) | memoised pipeline, `React.memo`, `virtual` | `tests/perf/table.perf.spec.ts` budgets; e2e 10,000-row sort | verified |
-| R-23 | Invalid sort key or out-of-range page | `reconcileSort` drops unknown keys + `warnOnce`; `clampPage` | `core/sorting.test.ts`, `core/pagination.test.ts` | verified |
+| R-23 | Invalid sort key or out-of-range page | `reconcileSort` drops unknown keys + `warnOnce`; `clampPage` client-side **and** in `useTableRequest` on every server response, so a shrinking dataset refetches the last real page instead of stranding an empty one | `core/sorting.test.ts`, `core/pagination.test.ts`, `react/use-table-request.test.tsx` | verified |
 | R-24 | UI/UX: SaaS layout, hover states, transitions, responsive | `src/app/globals.css`, `data-table.css`, `docs/DESIGN.md` | manual (light/dark, 375/768/1280) | manual |
 | R-25 | README with the seven named sections | `README.md` | `scripts/validate-docs.mjs` checks the headings | verified |
 | R-26 | Public repository + deployed URL | GitHub `aungmyatmoe11/rezerv-data-table`, Vercel | README links | pending until submission |

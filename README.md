@@ -4,7 +4,7 @@
 
 A from-scratch, fully typed, config-driven `DataTable<T>` for React 19 / Next.js 16, with an
 Ant-Design-shaped API: the defaults render a plain semantic table; every feature — pagination,
-selection, expansion, fixed columns, virtual windowing, multi-sort, filters, column reorder — is
+selection, expansion, fixed columns, virtual windowing, multi-sort, filters, tree data — is
 inert until its config attribute is supplied.
 
 - **Live:** <https://rezerv-data-table.vercel.app>
@@ -39,8 +39,8 @@ Open <http://localhost:3000>. Routes: `/`, `/timetable`, `/inventory`, `/playgro
 npm run check
 ```
 
-`check` = typecheck → lint → unit tests (Vitest, 86 tests) → end-to-end tests (Playwright against a
-fresh production build, 27 tests incl. axe). Individual steps: `npm run typecheck`, `npm run lint`,
+`check` = typecheck → lint → unit tests (Vitest, 104 tests) → end-to-end tests (Playwright against a
+fresh production build, 35 tests incl. axe). Individual steps: `npm run typecheck`, `npm run lint`,
 `npm run test`, `npm run test:e2e`, `npm run test:perf` (performance budgets), `npm run build`.
 
 No backend is needed: the "API" is in-process mock data with realistic latency, exposed both
@@ -83,7 +83,7 @@ plus rows and one pipeline run.
 `minWidth`, `align`, `fixed: 'left' | 'right'`, `hidden`, `ellipsis`, `responsive`, `sorter`
 (`fn` | `true` | `{ compare, multiple }`), `sortOrder` / `defaultSortOrder`, `sortDirections`,
 `sortIcon`, `filters` / `onFilter` / `filteredValue`, `colSpan`, `onCell` (colSpan / rowSpan),
-`onHeaderCell`, `draggable`. Group columns take `title` + `children`. The full list, the
+`onHeaderCell`, `formatter`. Group columns take `title` + `children`. The full list, the
 defaults and the differences from antd are in [docs/API.md](docs/API.md).
 
 **Three layers, ESLint-enforced.**
@@ -187,7 +187,7 @@ scroll synchronisation.
   pseudo-element (a `box-shadow` on a sticky cell would paint under its neighbour). No React
   state is involved, so scrolling never re-renders anything.
 - `theme.fixedColumnGap` reproduces antd's "gapped fixed columns" demo.
-- On narrow viewports (`tests/e2e/responsive.spec.ts`, Pixel 7) the pinned column keeps its width
+- On narrow viewports (`tests/e2e/responsive.spec.ts`, tablet 712 + Pixel 7) the pinned column keeps its width
   and the rest scrolls beneath it.
 
 ---
@@ -197,7 +197,7 @@ scroll synchronisation.
 **Local, single reducer, no store library.**
 
 - All interaction state lives in one `TableState` (`sort`, `filters`, `page`, `selectedKeys`,
-  `expandedKeys`, `columnOrder`) behind one `useReducer`. Cross-slice rules — sort or filter or
+  `expandedKeys`) behind one `useReducer`. Cross-slice rules — sort or filter or
   page-size change resets to page 1 — are in one pure `reduce()` and are unit-tested.
 - `send(action)` runs **synchronously in the event handler**: `reduce → commit (uncontrolled
   slices only) → emit (callbacks)`. There is no effect that watches state to fire callbacks, so
@@ -351,7 +351,7 @@ was missed or decided:
 ## Deliberately deferred
 
 - `scrollTo({ index })` imperative handle under `virtual`.
-- Column reorder and column resizing (see the trade-off above).
+- Column resizing. (Column drag-reorder is not deferred — it was removed; see the trade-off above.)
 - Row grouping / aggregation, inline editing, CSV export — out of scope for the brief.
 - The four verification gaps in the table above (cross-browser e2e, coverage floor, bundle budget,
   visual snapshots) — each is a cost worth paying on a product, not on a one-week assessment.

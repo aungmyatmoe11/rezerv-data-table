@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { ColumnDef } from "../core/types";
@@ -128,6 +128,32 @@ describe("DataTable — states", () => {
     expect(skeletonRows).toHaveLength(4);
     expect(skeletonRows[0]?.querySelectorAll("td")).toHaveLength(2);
     expect(screen.getByRole("table")).toHaveAttribute("aria-busy", "true");
+  });
+
+  it("loading.delay holds the skeleton back, and a fast load never shows one", async () => {
+    vi.useFakeTimers();
+    try {
+      const { container, rerender } = render(<DataTable columns={columns} dataSource={[]} loading={{ delay: 300, skeletonRows: 3 }} />);
+      expect(container.querySelectorAll(".dt__skeleton-row")).toHaveLength(0);
+
+      // the wait outlasts the delay → the skeleton appears
+      await act(async () => {
+        vi.advanceTimersByTime(300);
+      });
+      expect(container.querySelectorAll(".dt__skeleton-row")).toHaveLength(3);
+
+      // a second, faster load resolves inside the delay → nothing flashes
+      rerender(<DataTable columns={columns} dataSource={rows} loading={false} />);
+      rerender(<DataTable columns={columns} dataSource={rows} loading={{ delay: 300 }} />);
+      await act(async () => {
+        vi.advanceTimersByTime(120);
+      });
+      rerender(<DataTable columns={columns} dataSource={rows} loading={false} />);
+      expect(container.querySelectorAll(".dt__skeleton-row")).toHaveLength(0);
+      expect(screen.getByRole("table")).not.toHaveAttribute("aria-busy", "true");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("renders the empty state and the error state with retry", async () => {

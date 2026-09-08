@@ -105,7 +105,8 @@ function sortChildren<T>(rows: readonly T[], compare: Comparator<T> | null, chil
   let changed = false;
   const next = rows.map((row) => {
     const children = (row as Record<string, unknown>)[childrenColumnName];
-    if (!Array.isArray(children) || children.length < 2) return row;
+    // length 0 မှာ recurse မလို၊ length 1 မှာ sibling sort မလုပ်ပေမယ့် မြေးတွေကို စီဖို့ recurse လုပ်ရတယ်
+    if (!Array.isArray(children) || children.length === 0) return row;
     const sortedChildren = sortTree(children as T[], compare, childrenColumnName);
     if (sortedChildren === children) return row;
     changed = true;
