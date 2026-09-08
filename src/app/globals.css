@@ -205,3 +205,26 @@ kbd {
   gap: 4px;
   max-width: 100%;
 }
+
+/* error boundaries: readable at any width, and centred when there is no shell around it */
+.app-error {
+  max-width: 640px;
+  display: grid;
+  gap: 16px;
+}
+.app-error .page-subtitle {
+  margin-bottom: 0;
+}
+.app-error-link {
+  color: var(--ui-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.app-error-link:hover {
+  text-decoration: underline;
+}
+.app-error-standalone {
+  margin: 0 auto;
+  padding: 48px 24px;
+  justify-items: start;
+}

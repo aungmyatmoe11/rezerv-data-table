@@ -138,9 +138,20 @@ hydration pass) rather than a mount effect, which keeps the React Compiler's
 `{ dataSource, loading, error, onRetry, pagination, onChange }`. Client mode uses the same hook
 with a fetch-all fetcher so skeleton / error states are real in both modes.
 
+## Failure boundaries
+
+Failures land in one of two places, and the split is deliberate:
+
+- **Data failures** belong to the table. A rejected fetch is state (`error` + `onRetry`,
+  `locale.errorText`), and on-demand children own a second, per-row copy of that state machine.
+- **Render failures** cannot be state — the component that would show them is the one that threw.
+  `src/app/error.tsx` is the route boundary (shell stays mounted, `reset()` re-renders the
+  segment); `src/app/global-error.tsx` catches a crash in the root layout and renders its own
+  `<html>`. Neither depends on the providers above it.
+
 ## Testing layout
 
 - `vitest.config.ts`: two projects — `core` (node) and `dom` (jsdom for `react/`, `ui/`,
-  `features/`); `--typecheck` runs `*.test-d.ts`.
+  `features/`, `app/`); `--typecheck` runs `*.test-d.ts`.
 - `playwright.config.ts`: e2e against a fresh production build on port 3110, `desktop` and
   `mobile` (Pixel 7) projects. `playwright.perf.config.ts`: sequential, port 3111.

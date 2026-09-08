@@ -159,6 +159,15 @@ rows whose `rowExpandable` returns `false` get a spacer instead of a toggle.
 `/timetable` → *Children: On-demand* + *Scenario: Fail once, then succeed* shows the full
 loading → error → Retry → ready path.
 
+**Two layers of failure handling.** Everything above is a *data* failure: the fetch rejected, the
+table knows it, and `error` + `onRetry` render it in place. A *render* failure is a different
+class — an exception thrown while React is rendering (a consumer's own `render` callback is the
+usual culprit) cannot become table state, because the component that would display it is the one
+that threw. Those are caught by [`src/app/error.tsx`](src/app/error.tsx): the header and nav stay
+usable, the message and Next's `digest` are shown, and `reset()` re-renders just that segment, so
+a transient failure costs a click instead of a reload. A crash in the root layout itself falls
+through to [`src/app/global-error.tsx`](src/app/global-error.tsx), which renders its own document.
+
 ---
 
 ## Sticky-column approach
@@ -322,10 +331,20 @@ paging. Light and dark themes, `prefers-reduced-motion` respected.
   memo identity — plus hook and component tests in jsdom (controlled slices never written, bare
   table renders no extra DOM, on-demand skeleton → error → retry).
 - **E2E (Playwright, production build):** timetable client + server modes, inventory multi-sort
-  / tree / pinned-right / drawer, playground JSX ↔ DOM parity, virtual window, auto height, drag
-  and keyboard column reorder, mobile pinned column, axe.
+  / tree / pinned-right / drawer, playground JSX ↔ DOM parity, virtual window, auto height,
+  formatter patterns, mobile pinned column, axe.
 - **Perf:** budgets above.
 - CI (`.github/workflows/ci.yml`): docs gate → contracts typecheck → `npm run check`.
+
+**What the suite deliberately does not cover**, so a reviewer does not have to guess whether it
+was missed or decided:
+
+| Not covered | Why, and what stands in for it |
+| --- | --- |
+| Cross-browser e2e (Firefox / WebKit) | Chromium only. Nothing here is engine-specific — `position: sticky`, `ResizeObserver` and `IntersectionObserver`-free scroll maths are baseline — and a second engine doubles CI time for the same assertions. A real product would add WebKit for the sticky and scroll suites. |
+| Coverage thresholds | Coverage is measured by what the tests assert, not by a percentage gate; the pure core is tested behaviourally (sort merge rules, page clamping, flattening, spans, selection scopes) rather than line-chased. A long-lived repo should add a floor to stop it eroding. |
+| Bundle-size budget | The perf gate gauges interaction (sort, page change, frame p95), not payload. With four runtime dependencies the payload is small by construction, but a `size-limit` check in CI is the honest way to keep it that way. |
+| Visual regression snapshots | Layout, light / dark and the three breakpoints are verified by hand (see the design doc). Snapshots pay off once a team is changing this CSS; for one author over one week they mostly encode churn. |
 
 ---
 
@@ -334,6 +353,10 @@ paging. Light and dark themes, `prefers-reduced-motion` respected.
 - `scrollTo({ index })` imperative handle under `virtual`.
 - Column reorder and column resizing (see the trade-off above).
 - Row grouping / aggregation, inline editing, CSV export — out of scope for the brief.
+- The four verification gaps in the table above (cross-browser e2e, coverage floor, bundle budget,
+  visual snapshots) — each is a cost worth paying on a product, not on a one-week assessment.
+- Telemetry. `app/error.tsx` shows the failure and Next's `digest`; a production app would send
+  both to Sentry from that boundary, which is one `useEffect` and a DSN.
 
 ---
 

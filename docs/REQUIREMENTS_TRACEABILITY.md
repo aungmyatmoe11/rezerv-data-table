@@ -49,3 +49,4 @@ library is installed.
 | Pagination positions ×6, size changer, jumper, total, simple | `pagination.*` | `playground.spec.ts` JSX ↔ DOM |
 | `onChange` + per-feature callbacks for API calls | `emit` | `react/use-table.test.tsx`; playground event log |
 | Dynamic-settings playground for reviewers | `src/features/playground` | `playground.spec.ts` |
+| Route + root error boundaries (render-time failures, not just data failures) | `src/app/error.tsx`, `src/app/global-error.tsx` | `src/app/error.test.tsx`; verified in a production build against a throwing route |

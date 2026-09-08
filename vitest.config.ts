@@ -24,7 +24,7 @@ export default defineConfig({
           name: "dom",
           environment: "jsdom",
           setupFiles: ["./vitest.setup.ts"],
-          include: ["src/lib/table/react/**/*.test.{ts,tsx}", "src/lib/table/ui/**/*.test.{ts,tsx}", "src/features/**/*.test.{ts,tsx}"],
+          include: ["src/lib/table/react/**/*.test.{ts,tsx}", "src/lib/table/ui/**/*.test.{ts,tsx}", "src/features/**/*.test.{ts,tsx}", "src/app/**/*.test.{ts,tsx}"],
         },
       },
     ],
