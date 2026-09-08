@@ -1,3 +1,8 @@
+/**
+ * Column definitions to a render-ready layout: group columns flattened into leaves, keys
+ * assigned, hidden / responsive columns dropped, then a stable partition into
+ * `[left…, middle…, right…]` with the offset every fixed cell needs for `position: sticky`.
+ */
 import type { Align, AnyLeafColumnDef, Breakpoint, ColumnDef, ColumnLayout, Comparator, FixedSide, GroupColumn, HeaderCellModel, Key, LeafColumn, SortDirection } from "./types";
 import { compareByPath, pathKey, safeCompare, toPath } from "./value";
 import { warnOnce } from "./warnings";
@@ -90,7 +95,7 @@ function buildLeaf<T>(column: AnyLeafColumnDef<T>, key: Key, fixed: FixedSide | 
     serverSort,
     multiple,
     sortDirections: column.sortDirections ?? undefined,
-    // antd parity: `filters` က dropdown ကို ပြတယ်၊ `onFilter` က "local မှာပါ စစ်မလား" ကိုပဲ ဆုံးဖြတ်တယ်။
+    // `filters` က dropdown ကို ပြတယ်၊ `onFilter` က "local မှာပါ စစ်မလား" ကိုပဲ ဆုံးဖြတ်တယ်။
     // `onFilter` မပါရင် table က filter ကို emit ပဲလုပ်ပြီး server က filter ပြီးသား page ကို ပြန်ပေးတယ်။
     filterable: Array.isArray(column.filters) && column.filters.length > 0,
     onFilter: typeof column.onFilter === "function" ? column.onFilter : null,

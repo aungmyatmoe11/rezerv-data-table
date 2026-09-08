@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * The hand-built pager: page items with ellipsis, size changer, quick jumper,
+ * total text and simple mode. Named after its table so several pagers on one page stay distinct.
+ */
 import { ChevronLeftIcon, ChevronRightIcon, NumberInput, Select } from "@/lib/ui";
 import { pageItems, pageRange } from "../core/pagination";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";

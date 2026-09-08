@@ -28,7 +28,7 @@ describe("paginate", () => {
     expect(paginate(rows, 9, 10, undefined).number).toBe(5);
   });
 
-  it("switches to server mode when the parent hands over fewer rows than `total` (Ant Design rule)", () => {
+  it("switches to server mode when the parent hands over fewer rows than `total`", () => {
     const onePage = rows.slice(0, 10);
     expect(isServerPaged(onePage.length, 45)).toBe(true);
     const page = paginate(onePage, 3, 10, 45);
@@ -49,7 +49,7 @@ describe("pageRange / pageItems", () => {
     expect(pageRange(1, 10, 0)).toEqual([0, 0]);
   });
 
-  it("emits Ant Design style jumpers around the current page", () => {
+  it("emits jumpers around the current page", () => {
     expect(pageItems(1, 5).map((i) => i.type)).toEqual(["page", "page", "page", "page", "page"]);
     const items = pageItems(10, 20).map((i) => (i.type === "page" ? i.page : i.type));
     expect(items).toEqual([1, "jump-prev", 9, 10, 11, "jump-next", 20]);

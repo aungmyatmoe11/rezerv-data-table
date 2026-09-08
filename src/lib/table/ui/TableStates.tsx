@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * The four states as components: skeleton rows that match the real column widths so
+ * the layout does not jump, empty, error with Retry, and the overlay that keeps the previous page
+ * visible while the next one loads.
+ */
 import { AlertIcon, Button, Empty, Spinner } from "@/lib/ui";
 import { isValidElement, type ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";

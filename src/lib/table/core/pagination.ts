@@ -1,3 +1,7 @@
+/**
+ * Page arithmetic: clamping, slicing, server-page detection
+ * (`dataSource.length < total`) and the page-item list the pager renders. Pure numbers.
+ */
 import type { TablePaginationState } from "./types";
 
 export const DEFAULT_PAGE_SIZE = 10;
@@ -14,7 +18,7 @@ export function clampPage(current: number, pageSize: number, total: number): num
   return Math.min(Math.max(1, Math.floor(current)), pages);
 }
 
-/** Ant Design rule: server-paged when the parent hands over fewer rows than `total`. */
+/** Server-paged when the parent hands over fewer rows than `total` — inferred, not flagged. */
 export function isServerPaged(dataLength: number, total: number | undefined): boolean {
   return total !== undefined && dataLength < total;
 }
@@ -57,7 +61,7 @@ export function pageRange(current: number, pageSize: number, total: number): rea
 export type PageItem = { type: "page"; page: number } | { type: "jump-prev" | "jump-next"; page: number };
 
 /**
- * Page buttons with Ant Design-style jumpers: first and last are always present, a
+ * Page buttons with jumpers: first and last are always present, a
  * window of `siblings` around the current page, and `•••` jumpers for the gaps.
  */
 export function pageItems(current: number, pages: number, siblings = 1): readonly PageItem[] {

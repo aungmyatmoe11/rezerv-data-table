@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * `<thead>`: group header rows, the leaf header row, and the sticky offsets that pin
+ * fixed columns in the header as well as the body.
+ */
 import type { CSSProperties } from "react";
 import type { TableInstance } from "../react/use-table";
 import type { RowContext } from "./context";

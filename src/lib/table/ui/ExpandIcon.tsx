@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * The expand / collapse toggle, or a spacer of the same width when a row is not
+ * expandable — so rows stay aligned either way.
+ */
 import { ChevronRightIcon } from "@/lib/ui";
 import type { MouseEvent, ReactNode } from "react";
 import type { ExpandIconContext } from "../core/types";

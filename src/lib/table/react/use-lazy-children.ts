@@ -1,3 +1,8 @@
+/**
+ * The per-row `idle -> loading -> error -> ready` machine behind
+ * `expandable.loadChildren`: aborts on collapse, drops late responses with a generation guard,
+ * caches by row key and exposes `retry()`.
+ */
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { Key, LazyEntry } from "../core/types";
 

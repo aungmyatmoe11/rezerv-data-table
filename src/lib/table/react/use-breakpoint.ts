@@ -1,7 +1,11 @@
+/**
+ * Matches the `xs` to `xxl` breakpoints that `column.responsive` refers to. One
+ * `matchMedia` set, created only when a column actually asks for it.
+ */
 import { useMemo, useSyncExternalStore } from "react";
 import type { Breakpoint } from "../core/types";
 
-/** Ant Design breakpoints ("at least" semantics; `xs` is the sub-576px band). */
+/** Breakpoints for `column.responsive` ("at least" semantics; `xs` is the sub-576px band). */
 const QUERIES: Record<Breakpoint, string> = {
   xs: "(max-width: 575.98px)",
   sm: "(min-width: 576px)",

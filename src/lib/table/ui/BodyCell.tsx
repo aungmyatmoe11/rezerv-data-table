@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * One `<td>`, memoised: applies `render` or `formatter`, honours span suppression,
+ * fixed-column offsets and ellipsis. The hot path of a large table, so it stays deliberately thin.
+ */
 import { isValidElement, memo, type CSSProperties, type ReactNode } from "react";
 import type { CellResult, CellSpan, Key, LeafColumn } from "../core/types";
 import { getByPath } from "../core/value";

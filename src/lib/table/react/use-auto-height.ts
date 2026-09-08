@@ -1,3 +1,7 @@
+/**
+ * Resolves `scroll.y: 'auto'` into a pixel height by measuring the space the
+ * scroller has been given, so a table can fill its container without a hard-coded height.
+ */
 import { useEffect, useState, type RefObject } from "react";
 import { warnOnce } from "../core/warnings";
 

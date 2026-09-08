@@ -1,3 +1,7 @@
+/**
+ * Applies each column's `onFilter` across the row tree. Returns the input array by
+ * identity when no filter is active, so an unfiltered table pays nothing for this stage.
+ */
 import type { FilterState, Key, LeafColumn } from "./types";
 
 type Predicate<T> = (record: T) => boolean;
@@ -11,7 +15,7 @@ function buildPredicate<T>(filters: FilterState, leavesByKey: ReadonlyMap<Key, L
     active.push({ values, onFilter: leaf.onFilter });
   }
   if (active.length === 0) return null;
-  // column တစ်ခုအတွင်း value တွေက OR၊ column အချင်းချင်းက AND (antd parity)
+  // column တစ်ခုအတွင်း value တွေက OR၊ column အချင်းချင်းက AND 
   return (record) => active.every(({ values, onFilter }) => values.some((value) => onFilter(value, record)));
 }
 

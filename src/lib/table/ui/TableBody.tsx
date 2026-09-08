@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * `<tbody>`: walks the flattened row list and emits body rows, expanded rows and — under
+ * `virtual` — the spacer rows that stand in for what is outside the window.
+ */
 import { useMemo, type RefObject } from "react";
 import type { Key } from "../core/types";
 import { useRowHeights } from "../react/use-row-heights";

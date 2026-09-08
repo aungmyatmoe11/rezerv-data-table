@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * One `<tr>`, memoised: the cell loop, row-level handlers, and the selection and expand
+ * cells that are prepended when those features are enabled.
+ */
 import { memo, type CSSProperties, type MouseEvent } from "react";
 import type { FlatEntry } from "../core/types";
 import { spanKey } from "../core/warnings";

@@ -1,3 +1,7 @@
+/**
+ * Measures rendered row heights with one `ResizeObserver`, so virtual windowing
+ * stays correct when rows are not all the same height (expanded rows, tree rows, wrapped text).
+ */
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Key } from "../core/types";
 

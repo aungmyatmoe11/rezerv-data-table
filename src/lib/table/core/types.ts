@@ -1,7 +1,12 @@
+/**
+ * The public type surface: every prop, column shape and callback signature a consumer
+ * touches, plus the typed `dataIndex` path machinery (`DataIndexPath`, `PathValue`) that makes
+ * `render` receive a value typed from its path. Shapes only — no runtime behaviour lives here.
+ */
 import type { CSSProperties, HTMLAttributes, MouseEvent, ReactNode, UIEvent } from "react";
 
 // ---------------------------------------------------------------------------
-// Primitive vocabulary (Ant Design Table naming)
+// Primitive vocabulary — the conventional names for these concepts.
 // ---------------------------------------------------------------------------
 
 export type Key = string | number;
@@ -59,7 +64,7 @@ export interface CellSpanProps {
   style?: CSSProperties;
 }
 
-/** `render` may return plain content or `{ children, props }` to merge cells (Ant Design parity). */
+/** `render` may return plain content or `{ children, props }` to merge cells. */
 export type CellResult = ReactNode | { children: ReactNode; props: CellSpanProps };
 
 export type Comparator<T> = (a: T, b: T) => number;
@@ -133,7 +138,7 @@ export type LooseDataColumn<T> = ColumnCommon<T> & {
 };
 
 /**
- * No `dataIndex`: `render` receives the whole record as `value` (Ant Design parity).
+ * No `dataIndex`: `render` receives the whole record as `value`.
  * `dataIndex?: undefined` (not `never`) lets TypeScript discriminate the union by the
  * *absence* of `dataIndex`, so `render`'s parameters are inferred in plain object literals.
  */
@@ -324,7 +329,7 @@ export interface TableTheme {
 }
 
 // ---------------------------------------------------------------------------
-// Callback payloads (Ant Design parity)
+// Callback payloads
 // ---------------------------------------------------------------------------
 
 export interface SorterResult<T> {

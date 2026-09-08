@@ -1,3 +1,8 @@
+/**
+ * Props to resolved config: every feature becomes `{ enabled: false }` or
+ * `{ enabled: true, ...defaults }`. This is what makes an unsupplied prop cost nothing — every hook
+ * and renderer downstream branches on `enabled` rather than re-reading the raw props.
+ */
 import type { ReactNode } from "react";
 import { isGroupColumn } from "./columns";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS } from "./pagination";

@@ -42,7 +42,7 @@ describe("reduce — cross-slice rules", () => {
     expect(reduce(base, { type: "sort/toggle", columnKey: "key" }, ctx())).toBe(base);
   });
 
-  it("does NOT clear selection on sort or filter (Ant Design parity)", () => {
+  it("does NOT clear selection on sort or filter", () => {
     const selected: TableState = { ...base, selectedKeys: ["a"] };
     expect(reduce(selected, { type: "sort/toggle", columnKey: "name" }, ctx()).selectedKeys).toEqual(["a"]);
     expect(reduce(selected, { type: "filter/set", columnKey: "name", value: ["x"] }, ctx()).selectedKeys).toEqual(["a"]);

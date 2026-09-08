@@ -34,7 +34,7 @@ describe("filterTree", () => {
   });
 
   it("server-side filtering: `filters` without `onFilter` shows the control but never filters locally", () => {
-    // antd parity — the dropdown is how the change is emitted; the server answers it
+    // the dropdown is how the change is emitted; the server answers it
     const serverColumns: ColumnDef<Row>[] = [{ dataIndex: "name", title: "Name", filters: [{ text: "A", value: "a" }] }];
     const resolved = resolveColumns(serverColumns, opts);
     expect(resolved.leaves[0]?.filterable).toBe(true);

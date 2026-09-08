@@ -1,3 +1,8 @@
+/**
+ * Virtual windowing over the flattened row list. Subscribes to scroll through
+ * `useSyncExternalStore` and publishes a visible index range plus spacer heights, so only `<tbody>`
+ * re-renders and only when that range changes. Returns null when `virtual` is off.
+ */
 import { useCallback, useMemo, useRef, useSyncExternalStore, type RefObject } from "react";
 import type { Key } from "../core/types";
 

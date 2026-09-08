@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * The component: wires `useTable` to markup, owns the scroller and the CSS custom
+ * properties on it, and decides which surface to render — rows, skeleton, overlay, empty or error.
+ * Everything it renders below is presentational; the decisions were already made in `core`.
+ */
 import { useId, useMemo, useRef, type CSSProperties } from "react";
 import type { DataTableProps, Key, PaginationPosition } from "../core/types";
 import { useAutoHeight } from "../react/use-auto-height";
@@ -25,7 +30,7 @@ function alignOf(position: PaginationPosition): "left" | "center" | "right" {
 }
 
 /**
- * From-scratch DataTable with an Ant Design-shaped API. Features are inert until their
+ * The public component. Features are inert until their
  * config prop is supplied; see `useTable` for the headless layer.
  */
 export function DataTable<T extends object>(props: DataTableProps<T>) {

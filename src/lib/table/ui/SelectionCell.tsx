@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * The per-row checkbox or radio cell, and the header cell carrying select-all,
+ * its indeterminate state and the optional selections menu.
+ */
 import type { ReactNode } from "react";
 import { Checkbox, ChevronDownIcon, MenuButton, Radio, type MenuItem } from "@/lib/ui";
 import type { BuiltinSelection, Key, SelectionItem } from "../core/types";

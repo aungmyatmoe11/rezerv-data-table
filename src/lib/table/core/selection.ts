@@ -1,3 +1,7 @@
+/**
+ * Selection sets: page-scope and all-scope operations, invert, prune, and the
+ * parent / child cascade used when `rowSelection.checkStrictly` is `false`.
+ */
 import type { GetRowKey, Key } from "./types";
 
 export interface KeyEntity<T> {
@@ -8,7 +12,7 @@ export interface KeyEntity<T> {
   disabled: boolean;
 }
 
-/** Entities over the FULL (filtered + sorted) tree, so linkage crosses pages (Ant Design parity). */
+/** Entities over the FULL (filtered + sorted) tree, so parent / child linkage crosses pages. */
 export function buildKeyEntities<T>(
   rows: readonly T[],
   getKey: GetRowKey<T>,

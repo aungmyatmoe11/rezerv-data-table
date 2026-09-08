@@ -1,3 +1,7 @@
+/**
+ * Resolves each cell's `onCell` colSpan / rowSpan into a map the body reads, so a cell
+ * covered by a span from above renders nothing instead of overlapping it.
+ */
 import type { CellSpan, FlatEntry, LeafColumn, SpanMap } from "./types";
 import { spanKey } from "./warnings";
 

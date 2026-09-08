@@ -53,6 +53,10 @@ directly (client mode) and through Next.js route handlers under `/api/*` (server
 The library is deliberately larger than one sitting. Two paths in, depending on how much time you
 have.
 
+For the full guided tour — the mental model, the reading order, a click traced end to end, and
+the recipe for adding a feature — read **[docs/ORIENTATION.md](docs/ORIENTATION.md)**. The short
+version follows.
+
 **Ten minutes — see it work, then see why.**
 
 1. Run `npm run dev` and open [/playground](http://localhost:3000/playground). Toggle attributes on
@@ -532,6 +536,7 @@ Feature combinations that need care are listed in the conflict matrix in
 
 | File | Question it answers | Read it when |
 | --- | --- | --- |
+| [docs/ORIENTATION.md](docs/ORIENTATION.md) | How do I read this library without drowning | **Start here** if you are going into the code |
 | [docs/PRODUCT.md](docs/PRODUCT.md) | Who is this for, what must it feel like | You want the product reasoning before the code |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layers, pipeline, state model, sticky / virtual mechanics | You are about to read or change the library |
 | [docs/API.md](docs/API.md) | Every prop, defaults, conflict matrix, dev warnings | You are using the component |

@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * Maps the `theme` prop onto the `--dt-*` custom properties on the scroller. Theming
+ * happens in CSS from there on: no token object is read during render.
+ */
 import { useMemo, type CSSProperties } from "react";
 import type { TableTheme } from "../core/types";
 

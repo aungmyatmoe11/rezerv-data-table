@@ -1,3 +1,8 @@
+/**
+ * Reading and comparing values inside a record: `dataIndex` path parsing, safe lookup,
+ * the default comparator (null / undefined last, `NaN` as 0) and row-key resolution. The only
+ * place that needs to know how to reach into a consumer's row shape.
+ */
 import type { Comparator, DataIndex, GetRowKey, Key } from "./types";
 import { warnOnce } from "./warnings";
 

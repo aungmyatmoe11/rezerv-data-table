@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * The full-width row beneath an expanded parent: `role="region"` labelled by that row,
+ * `aria-busy` while loading, the height animation, and the per-row loading / error / retry surface
+ * for on-demand children.
+ */
 import { Button } from "@/lib/ui";
 import type { ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";

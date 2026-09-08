@@ -1,3 +1,8 @@
+/**
+ * The headless entry point. Composes resolved config, the row model, the state
+ * container and the feature hooks into one `TableInstance`. `ui/DataTable` is one renderer over
+ * this instance, not the only possible one.
+ */
 import { useCallback, useLayoutEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { isGroupColumn, leavesByKey as buildLeavesByKey, resolveColumns } from "../core/columns";
 import { collectKeys } from "../core/expansion";

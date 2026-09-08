@@ -1,3 +1,8 @@
+/**
+ * Writes the `data-ping-left` / `data-ping-right` attributes that CSS uses to
+ * paint the pinned-column shadow, passive and rAF-coalesced, and only when the value changes.
+ * Deliberately not React state: scrolling must never re-render the table.
+ */
 import { useEffect, type RefObject } from "react";
 
 /**

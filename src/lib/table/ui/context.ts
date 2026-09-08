@@ -1,3 +1,7 @@
+/**
+ * The row-level context passed from body to cells, so a cell reads what it needs from
+ * one object instead of taking twenty props through three levels.
+ */
 import type { HTMLAttributes, MouseEvent, ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";
 import type { ExpandIconContext, FixedSide, Key, LeafColumn, SpanMap } from "../core/types";

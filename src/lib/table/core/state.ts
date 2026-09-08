@@ -1,3 +1,8 @@
+/**
+ * The single reducer. `TableState`, every action, and the cross-slice rules — a sort,
+ * filter or page-size change resets to page 1 — in one pure function, plus the merge that lets
+ * controlled slices come from props while uncontrolled ones come from here.
+ */
 import { toggleKey } from "./expansion";
 import type { KeyEntity } from "./selection";
 import { conductCheck, invertKeys, selectKeys } from "./selection";
@@ -52,8 +57,8 @@ export function initialState(input: InitialStateInput): TableState {
 /**
  * Pure reducer. Cross-slice rules live here and nowhere else:
  *   sort / filter / page-size change → page 1.
- * Selection is deliberately NOT cleared by sort or filter (Ant Design parity); stale
- * keys are pruned at derive time by the row model.
+ * Selection is deliberately NOT cleared by sort or filter — reordering rows is not a
+ * decision to unselect them; stale keys are pruned at derive time by the row model.
  */
 export function reduce<T>(prev: TableState, action: TableAction, ctx: ReduceContext<T>): TableState {
   switch (action.type) {

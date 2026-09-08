@@ -1,3 +1,8 @@
+/**
+ * The server-mode adapter, deliberately outside the table: params to fetch
+ * to `AbortController` to retry. Because the table only receives its result as props, a consumer can
+ * replace this with React Query, SWR or a store without the table noticing.
+ */
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { clampPage } from "../core/pagination";
 import type { FilterState, SorterResult, TableChangeHandler, TablePaginationState } from "../core/types";

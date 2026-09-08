@@ -1,3 +1,7 @@
+/**
+ * The development-only warning channel. Bad input degrades rather than throwing — a
+ * duplicate row key or an unknown sort field warns here exactly once, then falls back.
+ */
 const seen = new Set<string>();
 
 const isDev = (): boolean => typeof process !== "undefined" && process.env?.NODE_ENV !== "production";

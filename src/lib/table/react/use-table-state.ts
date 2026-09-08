@@ -1,3 +1,8 @@
+/**
+ * The state container, and the only place a consumer callback ever fires.
+ * `send(action)` runs reduce, then commit (uncontrolled slices only), then emit — synchronously,
+ * inside the event handler. No effect watches state in order to call a prop.
+ */
 import { useCallback, useLayoutEffect, useReducer, useRef } from "react";
 import { paginationState } from "../core/pagination";
 import type { RowModel } from "../core/row-model";
@@ -40,7 +45,7 @@ function commitReducer(internal: TableState, commit: Commit): TableState {
 
 /**
  * The ONLY callback surface. Diffs `prev → next` for one action and fires the matching
- * Ant Design-shaped callbacks synchronously, inside the event handler.
+ * consumer callbacks synchronously, inside the event handler.
  */
 export function emit<T extends object>(prev: TableState, next: TableState, action: TableAction, deps: EmitDeps<T>): void {
   const { props } = deps;

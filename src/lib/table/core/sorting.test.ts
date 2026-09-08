@@ -35,7 +35,7 @@ describe("cycleOrder", () => {
   });
 });
 
-describe("toggleSort (Ant Design merge rule)", () => {
+describe("toggleSort (multi-sort merge rule)", () => {
   const single = { multiple: false as const, sortDirections: undefined };
   const multiA = { multiple: 2, sortDirections: undefined };
   const multiB = { multiple: 1, sortDirections: undefined };

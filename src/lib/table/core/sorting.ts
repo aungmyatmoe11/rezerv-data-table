@@ -1,3 +1,8 @@
+/**
+ * The sort state machine and its comparators: the ascend to descend to none cycle, the
+ * multi-sort merge rule, reconciliation against the current columns, and a stable sort applied per
+ * tree level. Columns without a comparator are server-sorted and left untouched here.
+ */
 import type { ColumnDef, Comparator, Key, LeafColumn, SortDirection, SortEntry, SortOrder, SorterResult } from "./types";
 import { warnOnce } from "./warnings";
 
@@ -16,7 +21,7 @@ export interface SortColumnMeta {
 }
 
 /**
- * Ant Design merge rule: the click joins the existing sort only when the clicked
+ * Merge rule: the click joins the existing sort only when the clicked
  * column AND the current head sorter both declare `multiple`; otherwise it replaces.
  */
 export function toggleSort(
@@ -37,7 +42,7 @@ export function toggleSort(
   const rest = sort.filter((entry) => entry.columnKey !== columnKey);
   if (nextOrder === null) return rest;
   const next = [...rest, { columnKey, order: nextOrder, multiple: meta.multiple }];
-  // multiple ကြီးတဲ့ column က priority ပိုမြင့်တယ် (antd parity)၊ stable sort ဖြစ်လို့ တူရင် click order အတိုင်း
+  // multiple ကြီးတဲ့ column က priority ပိုမြင့်တယ်၊ stable sort ဖြစ်လို့ တူရင် click order အတိုင်း
   return next.sort((a, b) => Number(b.multiple) - Number(a.multiple));
 }
 
@@ -115,7 +120,7 @@ function sortChildren<T>(rows: readonly T[], compare: Comparator<T> | null, chil
   return changed ? next : rows;
 }
 
-/** Ant Design-shaped payload: single sort → object, multi sort → array ordered by priority. */
+/** Callback payload: single sort → object, multi sort → array ordered by priority. */
 export function toSorterResult<T>(
   sort: readonly SortEntry[],
   leavesByKey: ReadonlyMap<Key, LeafColumn<T>>,

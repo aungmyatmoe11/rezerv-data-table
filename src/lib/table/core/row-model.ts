@@ -1,3 +1,8 @@
+/**
+ * The derived-data pipeline: keyed, filtered, sorted, paged, flattened, spans. Each stage
+ * is memoised on its own inputs, so a page change does not re-run the comparator and the
+ * `currentDataSource` handed to `onChange` is the same array the next render uses.
+ */
 import { flattenExpanded } from "./expansion";
 import { filterTree } from "./filtering";
 import type { PaginateResult } from "./pagination";

@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * One `<th>`: the sort button and the `aria-sort` it sets, the filter trigger,
+ * alignment and ellipsis. It reports intent upward and holds no state of its own.
+ */
 import { CaretDownIcon, CaretUpIcon, Tooltip } from "@/lib/ui";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";

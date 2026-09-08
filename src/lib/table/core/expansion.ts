@@ -1,3 +1,8 @@
+/**
+ * Expanded-key toggling, and the flatten step that turns a row tree plus a set of
+ * expanded keys into the linear list the renderer walks. Inline children, tree children and
+ * on-demand children all converge on the same flat entries.
+ */
 import type { ExpansionMode, FlatEntry, GetRowKey, Key, LazyEntry } from "./types";
 
 export function toggleKey(keys: readonly Key[], key: Key): readonly Key[] {

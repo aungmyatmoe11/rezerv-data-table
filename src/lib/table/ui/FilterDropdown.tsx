@@ -1,5 +1,9 @@
 "use client";
 
+/**
+ * The column filter popover: the value list, its keyboard behaviour, and the
+ * confirm / reset actions.
+ */
 import { useRef, useState } from "react";
 import { Button, Checkbox, FilterIcon, Popover, Radio } from "@/lib/ui";
 import type { DEFAULT_LOCALE } from "../core/resolve-config";

@@ -1,7 +1,11 @@
+/**
+ * Holds a boolean off for `delay` milliseconds, so a request that resolves
+ * quickly never produces a flash of skeleton.
+ */
 import { useEffect, useState } from "react";
 
 /**
- * `loading.delay` (antd-shaped): a fetch that resolves in 80 ms should not flash a skeleton, so
+ * `loading.delay`: a fetch that resolves in 80 ms should not flash a skeleton, so
  * the loading UI only appears once the wait has actually lasted `delay` ms. If the wait ends
  * first, nothing is ever shown.
  *

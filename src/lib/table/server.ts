@@ -1,5 +1,5 @@
 /**
- * Server-safe entry point: pure helpers with no React / DOM / antd imports.
+ * Server-safe entry point: pure helpers with no React, DOM or UI imports.
  * Use this from route handlers, server components and mock backends; use `@/lib/table`
  * for the component and hooks.
  */
