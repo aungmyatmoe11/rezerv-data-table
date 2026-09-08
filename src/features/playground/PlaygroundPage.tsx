@@ -42,7 +42,7 @@ function toTree(rows: readonly ClassSession[]): ClassSession[] {
   }));
 }
 
-/** rowSpan for consecutive rows sharing an instructor, in data order (Ant Design's colspan-rowspan demo pattern). */
+/** rowSpan for consecutive rows sharing an instructor, in data order — the merged-cell case. */
 function instructorSpans(rows: readonly ClassSession[]): ReadonlyMap<string, number> {
   const spans = new Map<string, number>();
   let index = 0;

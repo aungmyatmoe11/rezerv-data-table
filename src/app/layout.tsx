@@ -6,7 +6,7 @@ import { AppProviders } from "./providers";
 
 export const metadata: Metadata = {
   title: { default: "Rezerv DataTable", template: "%s · Rezerv DataTable" },
-  description: "A from-scratch, fully typed, config-driven DataTable with an Ant Design-shaped API — Rezerv Frontend Assessment, Part 2.",
+  description: "A from-scratch, fully typed, config-driven DataTable for React and Next.js — no table library, no component library. Rezerv Frontend Assessment, Part 2.",
 };
 
 /**

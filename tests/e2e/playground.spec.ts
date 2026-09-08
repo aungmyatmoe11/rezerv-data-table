@@ -31,7 +31,7 @@ test.describe("playground — the generated JSX matches the rendered table", () 
     for (const fragment of ["bordered", "rowSelection", "expandable", "y: 420"]) expect(code).toContain(fragment);
   });
 
-  test("callbacks land in the event log with the antd-shaped payload", async ({ page }) => {
+  test("callbacks land in the event log with the documented payload", async ({ page }) => {
     await page.goto("/playground");
     await liveTable(page).getByRole("columnheader", { name: /^Class/ }).getByRole("button").click();
     const events = page.locator(".pg-event-list li");

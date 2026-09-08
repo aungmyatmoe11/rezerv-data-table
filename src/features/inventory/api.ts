@@ -41,7 +41,7 @@ function sortItems(rows: readonly InventoryItem[], sort: readonly SortSpec[]): I
     }
     return 0;
   };
-  // parent level + each variant list (Ant Design sorts every tree level)
+  // parent level + each variant list — sorting applies at every tree level
   return rows
     .slice()
     .sort(compare)

@@ -75,7 +75,7 @@ export function buildClassColumns(mode: DataMode, timeFormat: TimeFormat = "day-
         { text: "Cancelled", value: "Cancelled" },
       ],
       // server mode မှာ onFilter ကို ချန်ထားတယ် — table က page ကို ထပ်မစစ်ဘဲ filter ကို emit ပဲလုပ်ပြီး
-      // API က filter ပြီးသား page နဲ့ total ကို ပြန်ပေးတယ် (antd ရဲ့ server-side filter pattern)
+      // API က filter ပြီးသား page နဲ့ total ကို ပြန်ပေးတယ် (server-side filter pattern)
       ...(server ? {} : { onFilter: (value: Key, record: ClassSession) => record.status === value }),
       render: (status) => <Tag tone={STATUS_TONE[status]}>{status}</Tag>,
     },

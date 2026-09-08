@@ -30,10 +30,11 @@ const CARDS = [
 export function HomePage() {
   return (
     <div>
-      <h1 className="page-title">A DataTable built from scratch, configured like Ant Design.</h1>
+      <h1 className="page-title">A reusable DataTable, built from scratch.</h1>
       <p className="page-subtitle" style={{ maxWidth: 760 }}>
         No table library and no component library: the engine, the pagination, the virtual windowing — and every button, checkbox, menu and icon on this site —
-        are written in this repository. The public API mirrors Ant Design&apos;s vocabulary so the component feels familiar on day one.
+        are written in this repository. One typed component drives all three screens below; the API uses the prop names a React developer already
+        knows, so it reads familiar on day one.
       </p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
         {CARDS.map((card) => (
